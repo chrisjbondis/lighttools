@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LED Strip Driver Calculator — Size Your Power Supply | LightTools</title>
+    <meta name="description" content="Free LED strip driver sizing calculator. Enter strip length, watts per metre and voltage to find the right driver size with 20% safety buffer. Includes MeanWell model guide, IP rating reference, 12V vs 24V comparison and Amazon buy links.">
+    <link rel="canonical" href="https://lighttools.com.au/led-strip-driver-calculator.html">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f4f8;
+            color: #1a202c;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a2a4a 0%, #2d4a7a 100%);
+            color: white;
+            padding: 28px 20px 22px;
+            text-align: center;
+        }
+        header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+        header p { font-size: 1rem; opacity: 0.85; }
+
+        nav {
+            background: #152238;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        nav a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: color 0.2s;
+            padding: 4px 0;
+        }
+        nav a:hover, nav a.active { color: #f59e0b; }
+
+        .ad-banner {
+            background: #e8edf2;
+            border: 2px dashed #b0bec5;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #78909c;
+            font-size: 0.82rem;
+            text-align: center;
+        }
+        .ad-leaderboard { width: 100%; max-width: 728px; height: 90px; }
+        .ad-rectangle { width: 300px; height: 250px; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px 16px; }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 24px;
+        }
+        @media (max-width: 800px) {
+            .layout { grid-template-columns: 1fr; }
+            .ad-rectangle { width: 100%; }
+        }
+        @media (max-width: 520px) {
+            header h1 { font-size: 1.5rem; }
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            padding: 28px;
+            margin-bottom: 20px;
+        }
+        .card h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1a2a4a;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .form-group { margin-bottom: 20px; }
+        label {
+            display: block;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #4a5568;
+            margin-bottom: 6px;
+        }
+        .label-hint { font-weight: 400; color: #a0aec0; font-size: 0.8rem; }
+
+        input[type="number"], select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            color: #1a202c;
+            transition: border-color 0.2s;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #fafbfc;
+        }
+        input[type="number"]:focus, select:focus {
+            outline: none;
+            border-color: #2d4a7a;
+            background: white;
+        }
+        .select-wrapper { position: relative; }
+        .select-wrapper::after {
+            content: '▾';
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #718096;
+        }
+        select { padding-right: 36px; cursor: pointer; }
+
+        .toggle-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        .toggle-btn {
+            flex: 1;
+            min-width: 80px;
+            padding: 10px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: #fafbfc;
+            font-size: 0.92rem;
+            font-family: inherit;
+            font-weight: 500;
+            color: #718096;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .toggle-btn.active {
+            border-color: #2d4a7a;
+            background: #2d4a7a;
+            color: white;
+        }
+
+        .btn-calculate {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+            letter-spacing: 0.3px;
+        }
+        .btn-calculate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(249,115,22,0.4);
+        }
+        .btn-calculate:active { transform: translateY(0); }
+
+        #results { display: none; }
+
+        .result-highlight {
+            background: linear-gradient(135deg, #1a2a4a 0%, #2d4a7a 100%);
+            border-radius: 10px;
+            padding: 22px;
+            color: white;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        .result-highlight .rl { font-size: 0.82rem; opacity: 0.75; text-transform: uppercase; letter-spacing: 0.5px; }
+        .result-highlight .rv { font-size: 2.8rem; font-weight: 700; line-height: 1.1; }
+        .result-highlight .rs { font-size: 0.9rem; opacity: 0.8; margin-top: 4px; }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        @media (max-width: 480px) { .result-grid { grid-template-columns: 1fr; } }
+
+        .result-item {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 14px;
+        }
+        .result-item .r-label { font-size: 0.76rem; color: #718096; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 4px; }
+        .result-item .r-value { font-size: 1.05rem; font-weight: 600; color: #1a2a4a; }
+
+        .alert {
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            font-size: 0.88rem;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            line-height: 1.5;
+        }
+        .alert-warning { background: #fffbeb; border: 1px solid #f59e0b; color: #92400e; }
+        .alert-danger  { background: #fff5f5; border: 1px solid #fc8181; color: #9b2c2c; }
+        .alert-success { background: #f0fff4; border: 1px solid #68d391; color: #276749; }
+        .alert-info    { background: #ebf8ff; border: 1px solid #63b3ed; color: #2c5282; }
+        .alert-icon    { font-size: 1.1rem; flex-shrink: 0; padding-top: 1px; }
+
+        .buy-section h3 { font-size: 1rem; font-weight: 600; color: #1a2a4a; margin-bottom: 12px; }
+        .buy-links { display: flex; flex-direction: column; gap: 10px; }
+        .buy-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.92rem;
+            transition: transform 0.15s, box-shadow 0.15s;
+            color: white;
+        }
+        .buy-link:hover { transform: translateY(-2px); box-shadow: 0 5px 18px rgba(0,0,0,0.18); }
+        .buy-link-amazon  { background: #ff9900; }
+        .buy-link-amazon2 { background: #e47911; }
+        .buy-link-google  { background: #4285f4; }
+        .buy-link-local   { background: #48bb78; }
+        .buy-link-icon { font-size: 1.3rem; }
+        .buy-link-text .blm { font-size: 0.92rem; }
+        .buy-link-text .bls { font-size: 0.76rem; opacity: 0.88; font-weight: 400; }
+
+        .affiliate-notice { font-size: 0.74rem; color: #a0aec0; text-align: center; margin-top: 10px; font-style: italic; }
+
+        .divider { border: none; border-top: 1px solid #e2e8f0; margin: 18px 0; }
+
+        .info-box {
+            background: #ebf8ff;
+            border-left: 4px solid #3182ce;
+            border-radius: 0 8px 8px 0;
+            padding: 14px 16px;
+            margin-bottom: 14px;
+        }
+        .info-box h4 { font-size: 0.88rem; font-weight: 600; color: #2c5282; margin-bottom: 6px; }
+        .info-box p, .info-box li { font-size: 0.84rem; color: #2c5282; line-height: 1.55; }
+        .info-box ul { padding-left: 16px; }
+        .info-box li { margin-bottom: 3px; }
+
+        .ref-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+        .ref-table th { background: #1a2a4a; color: white; padding: 9px 12px; text-align: left; font-weight: 500; }
+        .ref-table th:first-child { border-radius: 8px 0 0 0; }
+        .ref-table th:last-child  { border-radius: 0 8px 0 0; }
+        .ref-table td { padding: 8px 12px; border-bottom: 1px solid #e2e8f0; color: #4a5568; }
+        .ref-table tr:nth-child(even) td { background: #f7fafc; }
+
+        .explainer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 16px;
+        }
+
+        footer {
+            background: #1a2a4a;
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            padding: 24px 16px;
+            font-size: 0.82rem;
+            margin-top: 40px;
+        }
+        footer a { color: rgba(255,255,255,0.8); }
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1409689781104144"
+     crossorigin="anonymous"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-82HX4HNTVF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-82HX4HNTVF');
+    </script>
+</head>
+<body>
+
+<header>
+    <div style="font-size:2.2rem; margin-bottom:8px;">💡</div>
+    <h1>LED Strip Driver Calculator</h1>
+    <p>Find the right power supply for your LED strip — instantly and for free</p>
+</header>
+
+<nav>
+    <a href="#" class="active">Driver Calculator</a>
+    <a href="led-strip-light-selector.html">Strip Selector</a>
+    <a href="lux-calculator.html">Lux Calculator</a>
+    <a href="garden-lighting-calculator.html">Garden Lighting</a>
+    <a href="voltage-drop-calculator.html">Voltage Drop</a>
+    <a href="disclaimer.html">Disclaimer</a>
+</nav>
+
+<div class="container">
+
+    <!-- Top Leaderboard Ad -->
+    <div style="display:flex; justify-content:center; margin: 16px 0;">
+        <div class="ad-banner ad-leaderboard">[ Google Ad — 728×90 Leaderboard ]</div>
+    </div>
+
+    <div class="layout">
+
+        <!-- ===== LEFT: Calculator ===== -->
+        <div>
+            <div class="card">
+                <h2>⚡ Enter Your Strip Details</h2>
+
+                <!-- Voltage -->
+                <div class="form-group">
+                    <label>Voltage <span class="label-hint">— Check your strip packaging or product spec</span></label>
+                    <div class="toggle-group" id="voltage-group">
+                        <button class="toggle-btn active" onclick="setToggle('voltage-group', this); selectedVoltage=12;">12V</button>
+                        <button class="toggle-btn" onclick="setToggle('voltage-group', this); selectedVoltage=24;">24V</button>
+                        <button class="toggle-btn" onclick="setToggle('voltage-group', this); selectedVoltage=48;">48V</button>
+                    </div>
+                </div>
+
+                <!-- Wattage per metre -->
+                <div class="form-group">
+                    <label for="wattage">Strip Wattage <span class="label-hint">— Watts per metre (W/m), on the strip's label</span></label>
+                    <div class="select-wrapper">
+                        <select id="wattage" onchange="toggleCustomWattage(this)">
+                            <option value="">— Select wattage per metre —</option>
+                            <option value="2.4">2.4 W/m — Low output (accent / cove lighting)</option>
+                            <option value="4.8">4.8 W/m — Standard output (general ambient)</option>
+                            <option value="7.2">7.2 W/m — Medium-high output (feature / kitchen)</option>
+                            <option value="9.6">9.6 W/m — High output (task / retail)</option>
+                            <option value="14.4">14.4 W/m — Very high output (commercial)</option>
+                            <option value="19.2">19.2 W/m — Ultra-high output (industrial)</option>
+                            <option value="custom">Custom — I'll enter it manually</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group" id="custom-wattage-group" style="display:none;">
+                    <label for="custom-wattage">Custom Wattage (W/m) <span class="label-hint">— from your strip's datasheet</span></label>
+                    <input type="number" id="custom-wattage" placeholder="e.g. 11.5" min="0.1" max="60" step="0.1">
+                </div>
+
+                <!-- Length -->
+                <div class="form-group">
+                    <label for="length">Total Strip Length <span class="label-hint">— in metres (all strips combined)</span></label>
+                    <input type="number" id="length" placeholder="e.g. 5.5" min="0.1" max="1000" step="0.1">
+                </div>
+
+                <!-- Runs -->
+                <div class="form-group">
+                    <label for="runs">Number of Separate Runs <span class="label-hint">— how many individual strips on this driver</span></label>
+                    <input type="number" id="runs" placeholder="1" min="1" max="50" step="1" value="1">
+                </div>
+
+                <!-- Dimming -->
+                <div class="form-group">
+                    <label>Dimming Required?</label>
+                    <div class="toggle-group" id="dim-group">
+                        <button class="toggle-btn" onclick="setToggle('dim-group',this); setDimming(true)">Yes — I want to dim it</button>
+                        <button class="toggle-btn active" onclick="setToggle('dim-group',this); setDimming(false)">No — Fixed brightness</button>
+                    </div>
+                </div>
+
+                <div class="form-group" id="dimmer-type-group" style="display:none;">
+                    <label for="dimmer-type">Dimmer / Control Protocol <span class="label-hint">— what are you using to dim?</span></label>
+                    <div class="select-wrapper">
+                        <select id="dimmer-type">
+                            <option value="triac">Triac / Leading edge (standard wall dimmer)</option>
+                            <option value="0-10v">0–10V signal (commercial / BMS)</option>
+                            <option value="dali">DALI (smart building / Dynalite)</option>
+                            <option value="pwm">PWM (LED controller / strip controller)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Location -->
+                <div class="form-group">
+                    <label>Installation Location</label>
+                    <div class="toggle-group" id="loc-group">
+                        <button class="toggle-btn active" onclick="setToggle('loc-group',this); locationOutdoor=false;">Indoors / Dry</button>
+                        <button class="toggle-btn" onclick="setToggle('loc-group',this); locationOutdoor=true;">Outdoors / Wet area</button>
+                    </div>
+                </div>
+
+                <button class="btn-calculate" onclick="calculate()">⚡ Calculate My Driver →</button>
+            </div>
+
+            <!-- ===== RESULTS ===== -->
+            <div id="results">
+                <div class="card">
+                    <h2>✅ Your Recommended Driver</h2>
+
+                    <div class="result-highlight">
+                        <div class="rl">Recommended Driver Size</div>
+                        <div class="rv" id="res-driver-size">—</div>
+                        <div class="rs" id="res-driver-sub">—</div>
+                    </div>
+
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <div class="r-label">Total Strip Load</div>
+                            <div class="r-value" id="res-total-load">—</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="r-label">With 20% Safety Buffer</div>
+                            <div class="r-value" id="res-buffered">—</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="r-label">Output Voltage</div>
+                            <div class="r-value" id="res-voltage">—</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="r-label">Driver Type</div>
+                            <div class="r-value" id="res-driver-type">—</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="r-label">Strip Load per Metre</div>
+                            <div class="r-value" id="res-wpm">—</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="r-label">Minimum IP Rating</div>
+                            <div class="r-value" id="res-ip">—</div>
+                        </div>
+                    </div>
+
+                    <div id="alerts-container"></div>
+
+                    <hr class="divider">
+
+                    <div class="buy-section">
+                        <h3>🛒 Find This Driver Online</h3>
+                        <div class="buy-links" id="buy-links-container"></div>
+                        <p class="affiliate-notice">★ Amazon links support this free tool at no extra cost to you</p>
+                    </div>
+                </div>
+
+                <!-- In-content Ad -->
+                <div style="display:flex; justify-content:center; margin-bottom:20px;">
+                    <div class="ad-banner ad-leaderboard">[ Google Ad — 728×90 ]</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== RIGHT: Sidebar ===== -->
+        <div>
+
+            <!-- Sidebar Ad 1 -->
+            <div style="display:flex; justify-content:center; margin-bottom:20px;">
+                <div class="ad-banner ad-rectangle">[ Google Ad — 300×250 ]</div>
+            </div>
+
+            <div class="card">
+                <h2>📋 Quick Reference</h2>
+                <div class="info-box">
+                    <h4>⚠️ Max Run Lengths (to avoid voltage drop)</h4>
+                    <ul>
+                        <li><strong>12V strip:</strong> max 5m per run</li>
+                        <li><strong>24V strip:</strong> max 10m per run</li>
+                        <li><strong>48V strip:</strong> max 20m per run</li>
+                    </ul>
+                </div>
+                <table class="ref-table">
+                    <thead>
+                        <tr><th>W/m</th><th>Typical Use</th><th>Output</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>2.4</td><td>Accent / cove</td><td>Low</td></tr>
+                        <tr><td>4.8</td><td>General ambient</td><td>Medium</td></tr>
+                        <tr><td>7.2</td><td>Feature / kitchen</td><td>Med-High</td></tr>
+                        <tr><td>9.6</td><td>Task / retail</td><td>High</td></tr>
+                        <tr><td>14.4</td><td>Commercial</td><td>Very High</td></tr>
+                        <tr><td>19.2</td><td>Industrial</td><td>Ultra</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2>💡 Pro Tip</h2>
+                <p style="font-size:0.88rem; color:#4a5568; line-height:1.65;">Always size your driver to <strong>at least 120% of the total strip load</strong>. A driver running at 80% capacity runs cooler, generates less heat, and lasts significantly longer — often 2–3× the lifespan of a driver running at full load.</p>
+            </div>
+
+            <!-- Sidebar Ad 2 -->
+            <div style="display:flex; justify-content:center; margin-top:4px;">
+                <div class="ad-banner ad-rectangle">[ Google Ad — 300×250 ]</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Bottom explainer -->
+    <div class="card">
+        <h2>📖 Understanding LED Strip Drivers</h2>
+        <div class="explainer-grid">
+            <div class="info-box">
+                <h4>Constant Voltage (CV) Drivers</h4>
+                <p>LED strips require a <strong>constant voltage (CV)</strong> driver — not a constant current driver. Make sure the driver output voltage exactly matches your strip: 12V, 24V, or 48V. Mismatching will damage your strip.</p>
+            </div>
+            <div class="info-box">
+                <h4>Why the 20% Buffer?</h4>
+                <p>LED strips draw slightly more current when cold, and power supplies degrade over time. A 20% headroom keeps your driver in its efficient zone — reducing heat and extending lifespan by years.</p>
+            </div>
+            <div class="info-box">
+                <h4>Dimmable Drivers</h4>
+                <p>Your driver AND controller must use the same dimming protocol. Common types: <strong>Triac</strong> (wall dimmers), <strong>0–10V</strong> (commercial BMS), <strong>DALI</strong> (smart buildings), <strong>PWM</strong> (LED strip controllers). Mixing incompatible types causes flicker.</p>
+            </div>
+            <div class="info-box">
+                <h4>Voltage Drop on Long Runs</h4>
+                <p>Low-voltage strips can suffer voltage drop on long runs — the light gets dimmer toward the far end. Fix: use 24V or 48V strips, power from both ends, or split into multiple shorter runs each with their own driver.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // State
+    let selectedVoltage = 12;
+    let dimmingRequired = false;
+    let locationOutdoor = false;
+
+    // Generic toggle helper
+    function setToggle(groupId, activeBtn) {
+        document.getElementById(groupId).querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+        activeBtn.classList.add('active');
+    }
+
+    function setDimming(val) {
+        dimmingRequired = val;
+        document.getElementById('dimmer-type-group').style.display = val ? 'block' : 'none';
+    }
+
+    function toggleCustomWattage(sel) {
+        document.getElementById('custom-wattage-group').style.display = sel.value === 'custom' ? 'block' : 'none';
+    }
+
+    // Standard driver sizes (watts)
+    const DRIVER_SIZES = [10, 20, 30, 40, 50, 60, 75, 100, 120, 150, 200, 240, 320, 400, 500, 600];
+    function nextDriverSize(w) {
+        return DRIVER_SIZES.find(s => s >= w) || Math.ceil(w / 50) * 50;
+    }
+
+    // Max recommended run lengths by voltage (metres)
+    const MAX_RUN = { 12: 5, 24: 10, 48: 20 };
+
+    function calculate() {
+        // --- Get inputs ---
+        const wpmSel = document.getElementById('wattage').value;
+        const wpm = wpmSel === 'custom'
+            ? parseFloat(document.getElementById('custom-wattage').value)
+            : parseFloat(wpmSel);
+        const length = parseFloat(document.getElementById('length').value);
+        const runs   = parseInt(document.getElementById('runs').value) || 1;
+
+        // --- Validate ---
+        if (!wpm || isNaN(wpm) || wpm <= 0) {
+            showError('Please select or enter a valid wattage per metre.');
+            return;
+        }
+        if (!length || isNaN(length) || length <= 0) {
+            showError('Please enter the total strip length in metres.');
+            return;
+        }
+
+        // --- Calculations ---
+        const totalLoad   = wpm * length;          // total W all strips
+        const buffered    = totalLoad * 1.2;        // +20%
+        const driverSize  = nextDriverSize(buffered);
+        const loadPct     = Math.round((totalLoad / driverSize) * 100);
+        const lengthPerRun = length / runs;
+        const maxRun      = MAX_RUN[selectedVoltage] || 10;
+
+        // Driver type label
+        let driverType = 'Constant Voltage (CV)';
+        if (dimmingRequired) {
+            const dimLabels = {
+                'triac': 'CV Dimmable — Triac',
+                '0-10v': 'CV Dimmable — 0–10V',
+                'dali':  'CV Dimmable — DALI',
+                'pwm':   'CV Dimmable — PWM'
+            };
+            driverType = dimLabels[document.getElementById('dimmer-type').value] || 'CV Dimmable';
+        }
+
+        const ipRating = locationOutdoor ? 'IP65 minimum (weatherproof)' : 'IP20+ (dry indoor OK)';
+
+        // --- Populate result fields ---
+        document.getElementById('res-driver-size').textContent  = `${driverSize}W`;
+        document.getElementById('res-driver-sub').textContent   = `${selectedVoltage}V Constant Voltage${dimmingRequired ? ' — Dimmable' : ' — Non-Dimmable'}`;
+        document.getElementById('res-total-load').textContent   = `${totalLoad.toFixed(1)} W`;
+        document.getElementById('res-buffered').textContent     = `${buffered.toFixed(1)} W minimum`;
+        document.getElementById('res-voltage').textContent      = `${selectedVoltage}V DC`;
+        document.getElementById('res-driver-type').textContent  = driverType;
+        document.getElementById('res-wpm').textContent          = `${wpm} W/m`;
+        document.getElementById('res-ip').textContent           = ipRating;
+
+        // --- Alerts ---
+        let alerts = '';
+
+        if (lengthPerRun > maxRun) {
+            const nextV = selectedVoltage === 12 ? '24V' : '48V';
+            alerts += alert('warning', '⚠️',
+                `<strong>Voltage Drop Risk:</strong> Each run is ${lengthPerRun.toFixed(1)}m, but ${selectedVoltage}V strips are recommended to a maximum of ${maxRun}m per run. You may see the strip getting noticeably dimmer toward the far end.
+                <br><br>Options: upgrade to ${nextV} strip, power from both ends of the strip, or split into ${Math.ceil(lengthPerRun / maxRun) * runs} shorter runs each with their own feed.`);
+        }
+
+        // Both-ends warning — any single run over 5m regardless of voltage
+        if (lengthPerRun > 5) {
+            alerts += alert('warning', '🔌',
+                `<strong>Runs over 5,000mm — Consider Powering from Both Ends:</strong> Your runs are ${(lengthPerRun * 1000).toFixed(0)}mm long. Even on 24V or 48V strip, runs exceeding 5m can benefit from being fed at both ends. This halves the effective run length, eliminates visible dimming at the far end, and keeps colour consistency uniform across the full strip. Simply run a second cable from the driver back to the far end of the strip and connect to the same +/− terminals.`);
+        }
+
+        if (totalLoad > 320) {
+            alerts += alert('warning', '⚠️',
+                `<strong>High Total Load (${totalLoad.toFixed(0)}W):</strong> Consider splitting across two separate drivers for better reliability, easier dimming zone control, and redundancy.`);
+        }
+
+        if (dimmingRequired) {
+            alerts += alert('info', 'ℹ️',
+                `<strong>Dimming Compatibility:</strong> Confirm your LED strip is dimmable (not all are) and that your wall controller or BMS uses the same protocol as the driver above.`);
+        }
+
+        if (locationOutdoor) {
+            alerts += alert('info', '🌧️',
+                `<strong>Outdoor Install:</strong> Mount your IP65+ driver in a weatherproof enclosure away from direct rain. Seal all cable entry points and use waterproof connectors throughout.`);
+        }
+
+        const loadMsg = loadPct <= 80
+            ? `Running at <strong>${loadPct}% load</strong> — good headroom. This driver will run cool and last well.`
+            : `Running at <strong>${loadPct}% load</strong> — consider sizing up to the next driver size for longer lifespan.`;
+        alerts += alert('success', '✅', loadMsg);
+
+        document.getElementById('alerts-container').innerHTML = alerts;
+
+        // --- Buy Links ---
+        const dimWord    = dimmingRequired ? ' dimmable' : '';
+        const outdoorWord = locationOutdoor ? ' IP65 waterproof' : '';
+        const q = encodeURIComponent(`${selectedVoltage}V ${driverSize}W LED driver${dimWord}${outdoorWord} constant voltage`);
+
+        // Replace lighttools-22 with your real Amazon Associates tag
+        const affTag = 'lighttools-22';
+        const amazonAU  = `https://www.amazon.com.au/s?k=${q}&tag=${affTag}`;
+        const amazonCOM = `https://www.amazon.com/s?k=${q}&tag=${affTag}`;
+        const googleShop = `https://www.google.com/search?q=${q}+buy&tbm=shop`;
+        const localFind  = `https://www.google.com/search?q=${encodeURIComponent(`${selectedVoltage}V ${driverSize}W LED driver near me`)}`;
+
+        document.getElementById('buy-links-container').innerHTML = `
+            <a href="${amazonAU}" target="_blank" rel="noopener sponsored" class="buy-link buy-link-amazon">
+                <span class="buy-link-icon">🛒</span>
+                <span class="buy-link-text">
+                    <div class="blm">Search Amazon Australia</div>
+                    <div class="bls">${selectedVoltage}V ${driverSize}W${dimWord} LED Driver</div>
+                </span>
+            </a>
+            <a href="${amazonCOM}" target="_blank" rel="noopener sponsored" class="buy-link buy-link-amazon2">
+                <span class="buy-link-icon">🛒</span>
+                <span class="buy-link-text">
+                    <div class="blm">Search Amazon.com (US)</div>
+                    <div class="bls">${selectedVoltage}V ${driverSize}W${dimWord} LED Driver</div>
+                </span>
+            </a>
+            <a href="${googleShop}" target="_blank" rel="noopener" class="buy-link buy-link-google">
+                <span class="buy-link-icon">🔍</span>
+                <span class="buy-link-text">
+                    <div class="blm">Compare on Google Shopping</div>
+                    <div class="bls">All retailers, best prices</div>
+                </span>
+            </a>
+            <a href="${localFind}" target="_blank" rel="noopener" class="buy-link buy-link-local">
+                <span class="buy-link-icon">📍</span>
+                <span class="buy-link-text">
+                    <div class="blm">Find a Local Supplier</div>
+                    <div class="bls">Electrical wholesalers near you</div>
+                </span>
+            </a>
+        `;
+
+        // Show and scroll to results
+        const resultsEl = document.getElementById('results');
+        resultsEl.style.display = 'block';
+        resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function alert(type, icon, msg) {
+        return `<div class="alert alert-${type}"><span class="alert-icon">${icon}</span><div>${msg}</div></div>`;
+    }
+
+    function showError(msg) {
+        const r = document.getElementById('results');
+        r.style.display = 'block';
+        r.querySelector ? null : null;
+        document.getElementById('alerts-container').innerHTML = alert('danger', '❌', msg);
+        document.getElementById('res-driver-size').textContent = '—';
+        document.getElementById('res-driver-sub').textContent = '—';
+        document.getElementById('res-total-load').textContent = '—';
+        document.getElementById('res-buffered').textContent = '—';
+        document.getElementById('res-voltage').textContent = '—';
+        document.getElementById('res-driver-type').textContent = '—';
+        document.getElementById('res-wpm').textContent = '—';
+        document.getElementById('res-ip').textContent = '—';
+        document.getElementById('buy-links-container').innerHTML = '';
+        r.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+</script>
+
+<!-- FAQ Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What size LED strip driver do I need?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Add up the total wattage of your LED strip (watts per metre × total length in metres), then multiply by 1.2 to add a 20% safety buffer. Choose the next standard driver size above that number. For example, a 5-metre run of 14.4W/m strip needs 72W total × 1.2 = 86.4W, so choose a 100W driver."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between 12V and 24V LED strip drivers?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "12V drivers are more common and suit shorter runs up to about 5 metres before voltage drop becomes significant. 24V drivers allow longer runs (up to 10 metres) with less voltage drop because the higher voltage means lower current for the same wattage. 24V systems are preferred for runs over 5 metres, high-wattage strips, or commercial installations."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why do I need a 20% safety buffer on my LED driver?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Running a driver at 100% of its rated capacity shortens its lifespan significantly and can cause it to overheat. The industry standard is to size the driver so the connected load is no more than 80% of its rated output — this is the 20% safety buffer. It also leaves headroom if you add more strip later."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What IP rating do I need for my LED strip driver?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For indoor dry locations, IP20 drivers are suitable. For outdoor, bathroom, or damp locations, use at least IP65 (dust-tight and water-resistant). For outdoor exposed installations or near water features, use IP67 or IP68 rated drivers. Never use an indoor IP20 driver in a location exposed to moisture."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I connect multiple LED strips to one driver?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes — provided the total wattage of all strips combined does not exceed 80% of the driver's rated output. Connect multiple strips in parallel (positive to positive, negative to negative), not in series. Each strip run should still be checked individually for voltage drop if runs are longer than 5 metres."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is voltage drop in LED strip installations?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Voltage drop is the reduction in voltage along the length of the LED strip cable. As current travels through the cable, resistance causes the voltage to fall. For 12V strips, a drop of more than 0.5V can cause visible dimming at the far end of the run. The solution is to use a larger cable, shorten the run, or use a higher voltage system (24V or 48V)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a dimmable LED driver and do I need one?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A dimmable LED driver allows you to vary the brightness of your LED strip using a compatible dimmer switch or controller. Common dimming methods include TRIAC (phase cut), 0-10V, PWM, and DALI. If you want to dim your LED strips, you must use a dimmable driver AND a compatible dimmer — mismatching can cause flickering or damage. If dimming is not required, a constant voltage non-dimmable driver is simpler and cheaper."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "MeanWell vs cheap LED drivers — what's the difference?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "MeanWell is the industry-standard brand for quality LED drivers used by professional installers worldwide. MeanWell drivers have accurate voltage regulation, built-in protections (over-voltage, over-current, short circuit), long rated lifespans (up to 100,000 hours MTBF), and safety certifications. Cheap unbranded drivers often have poor voltage regulation, no meaningful protection circuitry, and can fail prematurely or cause LED strip damage. For commercial or permanent installations, always use a quality driver."
+      }
+    }
+  ]
+}
+</script>
+
+<style>
+    .content-section { max-width: 860px; margin: 0 auto; padding: 0 16px 48px; }
+    .content-section h2 { font-size: 1.3rem; font-weight: 700; color: #1a2a4a; margin: 32px 0 12px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+    .content-section h3 { font-size: 1rem; font-weight: 700; color: #1a2a4a; margin: 20px 0 8px; }
+    .content-section p { font-size: 0.9rem; color: #4a5568; margin-bottom: 12px; line-height: 1.7; }
+    .content-section ul { padding-left: 20px; margin-bottom: 12px; }
+    .content-section li { font-size: 0.9rem; color: #4a5568; margin-bottom: 6px; line-height: 1.6; }
+    .content-section table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 14px 0; }
+    .content-section th { background: #1a2a4a; color: white; padding: 8px 12px; text-align: left; }
+    .content-section td { padding: 7px 12px; border-bottom: 1px solid #e2e8f0; color: #4a5568; }
+    .content-section tr:nth-child(even) td { background: #f8fafc; }
+    .formula-block { background: #f0f4f8; border-left: 4px solid #1a2a4a; padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 12px 0; font-family: 'Courier New', monospace; font-size: 0.9rem; color: #1a2a4a; }
+
+    .faq-wrap { max-width: 860px; margin: 0 auto; padding: 0 16px 48px; }
+    .faq-wrap h2 { font-size: 1.3rem; font-weight: 700; color: #1a2a4a; margin: 0 0 16px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+    .faq-item { background: white; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 10px; overflow: hidden; }
+    .faq-q { padding: 15px 20px; font-size: 0.92rem; font-weight: 600; color: #1a202c; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+    .faq-q:hover { background: #fffbeb; }
+    .faq-arrow { color: #f59e0b; font-size: 1rem; transition: transform 0.2s; flex-shrink: 0; }
+    .faq-a { display: none; padding: 14px 20px; font-size: 0.88rem; color: #4a5568; line-height: 1.65; border-top: 1px solid #e2e8f0; }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); }
+    .faq-item.open .faq-a { display: block; }
+</style>
+
+<!-- Article Section -->
+<div class="content-section">
+    <h2>How to Size an LED Strip Driver — Complete Guide</h2>
+
+    <p>Choosing the right LED strip driver (power supply) is one of the most important decisions in any LED strip installation. An undersized driver will overheat and fail prematurely. An oversized driver wastes money. And the wrong voltage will either dim your strips or destroy them instantly.</p>
+
+    <h3>The Basic Formula</h3>
+    <p>Sizing an LED strip driver comes down to three steps:</p>
+    <div class="formula-block">Total load (W) = Strip wattage per metre × Total length (m)<br>Required driver size (W) = Total load × 1.2 (20% safety buffer)</div>
+    <p>Always choose the next standard driver size <em>above</em> your calculated requirement. Standard sizes are typically 30W, 40W, 50W, 60W, 75W, 100W, 120W, 150W, 200W, 240W, 300W, 320W and 500W.</p>
+
+    <h3>12V vs 24V vs 48V — Which Voltage?</h3>
+    <table>
+        <thead><tr><th>Voltage</th><th>Best For</th><th>Max Run Length</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td>12V</td><td>Short decorative runs, under-cabinet</td><td>~5m per run</td><td>Most common, widest product range</td></tr>
+            <tr><td>24V</td><td>Longer runs, commercial, high-wattage</td><td>~10m per run</td><td>Less voltage drop, preferred by professionals</td></tr>
+            <tr><td>48V</td><td>Very long runs, high-output strips</td><td>~20m+ per run</td><td>Emerging standard for architectural lighting</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Why the 20% Safety Buffer Matters</h3>
+    <p>Running a driver at 100% capacity continuously generates excess heat and dramatically shortens its lifespan. A quality driver like a MeanWell HLG or ELG series is rated for a certain MTBF (Mean Time Between Failures) at 80% load — exceed that and you void the warranty and halve the life expectancy. The 20% buffer also leaves room for any slight inaccuracies in the strip's stated wattage, which can vary by up to 10% between manufacturers.</p>
+
+    <h3>Single Driver vs Multiple Drivers</h3>
+    <p>For large installations, you have two options: one large driver feeding all strips in parallel, or multiple smaller drivers each powering a zone. Multiple smaller drivers are often preferred because:</p>
+    <ul>
+        <li>Easier to replace if one fails</li>
+        <li>Shorter cable runs from driver to strip reduce voltage drop</li>
+        <li>Easier to dim zones independently</li>
+        <li>Smaller drivers fit more easily into ceiling cavities</li>
+    </ul>
+    <p>As a rule of thumb, avoid runs longer than 5m on 12V or 10m on 24V from driver to the furthest point of strip — voltage drop beyond these distances causes visible dimming.</p>
+
+    <h3>Dimmable Drivers</h3>
+    <p>If you want to dim your LED strips, the driver and dimmer must be compatible. Common dimming protocols include:</p>
+    <ul>
+        <li><strong>TRIAC / Phase-cut</strong> — works with standard wall dimmers, most common for residential</li>
+        <li><strong>0–10V</strong> — commercial standard, smooth dimming from 0–100%</li>
+        <li><strong>PWM</strong> — pulse-width modulation, used with LED controllers</li>
+        <li><strong>DALI</strong> — digital addressable lighting interface, used in commercial building automation</li>
+    </ul>
+    <p>Never connect a non-dimmable driver to a dimmer switch — it will flicker, buzz, or be permanently damaged.</p>
+
+    <h3>IP Ratings for Drivers</h3>
+    <table>
+        <thead><tr><th>IP Rating</th><th>Protection</th><th>Suitable For</th></tr></thead>
+        <tbody>
+            <tr><td>IP20</td><td>No moisture protection</td><td>Dry indoor locations only</td></tr>
+            <tr><td>IP44</td><td>Splash resistant</td><td>Bathrooms (outside Zone 1)</td></tr>
+            <tr><td>IP65</td><td>Dust-tight, water jets</td><td>Outdoor covered locations</td></tr>
+            <tr><td>IP67</td><td>Temporary immersion</td><td>Outdoor exposed, near water features</td></tr>
+            <tr><td>IP68</td><td>Continuous immersion</td><td>Pool surrounds, underwater</td></tr>
+        </tbody>
+    </table>
+
+    <h3>MeanWell Driver Model Guide</h3>
+    <p>MeanWell is the industry benchmark for LED drivers. Here's a quick guide to their most common series for LED strip installations:</p>
+    <ul>
+        <li><strong>LPV series</strong> — basic constant voltage, non-dimmable, IP67. Good for simple outdoor installations.</li>
+        <li><strong>HLG series</strong> — premium constant voltage + constant current, dimmable options, IP65/IP67. Best choice for most professional installations.</li>
+        <li><strong>ELG series</strong> — similar to HLG but designed for linear lighting profiles. Excellent for architectural cove lighting.</li>
+        <li><strong>RSP / SE series</strong> — DIN rail mounted, used in switchboards and commercial fit-outs.</li>
+        <li><strong>APV series</strong> — economy constant voltage, IP30/IP67, good value for indoor residential.</li>
+    </ul>
+</div>
+
+<!-- FAQ Section -->
+<div class="faq-wrap">
+    <h2>❓ Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What size LED strip driver do I need? <span class="faq-arrow">▼</span></div>
+        <div class="faq-a">Add up the total wattage of your LED strip (watts per metre × total length in metres), then multiply by 1.2 to add a 20% safety buffer. Choose the next standard driver size above that number. For example, a 5-metre run of 14.4W/m strip needs 72W total × 1.2 = 86.4W, so choose a 100W driver.</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What is the difference between 12V and 24V LED strip drivers? <span class="faq-arrow">▼</span></div>
+        <div class="faq-a">12V drivers are more common and suit shorter runs up to about 5 metres before voltage drop becomes significant. 24V drivers allow longer runs (up to 10 metres) with less voltage drop because the higher voltage means lower current for the same wattage. 24V systems are preferred for runs over 5 metres, high-wattage strips, or commercial installations.</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Why do I need a 20% safety buffer on my LED driver? <span class="faq-arrow">▼</span></div>
+        <div class="faq-a">Running a driver at 100% of its rated capacity shortens its lifespan significantly and can cause it to overheat. The industry standard is to size the driver so the connected load is no more than 80% of its rated output. It also leaves headroom if you add more strip later.</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What IP rating do I need for my LED strip driver? <span class="faq-arrow">▼</span></div>
+        <div class="faq-a">For indoor dry locations, IP20 drivers are suitable. For outdoor, bathroom, or damp locations, use at least IP65. For outdoor exposed installations or near water features, use IP67 or IP68 rated drivers. Never use an indoor IP20 driver in a location exposed to moisture.</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Can I connect multiple LED strips to one driver? <span class="faq-arrow">▼</span></div>
+        <div class="faq-a">Yes — provided the total wattage of all strips combined does not exceed 80% of the driver's rated output. Connect multiple strips in parallel (positive to positive, negative to negative), not in series. Each strip run should still be checked individually for voltage drop if runs are longer than 5 metres.</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What is a dimmable LED driver and do I need one? <span class="faq-arrow">▼</span></div>
+        <div class="faq-a">A dimmable LED driver allows you to vary the brightness of your LED strip. Common dimming methods include TRIAC, 0-10V, PWM, and DALI. If you want to dim your strips, you must use a dimmable driver AND a compatible dimmer — mismatching causes flickering or damage. If dimming is not required, a non-dimmable driver is simpler and cheaper.</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">MeanWell vs cheap LED drivers — what's the difference? <span class="faq-arrow">▼</span></div>
+        <div class="faq-a">MeanWell is the industry standard brand for LED drivers. MeanWell drivers have accurate voltage regulation, built-in protections (over-voltage, over-current, short circuit), long rated lifespans, and proper safety certifications. Cheap unbranded drivers often have poor voltage regulation, no protection circuitry, and can fail prematurely or damage your LED strips. For any permanent installation, always use a quality driver.</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What is voltage drop in LED strip installations? <span class="faq-arrow">▼</span></div>
+        <div class="faq-a">Voltage drop is the reduction in voltage along the length of the LED strip cable. For 12V strips, a drop of more than 0.5V can cause visible dimming at the far end of the run. The solution is to use larger cable, shorten the run, inject power from both ends, or use a higher voltage system (24V or 48V).</div>
+    </div>
+</div>
+
+<footer>
+    <p><strong>LightTools</strong> — lighttools.com.au | Free tools for electricians, designers &amp; DIYers</p>
+    <p style="margin-top:8px;">© 2026 LightTools. Amazon links are affiliate links. We may earn a small commission at no extra cost to you. | <a href="disclaimer.html">Disclaimer &amp; Terms</a></p>
+</footer>
+
+</body>
+</html>

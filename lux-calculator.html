@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lux Calculator — Free Lighting Level Calculator | LightTools</title>
+    <meta name="description" content="Free lux calculator for lighting designers and electricians. Calculate lux levels for downlights, LED panels and room grids. Includes lux level reference table, AS/NZS 1680 standards guide, glare risk reference and reverse calculator.">
+    <link rel="canonical" href="https://lighttools.com.au/lux-calculator.html">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: #f0f4f8; color: #1a202c; line-height: 1.6; }
+
+        header { background: linear-gradient(135deg, #1a2a4a 0%, #2d4a7a 100%); color: white; padding: 28px 20px 22px; text-align: center; }
+        header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+        header p { font-size: 1rem; opacity: 0.85; }
+
+        nav { background: #152238; padding: 10px 20px; display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
+        nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; padding: 4px 0; }
+        nav a:hover, nav a.active { color: #f59e0b; }
+
+        .ad-banner { background: #e8edf2; border: 2px dashed #b0bec5; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #78909c; font-size: 0.82rem; text-align: center; }
+        .ad-leaderboard { width: 100%; max-width: 728px; height: 90px; }
+        .ad-rectangle { width: 300px; height: 250px; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px 16px; }
+        .layout { display: grid; grid-template-columns: 1fr 320px; gap: 24px; }
+        @media (max-width: 800px) { .layout { grid-template-columns: 1fr; } .ad-rectangle { width: 100%; } header h1 { font-size: 1.5rem; } }
+
+        .card { background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); padding: 28px; margin-bottom: 20px; }
+        .card h2 { font-size: 1.2rem; font-weight: 600; color: #1a2a4a; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #e2e8f0; }
+
+        /* Mode tabs */
+        .mode-tabs { display: flex; gap: 0; margin-bottom: 24px; border-radius: 10px; overflow: hidden; border: 2px solid #e2e8f0; }
+        .mode-tab { flex: 1; padding: 11px 8px; border: none; background: #fafbfc; font-family: inherit; font-size: 0.82rem; font-weight: 500; color: #718096; cursor: pointer; transition: all 0.2s; text-align: center; border-right: 1px solid #e2e8f0; line-height: 1.3; }
+        .mode-tab:last-child { border-right: none; }
+        .mode-tab.active { background: #1a2a4a; color: white; }
+        .mode-tab:hover:not(.active) { background: #f0f5ff; color: #2d4a7a; }
+        .mode-tab .tab-icon { display: block; font-size: 1.2rem; margin-bottom: 3px; }
+
+        .mode-panel { display: none; }
+        .mode-panel.active { display: block; }
+
+        /* Form elements */
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 500; font-size: 0.9rem; color: #4a5568; margin-bottom: 6px; }
+        .label-hint { font-weight: 400; color: #a0aec0; font-size: 0.8rem; }
+        input[type="number"], select { width: 100%; padding: 12px 14px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; font-family: inherit; color: #1a202c; transition: border-color 0.2s; -webkit-appearance: none; appearance: none; background: #fafbfc; }
+        input[type="number"]:focus, select:focus { outline: none; border-color: #2d4a7a; background: white; }
+        .select-wrapper { position: relative; }
+        .select-wrapper::after { content: '▾'; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #718096; }
+        select { padding-right: 36px; cursor: pointer; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+
+        .btn-calc { width: 100%; padding: 15px; background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%); color: white; border: none; border-radius: 10px; font-size: 1.05rem; font-weight: 700; font-family: inherit; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
+        .btn-calc:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(249,115,22,0.38); }
+
+        /* Results */
+        .results-section { display: none; margin-top: 24px; }
+        .result-highlight { background: linear-gradient(135deg, #1a2a4a 0%, #2d4a7a 100%); border-radius: 10px; padding: 22px; color: white; margin-bottom: 16px; text-align: center; }
+        .result-highlight .rl { font-size: 0.8rem; opacity: 0.75; text-transform: uppercase; letter-spacing: 0.5px; }
+        .result-highlight .rv { font-size: 2.8rem; font-weight: 700; line-height: 1.1; }
+        .result-highlight .rs { font-size: 0.9rem; opacity: 0.82; margin-top: 4px; }
+
+        .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        @media (max-width: 480px) { .result-grid { grid-template-columns: 1fr; } }
+        .result-item { background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; }
+        .result-item .r-label { font-size: 0.76rem; color: #718096; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 4px; }
+        .result-item .r-value { font-size: 1.05rem; font-weight: 600; color: #1a2a4a; }
+
+        /* Lux gauge */
+        .lux-gauge { background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px; margin-bottom: 16px; }
+        .lux-gauge h4 { font-size: 0.9rem; font-weight: 600; color: #1a2a4a; margin-bottom: 14px; }
+        .gauge-track { height: 22px; border-radius: 999px; background: linear-gradient(90deg, #1a2a4a 0%, #3b82f6 20%, #22c55e 40%, #f59e0b 65%, #ef4444 85%, #7c3aed 100%); position: relative; margin-bottom: 8px; overflow: visible; }
+        .gauge-marker { position: absolute; top: -6px; width: 4px; height: 34px; background: white; border-radius: 2px; box-shadow: 0 0 0 2px #1a2a4a; transform: translateX(-50%); transition: left 0.5s ease; }
+        .gauge-labels { display: flex; justify-content: space-between; font-size: 0.72rem; color: #718096; }
+        .lux-verdict { margin-top: 12px; border-radius: 8px; padding: 10px 14px; font-size: 0.88rem; font-weight: 500; }
+
+        /* Beam diagram */
+        .beam-diagram { background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px; margin-bottom: 16px; text-align: center; }
+        .beam-diagram h4 { font-size: 0.9rem; font-weight: 600; color: #1a2a4a; margin-bottom: 12px; text-align: left; }
+
+        /* Alert */
+        .alert { border-radius: 8px; padding: 12px 16px; margin-bottom: 12px; font-size: 0.88rem; display: flex; gap: 10px; align-items: flex-start; line-height: 1.5; }
+        .alert-warning { background: #fffbeb; border: 1px solid #f59e0b; color: #92400e; }
+        .alert-info    { background: #ebf8ff; border: 1px solid #63b3ed; color: #2c5282; }
+        .alert-success { background: #f0fff4; border: 1px solid #68d391; color: #276749; }
+        .alert-icon    { font-size: 1.1rem; flex-shrink: 0; padding-top: 1px; }
+
+        /* Buy links */
+        .buy-links { display: flex; flex-direction: column; gap: 10px; }
+        .buy-link { display: flex; align-items: center; gap: 12px; padding: 13px 16px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: transform 0.15s, box-shadow 0.15s; color: white; }
+        .buy-link:hover { transform: translateY(-2px); box-shadow: 0 5px 18px rgba(0,0,0,0.18); }
+        .buy-link-amazon { background: #ff9900; }
+        .buy-link-google { background: #4285f4; }
+        .buy-link-icon { font-size: 1.2rem; }
+        .buy-link-text .blm { font-size: 0.9rem; }
+        .buy-link-text .bls { font-size: 0.76rem; opacity: 0.88; font-weight: 400; }
+        .affiliate-notice { font-size: 0.74rem; color: #a0aec0; text-align: center; margin-top: 8px; font-style: italic; }
+
+        /* Glare guide */
+        .glare-card { border-radius: 10px; overflow: hidden; margin-bottom: 16px; border: 1px solid #e2e8f0; }
+        .glare-header { padding: 12px 18px; font-weight: 600; font-size: 0.95rem; color: white; display: flex; align-items: center; gap: 8px; }
+        .glare-body { padding: 16px 18px; background: white; }
+        .glare-body p { font-size: 0.85rem; color: #4a5568; line-height: 1.6; margin-bottom: 10px; }
+        .glare-body p:last-child { margin-bottom: 0; }
+        .glare-risk-row { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 8px; }
+        .glare-pill { display: inline-block; padding: 3px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+        .glare-tip { font-size: 0.83rem; color: #4a5568; line-height: 1.5; }
+        .ugr-row { display: flex; gap: 10px; align-items: center; padding: 7px 0; border-bottom: 1px solid #f0f4f8; font-size: 0.83rem; }
+        .ugr-row:last-child { border-bottom: none; }
+        .ugr-badge { min-width: 56px; text-align: center; padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 0.8rem; flex-shrink: 0; }
+        .ugr-spaces { color: #4a5568; }
+
+        .divider { border: none; border-top: 1px solid #e2e8f0; margin: 18px 0; }
+
+        /* Sidebar */
+        .info-box { background: #ebf8ff; border-left: 4px solid #3182ce; border-radius: 0 8px 8px 0; padding: 14px 16px; margin-bottom: 14px; }
+        .info-box h4 { font-size: 0.88rem; font-weight: 600; color: #2c5282; margin-bottom: 6px; }
+        .info-box p, .info-box li { font-size: 0.83rem; color: #2c5282; line-height: 1.55; }
+        .info-box ul { padding-left: 16px; }
+        .info-box li { margin-bottom: 3px; }
+
+        .ref-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+        .ref-table th { background: #1a2a4a; color: white; padding: 9px 12px; text-align: left; font-weight: 500; }
+        .ref-table th:first-child { border-radius: 8px 0 0 0; }
+        .ref-table th:last-child  { border-radius: 0 8px 0 0; }
+        .ref-table td { padding: 8px 12px; border-bottom: 1px solid #e2e8f0; color: #4a5568; }
+        .ref-table tr:nth-child(even) td { background: #f7fafc; }
+        .lux-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 5px; }
+
+        footer { background: #1a2a4a; color: rgba(255,255,255,0.6); text-align: center; padding: 24px 16px; font-size: 0.82rem; margin-top: 40px; }
+        footer a { color: rgba(255,255,255,0.8); }
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1409689781104144"
+     crossorigin="anonymous"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-82HX4HNTVF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-82HX4HNTVF');
+    </script>
+</head>
+<body>
+
+<header>
+    <div style="font-size:2.2rem;margin-bottom:8px;">☀️</div>
+    <h1>Lux Calculator</h1>
+    <p>Calculate lighting levels for downlights, panels, rooms and more — instantly</p>
+</header>
+
+<nav>
+    <a href="led-strip-driver-calculator.html">Driver Calculator</a>
+    <a href="led-strip-light-selector.html">Strip Selector</a>
+    <a href="#" class="active">Lux Calculator</a>
+    <a href="garden-lighting-calculator.html">Garden Lighting</a>
+    <a href="voltage-drop-calculator.html">Voltage Drop</a>
+    <a href="disclaimer.html">Disclaimer</a>
+</nav>
+
+<div class="container">
+
+    <div style="display:flex;justify-content:center;margin:16px 0;">
+        <div class="ad-banner ad-leaderboard">[ Google Ad — 728×90 Leaderboard ]</div>
+    </div>
+
+    <div class="layout">
+
+        <!-- ===== LEFT: Calculator ===== -->
+        <div>
+            <div class="card">
+                <h2>🔆 Lux Level Calculator</h2>
+
+                <!-- Mode tabs -->
+                <div class="mode-tabs">
+                    <button class="mode-tab active" onclick="switchMode('spot')">
+                        <span class="tab-icon">🔦</span>Downlight / Spotlight
+                    </button>
+                    <button class="mode-tab" onclick="switchMode('room')">
+                        <span class="tab-icon">🏠</span>Room / Fixture Grid
+                    </button>
+                    <button class="mode-tab" onclick="switchMode('panel')">
+                        <span class="tab-icon">▬</span>Panel / Linear
+                    </button>
+                    <button class="mode-tab" onclick="switchMode('reverse')">
+                        <span class="tab-icon">🎯</span>Reverse Calc
+                    </button>
+                </div>
+
+                <!-- ===== MODE 1: Spotlight / Downlight ===== -->
+                <div class="mode-panel active" id="mode-spot">
+                    <p style="font-size:0.88rem;color:#718096;margin-bottom:18px;">Enter the fixture's lumen output, beam angle and the distance to the surface you're lighting.</p>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="s-lumens">Fixture Lumens <span class="label-hint">— from datasheet</span></label>
+                            <input type="number" id="s-lumens" placeholder="e.g. 800" min="1" max="100000" step="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="s-beam">Beam Angle <span class="label-hint">— degrees</span></label>
+                            <div class="select-wrapper">
+                                <select id="s-beam">
+                                    <option value="">— Select —</option>
+                                    <option value="10">10° — Very narrow spot</option>
+                                    <option value="15">15° — Narrow spot</option>
+                                    <option value="24">24° — Spot</option>
+                                    <option value="36">36° — Medium flood</option>
+                                    <option value="45">45° — Flood</option>
+                                    <option value="60">60° — Wide flood</option>
+                                    <option value="90">90° — Very wide</option>
+                                    <option value="120">120° — Ultra wide</option>
+                                    <option value="custom">Custom angle</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="s-beam-custom-group" style="display:none;">
+                        <label for="s-beam-custom">Custom Beam Angle (degrees)</label>
+                        <input type="number" id="s-beam-custom" placeholder="e.g. 30" min="1" max="179" step="1">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="s-dist">Distance to Surface <span class="label-hint">— metres</span></label>
+                            <input type="number" id="s-dist" placeholder="e.g. 2.4" min="0.1" max="20" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label for="s-qty">Number of Fixtures <span class="label-hint">— aimed at same area</span></label>
+                            <input type="number" id="s-qty" placeholder="1" min="1" max="100" step="1" value="1">
+                        </div>
+                    </div>
+
+                    <button class="btn-calc" onclick="calcSpot()">⚡ Calculate Lux →</button>
+
+                    <div class="results-section" id="spot-results">
+                        <hr class="divider">
+                        <div class="result-highlight">
+                            <div class="rl">Centre / Peak Lux</div>
+                            <div class="rv" id="s-res-center">—</div>
+                            <div class="rs" id="s-res-center-sub">at target surface</div>
+                        </div>
+                        <div class="result-grid">
+                            <div class="result-item">
+                                <div class="r-label">Average Lux (across beam)</div>
+                                <div class="r-value" id="s-res-avg">—</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="r-label">Beam Diameter at Surface</div>
+                                <div class="r-value" id="s-res-dia">—</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="r-label">Illuminated Area</div>
+                                <div class="r-value" id="s-res-area">—</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="r-label">Total Lumens Used</div>
+                                <div class="r-value" id="s-res-lm">—</div>
+                            </div>
+                        </div>
+                        <div id="s-gauge-container"></div>
+                        <div id="s-beam-svg"></div>
+                        <div id="s-alerts"></div>
+                        <div id="s-glare-container"></div>
+                    </div>
+                </div>
+
+                <!-- ===== MODE 2: Room / Grid ===== -->
+                <div class="mode-panel" id="mode-room">
+                    <p style="font-size:0.88rem;color:#718096;margin-bottom:18px;">Calculate the average maintained lux level across a room using the Lumen Method — the industry-standard approach for grid layouts.</p>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="r-length">Room Length <span class="label-hint">— metres</span></label>
+                            <input type="number" id="r-length" placeholder="e.g. 6" min="0.5" max="200" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label for="r-width">Room Width <span class="label-hint">— metres</span></label>
+                            <input type="number" id="r-width" placeholder="e.g. 4" min="0.5" max="200" step="0.1">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="r-qty">Number of Fixtures</label>
+                            <input type="number" id="r-qty" placeholder="e.g. 8" min="1" max="500" step="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="r-lumens">Lumens per Fixture <span class="label-hint">— from datasheet</span></label>
+                            <input type="number" id="r-lumens" placeholder="e.g. 800" min="1" max="100000" step="1">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="r-mf">Maintenance Factor <span class="label-hint">— typically 0.8</span></label>
+                            <div class="select-wrapper">
+                                <select id="r-mf">
+                                    <option value="0.85">0.85 — New installation, clean space</option>
+                                    <option value="0.80" selected>0.80 — Standard (recommended)</option>
+                                    <option value="0.75">0.75 — Moderate dust / age</option>
+                                    <option value="0.70">0.70 — Dusty / industrial</option>
+                                    <option value="0.65">0.65 — Poor maintenance</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="r-uf">Utilisation Factor <span class="label-hint">— room reflectances</span></label>
+                            <div class="select-wrapper">
+                                <select id="r-uf">
+                                    <option value="0.75">0.75 — White walls/ceiling, open plan</option>
+                                    <option value="0.65" selected>0.65 — Light walls, average room</option>
+                                    <option value="0.55">0.55 — Medium tones, average room</option>
+                                    <option value="0.45">0.45 — Dark walls or low ceiling</option>
+                                    <option value="0.35">0.35 — Very dark surfaces</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn-calc" onclick="calcRoom()">⚡ Calculate Room Lux →</button>
+
+                    <div class="results-section" id="room-results">
+                        <hr class="divider">
+                        <div class="result-highlight">
+                            <div class="rl">Average Maintained Lux (Em)</div>
+                            <div class="rv" id="r-res-lux">—</div>
+                            <div class="rs" id="r-res-sub">—</div>
+                        </div>
+                        <div class="result-grid">
+                            <div class="result-item">
+                                <div class="r-label">Total Fixture Lumens</div>
+                                <div class="r-value" id="r-res-total-lm">—</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="r-label">Room Area</div>
+                                <div class="r-value" id="r-res-area">—</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="r-label">Lumens per m²</div>
+                                <div class="r-value" id="r-res-lpm2">—</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="r-label">Fixture Spacing (approx)</div>
+                                <div class="r-value" id="r-res-spacing">—</div>
+                            </div>
+                        </div>
+                        <div id="r-gauge-container"></div>
+                        <div id="r-alerts"></div>
+                        <div id="r-glare-container"></div>
+                    </div>
+                </div>
+
+                <!-- ===== MODE 3: Panel / Linear ===== -->
+                <div class="mode-panel" id="mode-panel">
+                    <p style="font-size:0.88rem;color:#718096;margin-bottom:18px;">Calculate the average lux delivered to a work plane below a panel, batten or linear fixture.</p>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="p-lumens">Total Lumens Output <span class="label-hint">— full fixture</span></label>
+                            <input type="number" id="p-lumens" placeholder="e.g. 4000" min="1" max="200000" step="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="p-qty">Number of Fixtures</label>
+                            <input type="number" id="p-qty" placeholder="1" min="1" max="500" step="1" value="1">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="p-rlength">Room / Area Length <span class="label-hint">— metres</span></label>
+                            <input type="number" id="p-rlength" placeholder="e.g. 6" min="0.1" max="200" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label for="p-rwidth">Room / Area Width <span class="label-hint">— metres</span></label>
+                            <input type="number" id="p-rwidth" placeholder="e.g. 4" min="0.1" max="200" step="0.1">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="p-mf">Maintenance Factor</label>
+                            <div class="select-wrapper">
+                                <select id="p-mf">
+                                    <option value="0.85">0.85 — New / clean</option>
+                                    <option value="0.80" selected>0.80 — Standard</option>
+                                    <option value="0.75">0.75 — Moderate dust</option>
+                                    <option value="0.70">0.70 — Dusty / industrial</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="p-uf">Utilisation Factor</label>
+                            <div class="select-wrapper">
+                                <select id="p-uf">
+                                    <option value="0.75">0.75 — White/open plan</option>
+                                    <option value="0.65" selected>0.65 — Light walls, average</option>
+                                    <option value="0.55">0.55 — Medium tones</option>
+                                    <option value="0.45">0.45 — Dark surfaces</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn-calc" onclick="calcPanel()">⚡ Calculate Panel Lux →</button>
+
+                    <div class="results-section" id="panel-results">
+                        <hr class="divider">
+                        <div class="result-highlight">
+                            <div class="rl">Average Maintained Lux (Em)</div>
+                            <div class="rv" id="p-res-lux">—</div>
+                            <div class="rs" id="p-res-sub">—</div>
+                        </div>
+                        <div class="result-grid">
+                            <div class="result-item">
+                                <div class="r-label">Total Lumens</div>
+                                <div class="r-value" id="p-res-total-lm">—</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="r-label">Floor Area</div>
+                                <div class="r-value" id="p-res-area">—</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="r-label">Raw Lumens/m²</div>
+                                <div class="r-value" id="p-res-raw">—</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="r-label">W/m² (efficiency ref)</div>
+                                <div class="r-value" id="p-res-wm2">—</div>
+                            </div>
+                        </div>
+                        <div id="p-gauge-container"></div>
+                        <div id="p-alerts"></div>
+                    </div>
+                </div>
+
+                <!-- ===== MODE 4: Reverse Calc ===== -->
+                <div class="mode-panel" id="mode-reverse">
+                    <p style="font-size:0.88rem;color:#718096;margin-bottom:18px;">Know the lux level you need to achieve? Work backwards to find the lumens required from your fixture.</p>
+
+                    <div class="form-group">
+                        <label for="rv-space">Target Space / Application <span class="label-hint">— sets the recommended lux target</span></label>
+                        <div class="select-wrapper">
+                            <select id="rv-space" onchange="updateLuxTarget()">
+                                <option value="custom">Custom target lux</option>
+                                <option value="50">Corridor / passageway — 50 lux</option>
+                                <option value="80">Storage / stairway — 80 lux</option>
+                                <option value="150">Bedroom / lounge — 150 lux</option>
+                                <option value="200">Hotel room / dining — 200 lux</option>
+                                <option value="300">General office / classroom — 300 lux</option>
+                                <option value="400">Open plan office — 400 lux</option>
+                                <option value="500">Retail / supermarket — 500 lux</option>
+                                <option value="750">Kitchen bench / task — 750 lux</option>
+                                <option value="1000">Drawing / detailed work — 1000 lux</option>
+                                <option value="1500">Medical / surgical — 1500 lux</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rv-lux">Target Lux Level <span class="label-hint">— lux (lx)</span></label>
+                        <input type="number" id="rv-lux" placeholder="e.g. 400" min="1" max="100000" step="1">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="rv-dist">Distance to Surface <span class="label-hint">— metres (downlights only)</span></label>
+                            <input type="number" id="rv-dist" placeholder="e.g. 2.4" min="0.1" max="20" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label for="rv-beam">Beam Angle <span class="label-hint">— degrees (downlights)</span></label>
+                            <div class="select-wrapper">
+                                <select id="rv-beam">
+                                    <option value="">— Select —</option>
+                                    <option value="24">24° — Spot</option>
+                                    <option value="36">36° — Medium flood</option>
+                                    <option value="45">45° — Flood</option>
+                                    <option value="60">60° — Wide flood</option>
+                                    <option value="90">90° — Very wide</option>
+                                    <option value="120">120° — Ultra wide</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="rv-area">Room Area <span class="label-hint">— m² (for room average calc)</span></label>
+                            <input type="number" id="rv-area" placeholder="e.g. 24" min="0.1" max="10000" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label for="rv-uf">Utilisation Factor</label>
+                            <div class="select-wrapper">
+                                <select id="rv-uf">
+                                    <option value="0.75">0.75 — White/open plan</option>
+                                    <option value="0.65" selected>0.65 — Average room</option>
+                                    <option value="0.55">0.55 — Medium tones</option>
+                                    <option value="0.45">0.45 — Dark surfaces</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn-calc" onclick="calcReverse()">🎯 Calculate Required Lumens →</button>
+
+                    <div class="results-section" id="reverse-results">
+                        <hr class="divider">
+                        <div class="result-highlight">
+                            <div class="rl">Lumens Required (per fixture)</div>
+                            <div class="rv" id="rv-res-lm">—</div>
+                            <div class="rs" id="rv-res-sub">—</div>
+                        </div>
+                        <div class="result-grid">
+                            <div class="result-item">
+                                <div class="r-label">For Spotlight (centre lux)</div>
+                                <div class="r-value" id="rv-res-spot">—</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="r-label">For Room Average</div>
+                                <div class="r-value" id="rv-res-room">—</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="r-label">Target Lux</div>
+                                <div class="r-value" id="rv-res-target">—</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="r-label">Typical Fixture Range</div>
+                                <div class="r-value" id="rv-res-range">—</div>
+                            </div>
+                        </div>
+                        <div id="rv-alerts"></div>
+                        <div id="rv-buy"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Lux meter CTA -->
+            <div class="card" id="lux-meter-card" style="display:none;">
+                <h2>📏 Verify Your Results — Get a Lux Meter</h2>
+                <p style="font-size:0.88rem;color:#4a5568;margin-bottom:16px;">A lux meter lets you verify the actual light levels on site — essential for compliance checks, commissioning reports and client sign-off. Good meters start from around $30.</p>
+                <div class="buy-links">
+                    <a href="https://www.amazon.com.au/s?k=lux+meter+light+meter&tag=lighttools-22" target="_blank" rel="noopener sponsored" class="buy-link buy-link-amazon">
+                        <span class="buy-link-icon">🛒</span>
+                        <span class="buy-link-text">
+                            <div class="blm">Lux Meters on Amazon Australia</div>
+                            <div class="bls">From ~$30 — digital, handheld</div>
+                        </span>
+                    </a>
+                    <a href="https://www.google.com/search?q=lux+meter+buy+Australia&tbm=shop" target="_blank" rel="noopener" class="buy-link buy-link-google">
+                        <span class="buy-link-icon">🔍</span>
+                        <span class="buy-link-text">
+                            <div class="blm">Compare Lux Meters — Google Shopping</div>
+                            <div class="bls">All retailers, all price points</div>
+                        </span>
+                    </a>
+                </div>
+                <p class="affiliate-notice">★ Amazon links support this free tool at no extra cost to you</p>
+            </div>
+
+            <!-- In-content ad -->
+            <div style="display:flex;justify-content:center;margin-bottom:20px;">
+                <div class="ad-banner ad-leaderboard">[ Google Ad — 728×90 ]</div>
+            </div>
+        </div>
+
+        <!-- ===== RIGHT: Sidebar ===== -->
+        <div>
+            <div style="display:flex;justify-content:center;margin-bottom:20px;">
+                <div class="ad-banner ad-rectangle">[ Google Ad — 300×250 ]</div>
+            </div>
+
+            <div class="card">
+                <h2>📋 Lux Reference Levels</h2>
+                <p style="font-size:0.8rem;color:#718096;margin-bottom:12px;">Based on AS/NZS 1680 and general industry standards</p>
+                <table class="ref-table">
+                    <thead>
+                        <tr><th>Space / Task</th><th>Lux (Em)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><span class="lux-dot" style="background:#1a2a4a"></span>Corridor / passageway</td><td>50</td></tr>
+                        <tr><td><span class="lux-dot" style="background:#3b82f6"></span>Storage / stairway</td><td>80</td></tr>
+                        <tr><td><span class="lux-dot" style="background:#22c55e"></span>Bedroom / lounge</td><td>100–150</td></tr>
+                        <tr><td><span class="lux-dot" style="background:#22c55e"></span>Hotel room / dining</td><td>200</td></tr>
+                        <tr><td><span class="lux-dot" style="background:#f59e0b"></span>General office</td><td>320</td></tr>
+                        <tr><td><span class="lux-dot" style="background:#f59e0b"></span>Open plan office</td><td>400</td></tr>
+                        <tr><td><span class="lux-dot" style="background:#f97316"></span>Retail / supermarket</td><td>500</td></tr>
+                        <tr><td><span class="lux-dot" style="background:#ef4444"></span>Kitchen bench</td><td>750</td></tr>
+                        <tr><td><span class="lux-dot" style="background:#ef4444"></span>Drawing / detail work</td><td>1000</td></tr>
+                        <tr><td><span class="lux-dot" style="background:#7c3aed"></span>Medical / surgical</td><td>1500+</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2>😎 UGR Glare Limits by Space</h2>
+                <p style="font-size:0.8rem;color:#718096;margin-bottom:12px;">UGR = Unified Glare Rating. Lower is better. Based on AS/NZS 1680 &amp; CIE 117.</p>
+                <div style="padding:0;">
+                    <div class="ugr-row"><div class="ugr-badge" style="background:#dcfce7;color:#166534;">≤ 16</div><div class="ugr-spaces">Museums, galleries, high-precision inspection</div></div>
+                    <div class="ugr-row"><div class="ugr-badge" style="background:#dbeafe;color:#1e40af;">≤ 19</div><div class="ugr-spaces">Offices, classrooms, libraries, hospitals</div></div>
+                    <div class="ugr-row"><div class="ugr-badge" style="background:#fef3c7;color:#92400e;">≤ 22</div><div class="ugr-spaces">Industrial tasks, sports halls, reception</div></div>
+                    <div class="ugr-row"><div class="ugr-badge" style="background:#ffedd5;color:#9a3412;">≤ 25</div><div class="ugr-spaces">Corridors, rough work, storage</div></div>
+                    <div class="ugr-row"><div class="ugr-badge" style="background:#fee2e2;color:#991b1b;">≤ 28</div><div class="ugr-spaces">Low-demand areas, plant rooms</div></div>
+                </div>
+                <p style="font-size:0.77rem;color:#a0aec0;margin-top:12px;">⚠️ True UGR requires photometric data files from the manufacturer. Our Glare Risk Guide below is a practical indicator based on beam angle, mounting height and lux level.</p>
+            </div>
+
+            <div class="card">
+                <h2>💡 What is a Lux?</h2>
+                <div class="info-box">
+                    <h4>Lux vs Lumens</h4>
+                    <p><strong>Lumens</strong> = total light output of a source. <strong>Lux</strong> = lumens landing on one square metre of surface. Same bulb, twice the distance = roughly ¼ the lux (inverse square law).</p>
+                </div>
+                <div class="info-box">
+                    <h4>Centre vs Average Lux</h4>
+                    <p>A spotlight is brightest at the centre of its beam. <strong>Centre lux</strong> is the peak — useful for displays. <strong>Average lux</strong> across the beam is more representative of the general light level.</p>
+                </div>
+                <div class="info-box">
+                    <h4>Maintenance Factor</h4>
+                    <p>Lighting depreciates over time as lamps dim and dust accumulates. A maintenance factor of <strong>0.8</strong> means designing for 25% more than the minimum needed — so you still meet the target at end-of-life.</p>
+                </div>
+            </div>
+
+            <div style="display:flex;justify-content:center;margin-top:4px;">
+                <div class="ad-banner ad-rectangle">[ Google Ad — 300×250 ]</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom explainer -->
+    <div class="card">
+        <h2>📖 Understanding Lux Calculations</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;">
+            <div class="info-box">
+                <h4>The Inverse Square Law</h4>
+                <p>Double the distance from a spotlight to a surface and you get roughly <strong>one quarter</strong> of the lux. This is why mounting height matters so much — a 2.7m vs 3m ceiling can mean a noticeable difference in light levels at desk height.</p>
+            </div>
+            <div class="info-box">
+                <h4>The Lumen Method</h4>
+                <p>The industry-standard formula for calculating average room lux: <strong>Em = (N × Φ × UF × MF) / A</strong>. Where N = number of fixtures, Φ = lumens per fixture, UF = utilisation factor, MF = maintenance factor, A = floor area.</p>
+            </div>
+            <div class="info-box">
+                <h4>Centre vs Average Lux (Spotlights)</h4>
+                <p>Peak centre lux = <strong>Lumens / (2π(1−cos(θ/2)) × d²)</strong>. Average lux across the beam = <strong>Lumens / (π × r²)</strong> where r = d × tan(θ/2). Centre lux is typically 1.5–2× higher than the average.</p>
+            </div>
+            <div class="info-box">
+                <h4>When to Get a Lux Meter</h4>
+                <p>Calculations are an estimate. On-site measurement with a calibrated lux meter is required for compliance reporting (AS/NZS 1680), NCC energy assessments, and lighting commissioning. Good meters start from ~$30.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    // ─── Mode switching ───────────────────────────────────────
+    function switchMode(mode) {
+        document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.mode-panel').forEach(p => p.classList.remove('active'));
+        document.getElementById('mode-' + mode).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    // Custom beam angle
+    document.getElementById('s-beam').addEventListener('change', function() {
+        document.getElementById('s-beam-custom-group').style.display = this.value === 'custom' ? 'block' : 'none';
+    });
+
+    // Reverse calc preset lux
+    function updateLuxTarget() {
+        const v = document.getElementById('rv-space').value;
+        if (v !== 'custom') document.getElementById('rv-lux').value = v;
+    }
+
+    // ─── Lux gauge HTML ──────────────────────────────────────
+    function luxGauge(lux, containerId) {
+        const MAX = 1500;
+        const pct = Math.min((lux / MAX) * 100, 100);
+
+        const zones = [
+            { max: 80,   label: 'Very Low',  color: '#3b82f6', bg: '#dbeafe', text: '#1e40af' },
+            { max: 200,  label: 'Low',       color: '#22c55e', bg: '#dcfce7', text: '#166534' },
+            { max: 400,  label: 'Moderate',  color: '#f59e0b', bg: '#fef3c7', text: '#92400e' },
+            { max: 750,  label: 'Good',      color: '#f97316', bg: '#ffedd5', text: '#9a3412' },
+            { max: 1200, label: 'High',      color: '#ef4444', bg: '#fee2e2', text: '#991b1b' },
+            { max: 9999, label: 'Very High', color: '#7c3aed', bg: '#ede9fe', text: '#5b21b6' },
+        ];
+        const zone = zones.find(z => lux <= z.max) || zones[zones.length - 1];
+
+        document.getElementById(containerId).innerHTML = `
+            <div class="lux-gauge">
+                <h4>📊 Where does ${lux.toLocaleString()} lux sit?</h4>
+                <div class="gauge-track">
+                    <div class="gauge-marker" style="left:${pct}%"></div>
+                </div>
+                <div class="gauge-labels">
+                    <span>Corridor<br>50</span>
+                    <span>Ambient<br>150</span>
+                    <span>Office<br>400</span>
+                    <span>Retail<br>750</span>
+                    <span>Surgical<br>1500+</span>
+                </div>
+                <div class="lux-verdict" style="background:${zone.bg};color:${zone.text};border:1px solid ${zone.color};">
+                    <strong>${zone.label} (${lux.toLocaleString()} lux)</strong> — ${luxVerdict(lux)}
+                </div>
+            </div>`;
+    }
+
+    function luxVerdict(lux) {
+        if (lux < 50)  return 'Below recommended for any occupied space. Suitable for emergency/night lighting only.';
+        if (lux < 100) return 'Suitable for corridors, passageways and low-activity areas.';
+        if (lux < 200) return 'Good for residential ambient lighting — bedrooms, lounges, hallways.';
+        if (lux < 320) return 'Suitable for dining, hotel rooms and general residential tasks.';
+        if (lux < 500) return 'Meets general office and classroom requirements (AS/NZS 1680).';
+        if (lux < 750) return 'Good for retail, commercial and open plan office environments.';
+        if (lux < 1000) return 'Excellent for task lighting — kitchens, workbenches, display areas.';
+        if (lux < 1500) return 'High output — drawing offices, detailed inspection, clinical areas.';
+        return 'Very high output — surgical, precision work or specialist applications.';
+    }
+
+    // ─── Beam SVG diagram ────────────────────────────────────
+    function beamSVG(beamDeg, distM, diamM) {
+        const halfAngle = (beamDeg / 2) * Math.PI / 180;
+        const svgH = 140, svgW = 280;
+        const srcX = svgW / 2, srcY = 10;
+        const spread = Math.min((diamM / 2) * 40, svgW * 0.45);
+        const btmY = svgH - 20;
+
+        return `
+        <div class="beam-diagram">
+            <h4>📐 Beam at ${distM}m distance</h4>
+            <svg viewBox="0 0 ${svgW} ${svgH}" style="width:100%;max-width:320px;">
+                <defs>
+                    <linearGradient id="beamGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.9"/>
+                        <stop offset="100%" stop-color="#fef3c7" stop-opacity="0.3"/>
+                    </linearGradient>
+                </defs>
+                <polygon points="${srcX},${srcY} ${srcX - spread},${btmY} ${srcX + spread},${btmY}" fill="url(#beamGrad)" stroke="#f59e0b" stroke-width="1.5"/>
+                <circle cx="${srcX}" cy="${srcY}" r="5" fill="#1a2a4a"/>
+                <line x1="${srcX - spread}" y1="${btmY}" x2="${srcX + spread}" y2="${btmY}" stroke="#1a2a4a" stroke-width="2" stroke-dasharray="4,3"/>
+                <text x="${srcX}" y="${btmY + 16}" text-anchor="middle" font-size="11" fill="#4a5568">Ø ${diamM.toFixed(2)}m beam</text>
+                <text x="${srcX + spread + 8}" y="${(srcY + btmY) / 2}" font-size="10" fill="#718096">${distM}m</text>
+                <text x="${srcX}" y="${srcY - 8}" text-anchor="middle" font-size="10" fill="#4a5568">${beamDeg}°</text>
+            </svg>
+        </div>`;
+    }
+
+    // ─── Alert helper ────────────────────────────────────────
+    function alertHTML(type, icon, msg) {
+        return `<div class="alert alert-${type}"><span class="alert-icon">${icon}</span><div>${msg}</div></div>`;
+    }
+
+    // ─── MODE 1: Spotlight / Downlight ──────────────────────
+    function calcSpot() {
+        const lumens = parseFloat(document.getElementById('s-lumens').value);
+        const beamSel = document.getElementById('s-beam').value;
+        const beam = beamSel === 'custom'
+            ? parseFloat(document.getElementById('s-beam-custom').value)
+            : parseFloat(beamSel);
+        const dist = parseFloat(document.getElementById('s-dist').value);
+        const qty  = parseInt(document.getElementById('s-qty').value) || 1;
+
+        if (!lumens || !beam || !dist) { alert('Please fill in all fields.'); return; }
+
+        const beamRad = beam * Math.PI / 180;
+        const halfRad = beamRad / 2;
+
+        // Center/peak lux: E = (N × Φ) / (2π(1 − cos(θ/2)) × d²)
+        const solidAngle = 2 * Math.PI * (1 - Math.cos(halfRad));
+        const candela = (lumens * qty) / solidAngle;
+        const centerLux = Math.round(candela / (dist * dist));
+
+        // Beam radius and area at distance
+        const radius = dist * Math.tan(halfRad);
+        const area = Math.PI * radius * radius;
+        const avgLux = Math.round((lumens * qty) / area);
+        const dia = radius * 2;
+
+        document.getElementById('s-res-center').textContent = centerLux.toLocaleString() + ' lux';
+        document.getElementById('s-res-center-sub').textContent = `${qty > 1 ? qty + ' fixtures combined — ' : ''}at ${dist}m distance`;
+        document.getElementById('s-res-avg').textContent = avgLux.toLocaleString() + ' lux';
+        document.getElementById('s-res-dia').textContent = dia.toFixed(2) + ' m (' + (dia * 1000).toFixed(0) + 'mm)';
+        document.getElementById('s-res-area').textContent = area.toFixed(2) + ' m²';
+        document.getElementById('s-res-lm').textContent = (lumens * qty).toLocaleString() + ' lm';
+
+        luxGauge(centerLux, 's-gauge-container');
+        document.getElementById('s-beam-svg').innerHTML = beamSVG(beam, dist, dia);
+
+        let alerts = '';
+        if (beam <= 15 && dist > 3) alerts += alertHTML('warning', '⚠️', `<strong>Narrow beam at long distance:</strong> A ${beam}° spot at ${dist}m gives a beam only ${(dia * 1000).toFixed(0)}mm wide. Very high centre lux but a tiny pool of light — useful for accent/display work but not for general illumination.`);
+        if (beam >= 90 && dist < 1.5) alerts += alertHTML('info', 'ℹ️', `<strong>Wide beam, close distance:</strong> At only ${dist}m with a ${beam}° beam you'll have a very large, low-lux spread. Consider whether a narrower angle or higher lumen output is needed.`);
+        if (centerLux < 100) alerts += alertHTML('warning', '⚠️', `<strong>Low result (${centerLux} lux):</strong> This is below the recommended minimum for most occupied spaces. Consider increasing lumens, reducing mounting height or using a narrower beam angle.`);
+        if (qty > 1) alerts += alertHTML('info', 'ℹ️', `<strong>Multiple fixtures:</strong> This assumes all ${qty} fixtures are aimed at the same point. For spread across a room, use the <em>Room / Fixture Grid</em> mode instead.`);
+        document.getElementById('s-alerts').innerHTML = alerts;
+        glareGuide('s-glare-container', beam, dist, centerLux, 'spot');
+
+        document.getElementById('spot-results').style.display = 'block';
+        document.getElementById('lux-meter-card').style.display = 'block';
+    }
+
+    // ─── Glare Risk Guide ────────────────────────────────────
+    function glareGuide(containerId, beamDeg, distM, centerLux, context) {
+        // Score: 0=Low, 1=Moderate, 2=High, 3=Very High
+        let score = 0;
+
+        if (context === 'spot') {
+            // Beam angle contribution
+            if (beamDeg <= 15)      score += 3;
+            else if (beamDeg <= 36) score += 2;
+            else if (beamDeg <= 60) score += 1;
+            else                    score += 0;
+
+            // Mounting height / distance contribution
+            if (distM < 1.8)       score += 2;
+            else if (distM < 2.7)  score += 1;
+            else if (distM > 4.0)  score -= 1;
+
+            // Lux level contribution
+            if (centerLux > 3000)  score += 1;
+            else if (centerLux < 300) score -= 1;
+        } else {
+            // Room context — moderate baseline, mainly UGR guidance
+            score = 1;
+            if (centerLux > 600)   score = 2;
+            if (centerLux < 200)   score = 0;
+        }
+
+        score = Math.max(0, Math.min(3, score));
+
+        const levels = [
+            {
+                label: 'Low Glare Risk',
+                color: '#166534', bg: '#dcfce7', headerBg: '#22c55e',
+                tips: context === 'spot'
+                    ? 'This combination of beam angle and mounting height presents low glare risk for most applications. Standard installation is appropriate — no specific anti-glare measures are required for typical viewing conditions.'
+                    : 'Lux levels are within a comfortable range for this type of space. Standard luminaire selection with a UGR ≤22 rating should be adequate.',
+                measures: []
+            },
+            {
+                label: 'Moderate Glare Risk',
+                color: '#92400e', bg: '#fef3c7', headerBg: '#f59e0b',
+                tips: context === 'spot'
+                    ? 'Moderate glare potential — acceptable in many settings but worth managing, particularly if the fixture falls within seated sightlines.'
+                    : 'Moderate glare risk — consider fixture selection carefully, especially in office and task environments.',
+                measures: [
+                    'Specify fixtures with an anti-glare trim ring or black baffle interior',
+                    'Avoid positioning in direct horizontal sightlines from seated positions',
+                    'Consider a frosted or opal diffuser lens instead of clear',
+                    'Aim for UGR ≤ 19 rated luminaires in office / task spaces'
+                ]
+            },
+            {
+                label: 'High Glare Risk',
+                color: '#9a3412', bg: '#ffedd5', headerBg: '#f97316',
+                tips: context === 'spot'
+                    ? 'High glare risk — this beam angle and mounting height combination is likely to cause discomfort glare if the fixture falls within the observer\'s field of view. Active management is recommended.'
+                    : 'High glare risk at this output level. Fixture type and shielding are important.',
+                measures: [
+                    'Use a deep-set recessed luminaire with a high shielding angle (≥30°)',
+                    'Fit a honeycomb louvre or micro-louvre baffle accessory',
+                    'Use a frosted/opal diffuser lens — avoid clear or open aperture',
+                    'Avoid surface-mounted or pendant fixtures without shielding in this application',
+                    'Specify UGR ≤ 19 luminaires — check manufacturer\'s UGR tables',
+                    'Consider indirect or semi-indirect lighting to bounce light off the ceiling'
+                ]
+            },
+            {
+                label: 'Very High Glare Risk',
+                color: '#5b21b6', bg: '#ede9fe', headerBg: '#7c3aed',
+                tips: context === 'spot'
+                    ? 'Very high glare risk — direct view of this light source at this distance and beam angle will likely cause significant visual discomfort. Strongly reconsider the fixture type or placement.'
+                    : 'Very high glare risk. Reconsider the approach.',
+                measures: [
+                    'Reconsider fixture type — a narrow spot at this mounting height is not suitable for occupied spaces',
+                    'Switch to a wider beam angle (60°+) with a diffused lens to spread the load',
+                    'Use indirect uplight / cove lighting to remove the direct source from sightlines entirely',
+                    'If the narrow beam is needed (display/accent), shield the source fully from normal viewing angles',
+                    'Specify UGR ≤ 16 luminaires only — verify with manufacturer photometric data'
+                ]
+            }
+        ];
+
+        const lvl = levels[score];
+        const tipsHTML = lvl.measures.length
+            ? `<ul style="padding-left:16px;margin-top:8px;">${lvl.measures.map(m => `<li style="font-size:0.83rem;color:#4a5568;margin-bottom:5px;line-height:1.5;">${m}</li>`).join('')}</ul>`
+            : '';
+
+        document.getElementById(containerId).innerHTML = `
+        <div class="glare-card">
+            <div class="glare-header" style="background:${lvl.headerBg};">
+                😎 Glare Risk Guide — <strong>${lvl.label}</strong>
+            </div>
+            <div class="glare-body">
+                <p>${lvl.tips}</p>
+                ${tipsHTML}
+                <p style="margin-top:10px;font-size:0.78rem;color:#a0aec0;font-style:italic;">
+                    ℹ️ This is a practical guide based on beam angle, mounting height and lux level — not a formal UGR calculation. True UGR requires photometric data files (IES/LDT) from the fixture manufacturer. See the UGR table in the sidebar for space-by-space limits.
+                </p>
+            </div>
+        </div>`;
+    }
+
+    // ─── MODE 2: Room / Grid ────────────────────────────────
+    function calcRoom() {
+        const length = parseFloat(document.getElementById('r-length').value);
+        const width  = parseFloat(document.getElementById('r-width').value);
+        const qty    = parseInt(document.getElementById('r-qty').value);
+        const lumens = parseFloat(document.getElementById('r-lumens').value);
+        const mf     = parseFloat(document.getElementById('r-mf').value);
+        const uf     = parseFloat(document.getElementById('r-uf').value);
+
+        if (!length || !width || !qty || !lumens) { alert('Please fill in all fields.'); return; }
+
+        const area = length * width;
+        const totalLm = lumens * qty;
+        // Em = (N × Φ × UF × MF) / A
+        const em = Math.round((totalLm * uf * mf) / area);
+        const rawLpm2 = Math.round(totalLm / area);
+        // Approximate spacing assuming uniform grid
+        const spacing = Math.sqrt(area / qty).toFixed(2);
+
+        document.getElementById('r-res-lux').textContent = em.toLocaleString() + ' lux';
+        document.getElementById('r-res-sub').textContent = `Average maintained lux across ${area.toFixed(1)}m² floor area`;
+        document.getElementById('r-res-total-lm').textContent = totalLm.toLocaleString() + ' lm';
+        document.getElementById('r-res-area').textContent = area.toFixed(1) + ' m²';
+        document.getElementById('r-res-lpm2').textContent = rawLpm2.toLocaleString() + ' lm/m²';
+        document.getElementById('r-res-spacing').textContent = '~' + spacing + 'm centres';
+
+        luxGauge(em, 'r-gauge-container');
+
+        let alerts = '';
+        if (em < 100) alerts += alertHTML('warning', '⚠️', `<strong>Low result (${em} lux):</strong> This is below the general residential minimum. Add more fixtures, increase lumen output per fixture, or reduce room area.`);
+        if (rawLpm2 > 600) alerts += alertHTML('info', 'ℹ️', `<strong>High fixture density:</strong> ${rawLpm2} raw lm/m² is towards the higher end. Consider whether this level of brightness is appropriate — or whether some fixtures could be zoned/dimmed.`);
+        if (parseFloat(spacing) < 0.9 * 1) alerts += alertHTML('info', 'ℹ️', `<strong>Close fixture spacing (~${spacing}m):</strong> Ensure this is achievable in the ceiling and won't cause glare issues.`);
+        alerts += alertHTML('info', 'ℹ️', `<strong>Formula used:</strong> Em = (N × Φ × UF × MF) / A — the Lumen Method per AS/NZS 1680. This gives the average maintained lux at the work plane, accounting for room surface reflectances and long-term depreciation.`);
+        document.getElementById('r-alerts').innerHTML = alerts;
+        glareGuide('r-glare-container', 90, 2.7, em, 'room');
+
+        document.getElementById('room-results').style.display = 'block';
+        document.getElementById('lux-meter-card').style.display = 'block';
+    }
+
+    // ─── MODE 3: Panel / Linear ─────────────────────────────
+    function calcPanel() {
+        const lumens = parseFloat(document.getElementById('p-lumens').value);
+        const qty    = parseInt(document.getElementById('p-qty').value) || 1;
+        const length = parseFloat(document.getElementById('p-rlength').value);
+        const width  = parseFloat(document.getElementById('p-rwidth').value);
+        const mf     = parseFloat(document.getElementById('p-mf').value);
+        const uf     = parseFloat(document.getElementById('p-uf').value);
+
+        if (!lumens || !length || !width) { alert('Please fill in all fields.'); return; }
+
+        const area = length * width;
+        const totalLm = lumens * qty;
+        const em = Math.round((totalLm * uf * mf) / area);
+        const rawLpm2 = Math.round(totalLm / area);
+        // Rough W/m² estimate assuming ~120 lm/W efficacy
+        const wm2 = (totalLm / 120 / area).toFixed(1);
+
+        document.getElementById('p-res-lux').textContent = em.toLocaleString() + ' lux';
+        document.getElementById('p-res-sub').textContent = `Average maintained lux across ${area.toFixed(1)}m²`;
+        document.getElementById('p-res-total-lm').textContent = totalLm.toLocaleString() + ' lm';
+        document.getElementById('p-res-area').textContent = area.toFixed(1) + ' m²';
+        document.getElementById('p-res-raw').textContent = rawLpm2.toLocaleString() + ' lm/m²';
+        document.getElementById('p-res-wm2').textContent = '~' + wm2 + ' W/m²';
+
+        luxGauge(em, 'p-gauge-container');
+
+        let alerts = '';
+        if (em < 150) alerts += alertHTML('warning', '⚠️', `<strong>Low result (${em} lux):</strong> Consider adding more fixtures or increasing lumen output. ${area.toFixed(0)}m² area needs approximately ${Math.ceil(300 * area / (uf * mf * lumens))} × ${lumens.toLocaleString()}lm fixtures to reach 300 lux.`);
+        if (em > 800) alerts += alertHTML('info', 'ℹ️', `<strong>High result (${em} lux):</strong> This is very bright — consider whether dimming will be needed, or whether fewer fixtures would suffice.`);
+        alerts += alertHTML('info', 'ℹ️', `<strong>Note:</strong> Panel/linear calculations assume the Lumen Method. The W/m² figure uses an estimated efficacy of 120 lm/W — check actual fixture watts from the datasheet for an accurate figure.`);
+        document.getElementById('p-alerts').innerHTML = alerts;
+
+        document.getElementById('panel-results').style.display = 'block';
+        document.getElementById('lux-meter-card').style.display = 'block';
+    }
+
+    // ─── MODE 4: Reverse calc ────────────────────────────────
+    function calcReverse() {
+        const targetLux = parseFloat(document.getElementById('rv-lux').value);
+        const dist   = parseFloat(document.getElementById('rv-dist').value);
+        const beam   = parseFloat(document.getElementById('rv-beam').value);
+        const area   = parseFloat(document.getElementById('rv-area').value);
+        const uf     = parseFloat(document.getElementById('rv-uf').value);
+        const mf     = 0.80;
+
+        if (!targetLux) { alert('Please enter a target lux level.'); return; }
+
+        let spotResult = '—', roomResult = '—', typRange = '—';
+
+        // Spotlight: lumens needed = targetLux × 2π(1−cos(θ/2)) × d²
+        if (dist && beam) {
+            const halfRad = (beam / 2) * Math.PI / 180;
+            const solidAngle = 2 * Math.PI * (1 - Math.cos(halfRad));
+            const lmNeeded = Math.ceil(targetLux * solidAngle * dist * dist);
+            spotResult = lmNeeded.toLocaleString() + ' lm';
+        }
+
+        // Room average: lumens per fixture (assume 1 fixture, scale up)
+        // Em = (N × Φ × UF × MF) / A  →  Φ = Em × A / (N × UF × MF)
+        // For single fixture over given area:
+        if (area) {
+            const lmNeeded = Math.ceil((targetLux * area) / (uf * mf));
+            roomResult = lmNeeded.toLocaleString() + ' lm total';
+        }
+
+        // Typical fixture wattage range (at ~100lm/W)
+        let primaryLm;
+        if (dist && beam) {
+            const halfRad = (beam / 2) * Math.PI / 180;
+            const solidAngle = 2 * Math.PI * (1 - Math.cos(halfRad));
+            primaryLm = Math.ceil(targetLux * solidAngle * dist * dist);
+        } else if (area) {
+            primaryLm = Math.ceil((targetLux * area) / (uf * mf));
+        }
+
+        if (primaryLm) {
+            const wLow = Math.round(primaryLm / 120);
+            const wHigh = Math.round(primaryLm / 90);
+            typRange = `${wLow}W – ${wHigh}W fixture`;
+        }
+
+        document.getElementById('rv-res-spot').textContent = spotResult;
+        document.getElementById('rv-res-room').textContent = roomResult;
+        document.getElementById('rv-res-target').textContent = targetLux.toLocaleString() + ' lux';
+        document.getElementById('rv-res-range').textContent = typRange;
+
+        const displayLm = primaryLm || '—';
+        document.getElementById('rv-res-lm').textContent = primaryLm ? primaryLm.toLocaleString() + ' lm' : '—';
+        document.getElementById('rv-res-sub').textContent = primaryLm ? `To achieve ${targetLux} lux${dist ? ' at ' + dist + 'm' : ''}` : 'Enter distance and/or area above';
+
+        let alerts = '';
+        if (!dist && !area) alerts += alertHTML('warning', '⚠️', 'Enter a <strong>distance</strong> (for spotlights) and/or an <strong>area</strong> (for room average) to get full results.');
+        if (primaryLm && primaryLm < 300) alerts += alertHTML('success', '✅', `A standard LED downlight (typically 700–900lm) should comfortably meet this requirement.`);
+        if (primaryLm && primaryLm > 5000) alerts += alertHTML('info', 'ℹ️', `This is a high lumen requirement — consider multiple fixtures distributed across the space rather than a single high-output source.`);
+        alerts += alertHTML('info', 'ℹ️', `<strong>Efficacy range used:</strong> 90–120 lm/W. Check your shortlisted fixture's actual lm/W rating for a precise wattage estimate. Most quality LED downlights and panels fall between 80 and 130 lm/W.`);
+        document.getElementById('rv-alerts').innerHTML = alerts;
+
+        // Buy links for fixtures
+        const q = encodeURIComponent(`LED downlight ${targetLux > 500 ? 'high output' : ''} ${Math.round((primaryLm || 800) / 100) * 100} lumens`);
+        document.getElementById('rv-buy').innerHTML = `
+            <hr class="divider" style="margin-top:4px;">
+            <h3 style="font-size:1rem;font-weight:600;color:#1a2a4a;margin-bottom:12px;">🛒 Find a Matching Fixture</h3>
+            <div class="buy-links">
+                <a href="https://www.amazon.com.au/s?k=${q}&tag=lighttools-22" target="_blank" rel="noopener sponsored" class="buy-link buy-link-amazon">
+                    <span class="buy-link-icon">🛒</span>
+                    <span class="buy-link-text">
+                        <div class="blm">Search Amazon Australia</div>
+                        <div class="bls">${primaryLm ? primaryLm.toLocaleString() + 'lm LED downlight' : 'LED downlights'}</div>
+                    </span>
+                </a>
+                <a href="https://www.google.com/search?q=${q}+buy&tbm=shop" target="_blank" rel="noopener" class="buy-link buy-link-google">
+                    <span class="buy-link-icon">🔍</span>
+                    <span class="buy-link-text">
+                        <div class="blm">Google Shopping</div>
+                        <div class="bls">Compare all retailers</div>
+                    </span>
+                </a>
+            </div>
+            <p class="affiliate-notice">★ Amazon links support this free tool at no extra cost to you</p>`;
+
+        document.getElementById('reverse-results').style.display = 'block';
+        document.getElementById('lux-meter-card').style.display = 'block';
+    }
+</script>
+
+<!-- FAQ Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is lux in lighting?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Lux (lx) is the SI unit of illuminance — the amount of light falling on a surface. One lux equals one lumen per square metre. It measures how bright a surface appears to the human eye. Unlike lumens (which measure total light output from a source), lux measures light at the point of use — on the desk, floor, or work surface."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many lux do I need for an office?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Australian standard AS/NZS 1680.1 recommends 320 lux for general office work and 400–500 lux for tasks requiring fine detail. Open plan offices typically target 400 lux at desk height. Meeting rooms 300 lux. Corridors and circulation areas 160 lux."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between lumens and lux?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Lumens measure the total amount of visible light emitted by a source (the light fitting or lamp). Lux measures the illuminance at a surface — how much of that light actually reaches the floor, desk or work plane. The relationship is: Lux = Lumens / Area (m²). A fitting with 1000 lumens in a 10m² room produces approximately 100 lux (before accounting for losses)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a utilisation factor in lighting calculations?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The utilisation factor (UF) accounts for the fact that not all light from a fitting reaches the work plane. Light is lost to walls, ceilings, obstructions and the geometry of the room. Typical UF values range from 0.4 to 0.7. A higher UF means more efficient use of light. Room shape, ceiling height, reflectances and fitting type all affect the UF."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What lux level do I need for a warehouse?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "AS/NZS 1680 recommends 160 lux for bulk storage areas, 240 lux for general warehouse work, and 320–400 lux for picking and packing areas where labels and barcodes need to be read accurately. High-bay areas with racking above 6 metres typically need high-output LED high bay fittings of 20,000–40,000 lumens to achieve adequate lux at floor level."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is glare in lighting and how do I avoid it?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Glare is discomfort or visual impairment caused by excessive brightness in the field of view. In offices and commercial spaces, glare from downlights and screens is a common complaint. It is measured by the Unified Glare Rating (UGR). AS/NZS 1680 specifies maximum UGR values for different tasks — offices require UGR ≤19. To reduce glare: use fittings with deep anti-glare baffles, choose lower-wattage fittings at closer spacing rather than fewer high-wattage fittings, and avoid bare LED chips visible to occupants."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I calculate how many downlights I need?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the formula: Number of fittings = (Required lux × Room area) / (Lumens per fitting × Utilisation factor × Maintenance factor). For example, an office of 40m² requiring 400 lux, with 1200 lumen downlights, UF 0.55 and MF 0.8: Fittings = (400 × 40) / (1200 × 0.55 × 0.8) = 16,000 / 528 = approximately 30 downlights. Use our reverse calculator above to get this result instantly."
+      }
+    }
+  ]
+}
+</script>
+
+<style>
+    .lux-content { max-width: 860px; margin: 0 auto; padding: 0 16px 48px; }
+    .lux-content h2 { font-size: 1.3rem; font-weight: 700; color: #92400e; margin: 32px 0 12px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+    .lux-content h3 { font-size: 1rem; font-weight: 700; color: #1a2a4a; margin: 20px 0 8px; }
+    .lux-content p { font-size: 0.9rem; color: #4a5568; margin-bottom: 12px; line-height: 1.7; }
+    .lux-content ul { padding-left: 20px; margin-bottom: 12px; }
+    .lux-content li { font-size: 0.9rem; color: #4a5568; margin-bottom: 6px; line-height: 1.6; }
+    .lux-content table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 14px 0; }
+    .lux-content th { background: #92400e; color: white; padding: 8px 12px; text-align: left; }
+    .lux-content td { padding: 7px 12px; border-bottom: 1px solid #e2e8f0; color: #4a5568; }
+    .lux-content tr:nth-child(even) td { background: #fffbeb; }
+    .lux-formula { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 12px 0; font-family: 'Courier New', monospace; font-size: 0.9rem; color: #92400e; }
+
+    .lux-faq { max-width: 860px; margin: 0 auto; padding: 0 16px 48px; }
+    .lux-faq h2 { font-size: 1.3rem; font-weight: 700; color: #92400e; margin: 0 0 16px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+    .lux-faq-item { background: white; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 10px; overflow: hidden; }
+    .lux-faq-q { padding: 15px 20px; font-size: 0.92rem; font-weight: 600; color: #1a202c; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+    .lux-faq-q:hover { background: #fffbeb; }
+    .lux-faq-arrow { color: #f59e0b; font-size: 1rem; transition: transform 0.2s; flex-shrink: 0; }
+    .lux-faq-a { display: none; padding: 14px 20px; font-size: 0.88rem; color: #4a5568; line-height: 1.65; border-top: 1px solid #e2e8f0; }
+    .lux-faq-item.open .lux-faq-arrow { transform: rotate(180deg); }
+    .lux-faq-item.open .lux-faq-a { display: block; }
+</style>
+
+<!-- Article Section -->
+<div class="lux-content">
+    <h2>What is Lux? A Guide to Lighting Level Calculations</h2>
+
+    <p>Lux is the measure of illuminance — how much light falls on a surface. It is the most important metric in practical lighting design because it tells you whether a space will be bright enough for the tasks performed in it. Getting the lux level right means people can see clearly and comfortably without eyestrain or glare.</p>
+
+    <h3>Lumens vs Lux — What's the Difference?</h3>
+    <p>These two units are often confused but measure very different things. <strong>Lumens</strong> measure the total light output of a fitting — it's a property of the light source itself. <strong>Lux</strong> measures how much of that light reaches a surface — it depends on lumens, room size, ceiling height, and how the fitting distributes light.</p>
+    <div class="lux-formula">Lux = Lumens / Area (m²) &nbsp;[simplified]<br>Lux = (Lumens × UF × MF) / Area &nbsp;[with utilisation and maintenance factors]</div>
+    <p>A 1,000-lumen fitting in a 10m² room and the same fitting in a 100m² room produce very different lux levels — 100 lux and 10 lux respectively. This is why room size is just as important as fitting output.</p>
+
+    <h3>Australian Lux Standards — AS/NZS 1680</h3>
+    <p>In Australia, recommended lux levels for different tasks and spaces are specified in AS/NZS 1680. Here are the key values:</p>
+    <table>
+        <thead><tr><th>Space / Task</th><th>Recommended Lux</th><th>AS/NZS 1680 Reference</th></tr></thead>
+        <tbody>
+            <tr><td>Storage, plant rooms</td><td>80–160 lx</td><td>AS/NZS 1680.2.4</td></tr>
+            <tr><td>Corridors, stairways</td><td>160 lx</td><td>AS/NZS 1680.1</td></tr>
+            <tr><td>Retail, general areas</td><td>200–300 lx</td><td>AS/NZS 1680.2.5</td></tr>
+            <tr><td>Office — general</td><td>320 lx</td><td>AS/NZS 1680.2.2</td></tr>
+            <tr><td>Office — desk work</td><td>400–500 lx</td><td>AS/NZS 1680.2.2</td></tr>
+            <tr><td>Classroom</td><td>320–400 lx</td><td>AS/NZS 1680.2.3</td></tr>
+            <tr><td>Workshop / manufacturing</td><td>320–500 lx</td><td>AS/NZS 1680.2.4</td></tr>
+            <tr><td>Healthcare — ward</td><td>200 lx general, 1000 lx examination</td><td>AS/NZS 1680.2.5</td></tr>
+            <tr><td>Retail — feature displays</td><td>500–1000 lx</td><td>AS/NZS 1680.2.5</td></tr>
+            <tr><td>Sports courts (indoor)</td><td>300–750 lx</td><td>AS/NZS 1680.2.6</td></tr>
+        </tbody>
+    </table>
+
+    <h3>What is Utilisation Factor?</h3>
+    <p>The utilisation factor (UF) accounts for the fact that not all light produced by a fitting reaches the working plane. Light is absorbed by walls, ceilings and obstructions, and the geometry of the room affects how efficiently light is distributed. UF values range from about 0.3 (poor — tall narrow room, dark surfaces) to 0.75 (excellent — wide room, white surfaces).</p>
+    <ul>
+        <li><strong>0.35–0.45</strong> — tall narrow space, dark finishes, pendant fittings</li>
+        <li><strong>0.45–0.55</strong> — typical residential room, medium ceiling height</li>
+        <li><strong>0.55–0.65</strong> — commercial office, recessed downlights, light finishes</li>
+        <li><strong>0.65–0.75</strong> — wide open plan, white ceilings and walls, troffer panels</li>
+    </ul>
+
+    <h3>What is Maintenance Factor?</h3>
+    <p>The maintenance factor (MF) accounts for the fact that light output decreases over time due to lamp depreciation and dirt accumulation on fittings and room surfaces. Typical values are:</p>
+    <ul>
+        <li><strong>0.8</strong> — clean indoor environment, good maintenance regime</li>
+        <li><strong>0.7</strong> — normal office or retail environment</li>
+        <li><strong>0.6</strong> — industrial or outdoor environment, infrequent cleaning</li>
+    </ul>
+    <p>LED fittings have better lumen maintenance than fluorescent, so a maintenance factor of 0.8 is commonly used for LED installations.</p>
+
+    <h3>Understanding Glare</h3>
+    <p>Glare is discomfort or visual impairment caused by excessive brightness contrast in the field of view. It is formally measured by the Unified Glare Rating (UGR). Lower UGR values mean less glare. AS/NZS 1680 specifies maximum UGR limits for different applications:</p>
+    <table>
+        <thead><tr><th>Application</th><th>Max UGR</th></tr></thead>
+        <tbody>
+            <tr><td>Drawing offices, fine inspection</td><td>16</td></tr>
+            <tr><td>General offices, computer work</td><td>19</td></tr>
+            <tr><td>Retail, reception</td><td>22</td></tr>
+            <tr><td>Warehouses, general industry</td><td>25</td></tr>
+            <tr><td>Rough work, heavy industry</td><td>28</td></tr>
+        </tbody>
+    </table>
+    <p>To control glare in practice: use fittings with deep recessed baffles or prismatic diffusers, avoid bare LED chips visible in the line of sight, and use more, lower-wattage fittings at closer spacing rather than fewer very bright fittings.</p>
+</div>
+
+<!-- FAQ Section -->
+<div class="lux-faq">
+    <h2>❓ Frequently Asked Questions</h2>
+
+    <div class="lux-faq-item">
+        <div class="lux-faq-q" onclick="this.parentElement.classList.toggle('open')">What is lux in lighting? <span class="lux-faq-arrow">▼</span></div>
+        <div class="lux-faq-a">Lux (lx) is the SI unit of illuminance — the amount of light falling on a surface. One lux equals one lumen per square metre. Unlike lumens which measure total light output from a source, lux measures light at the point of use — on the desk, floor, or work surface.</div>
+    </div>
+
+    <div class="lux-faq-item">
+        <div class="lux-faq-q" onclick="this.parentElement.classList.toggle('open')">How many lux do I need for an office? <span class="lux-faq-arrow">▼</span></div>
+        <div class="lux-faq-a">AS/NZS 1680 recommends 320 lux for general office work and 400–500 lux for tasks requiring fine detail. Open plan offices typically target 400 lux at desk height. Meeting rooms 300 lux. Corridors and circulation areas 160 lux.</div>
+    </div>
+
+    <div class="lux-faq-item">
+        <div class="lux-faq-q" onclick="this.parentElement.classList.toggle('open')">What is the difference between lumens and lux? <span class="lux-faq-arrow">▼</span></div>
+        <div class="lux-faq-a">Lumens measure the total visible light emitted by a source. Lux measures the illuminance at a surface — how much of that light actually reaches the floor or work plane. The relationship is: Lux = Lumens ÷ Area (m²). A fitting with 1000 lumens in a 10m² room produces approximately 100 lux (before losses).</div>
+    </div>
+
+    <div class="lux-faq-item">
+        <div class="lux-faq-q" onclick="this.parentElement.classList.toggle('open')">What is a utilisation factor in lighting calculations? <span class="lux-faq-arrow">▼</span></div>
+        <div class="lux-faq-a">The utilisation factor (UF) accounts for light lost to walls, ceilings and obstructions. Typical values range from 0.4 to 0.7. A higher UF means more efficient use of light. Room shape, ceiling height, surface reflectances and fitting type all affect the UF.</div>
+    </div>
+
+    <div class="lux-faq-item">
+        <div class="lux-faq-q" onclick="this.parentElement.classList.toggle('open')">How many lux do I need for a warehouse? <span class="lux-faq-arrow">▼</span></div>
+        <div class="lux-faq-a">AS/NZS 1680 recommends 160 lux for bulk storage, 240 lux for general warehouse work, and 320–400 lux for picking and packing areas. High-bay areas typically need LED high bay fittings of 20,000–40,000 lumens to achieve adequate lux at floor level.</div>
+    </div>
+
+    <div class="lux-faq-item">
+        <div class="lux-faq-q" onclick="this.parentElement.classList.toggle('open')">What is glare and how do I avoid it? <span class="lux-faq-arrow">▼</span></div>
+        <div class="lux-faq-a">Glare is discomfort caused by excessive brightness in the field of view, measured by Unified Glare Rating (UGR). Offices require UGR ≤19 per AS/NZS 1680. To reduce glare: use fittings with deep anti-glare baffles, choose lower-wattage fittings at closer spacing, and avoid bare LED chips visible to occupants.</div>
+    </div>
+
+    <div class="lux-faq-item">
+        <div class="lux-faq-q" onclick="this.parentElement.classList.toggle('open')">How do I calculate how many downlights I need? <span class="lux-faq-arrow">▼</span></div>
+        <div class="lux-faq-a">Use: Number of fittings = (Required lux × Room area) ÷ (Lumens per fitting × Utilisation factor × Maintenance factor). For example, 40m² office needing 400 lux with 1200-lumen downlights, UF 0.55, MF 0.8: Fittings = (400 × 40) ÷ (1200 × 0.55 × 0.8) ≈ 30 downlights. Use the reverse calculator above for instant results.</div>
+    </div>
+</div>
+
+<footer>
+    <p><strong>LightTools</strong> — lighttools.com.au | Free tools for electricians, designers &amp; DIYers</p>
+    <p style="margin-top:8px;">© 2026 LightTools. Amazon links are affiliate links. We may earn a small commission at no extra cost to you. | <a href="disclaimer.html">Disclaimer &amp; Terms</a></p>
+</footer>
+
+</body>
+</html>

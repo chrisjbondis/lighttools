@@ -1,0 +1,36 @@
+name: Deploy to lighttools.com.au
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to server via SCP
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+        run: |
+          echo "$DEPLOY_KEY" > /tmp/deploy_key
+          chmod 600 /tmp/deploy_key
+
+          scp -i /tmp/deploy_key \
+              -o StrictHostKeyChecking=no \
+              *.html sitemap.xml \
+              ubuntu@$SERVER_IP:/var/www/lighttools/
+
+          ssh -i /tmp/deploy_key \
+              -o StrictHostKeyChecking=no \
+              ubuntu@$SERVER_IP \
+              "sudo chown -R www-data:www-data /var/www/lighttools/ && \
+               sudo chmod -R 644 /var/www/lighttools/*.html && \
+               echo 'lighttools deploy complete'"
+
+          rm /tmp/deploy_key

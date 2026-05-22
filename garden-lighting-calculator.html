@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garden Lighting Calculator | LightTools</title>
+    <meta name="description" content="Free garden lighting calculator from LightTools. Calculate voltage drop for 12V and 24V outdoor LED lighting, find the right cable size, size your transformer or driver, and get wiring layout advice. lighttools.com.au">
+    <link rel="canonical" href="https://lighttools.com.au/garden-lighting-calculator.html">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: #f0f4f8; color: #1a202c; line-height: 1.6; }
+
+        header { background: linear-gradient(135deg, #14532d 0%, #166534 50%, #15803d 100%); color: white; padding: 28px 20px 22px; text-align: center; }
+        header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+        header p { font-size: 1rem; opacity: 0.85; }
+
+        nav { background: #0f3d20; padding: 10px 20px; display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
+        nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; padding: 4px 0; }
+        nav a:hover, nav a.active { color: #86efac; }
+
+        .ad-banner { background: #e8edf2; border: 2px dashed #b0bec5; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #78909c; font-size: 0.82rem; text-align: center; }
+        .ad-leaderboard { width: 100%; max-width: 728px; height: 90px; }
+        .ad-rectangle { width: 300px; height: 250px; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px 16px; }
+        .layout { display: grid; grid-template-columns: 1fr 320px; gap: 24px; }
+        @media (max-width: 800px) { .layout { grid-template-columns: 1fr; } .ad-rectangle { width: 100%; } header h1 { font-size: 1.5rem; } }
+
+        .card { background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); padding: 28px; margin-bottom: 20px; }
+        .card h2 { font-size: 1.2rem; font-weight: 600; color: #14532d; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #e2e8f0; }
+
+        /* Tabs */
+        .mode-tabs { display: flex; gap: 0; margin-bottom: 24px; border-radius: 10px; overflow: hidden; border: 2px solid #e2e8f0; }
+        .mode-tab { flex: 1; padding: 11px 8px; border: none; background: #fafbfc; font-family: inherit; font-size: 0.82rem; font-weight: 500; color: #718096; cursor: pointer; transition: all 0.2s; text-align: center; border-right: 1px solid #e2e8f0; line-height: 1.3; }
+        .mode-tab:last-child { border-right: none; }
+        .mode-tab.active { background: #14532d; color: white; }
+        .mode-tab:hover:not(.active) { background: #f0fdf4; color: #166534; }
+        .mode-tab .tab-icon { display: block; font-size: 1.2rem; margin-bottom: 3px; }
+        .mode-panel { display: none; }
+        .mode-panel.active { display: block; }
+
+        /* Form */
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 500; font-size: 0.9rem; color: #4a5568; margin-bottom: 6px; }
+        .label-hint { font-weight: 400; color: #a0aec0; font-size: 0.8rem; }
+        input[type="number"], select { width: 100%; padding: 12px 14px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; font-family: inherit; color: #1a202c; transition: border-color 0.2s; -webkit-appearance: none; appearance: none; background: #fafbfc; }
+        input[type="number"]:focus, select:focus { outline: none; border-color: #166534; background: white; }
+        .select-wrapper { position: relative; }
+        .select-wrapper::after { content: '▾'; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #718096; }
+        select { padding-right: 36px; cursor: pointer; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        @media (max-width: 520px) { .form-row { grid-template-columns: 1fr; } }
+
+        .toggle-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        .toggle-btn { flex: 1; min-width: 80px; padding: 11px 12px; border: 2px solid #e2e8f0; border-radius: 8px; background: #fafbfc; font-size: 0.92rem; font-family: inherit; font-weight: 500; color: #718096; cursor: pointer; transition: all 0.2s; text-align: center; }
+        .toggle-btn.active { border-color: #166534; background: #166534; color: white; }
+
+        .btn-calc { width: 100%; padding: 15px; background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: white; border: none; border-radius: 10px; font-size: 1.05rem; font-weight: 700; font-family: inherit; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
+        .btn-calc:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(22,163,74,0.38); }
+
+        /* Results */
+        .results-section { display: none; margin-top: 24px; }
+        .result-hero { border-radius: 10px; padding: 22px; color: white; margin-bottom: 16px; text-align: center; }
+        .result-hero .rl { font-size: 0.8rem; opacity: 0.78; text-transform: uppercase; letter-spacing: 0.5px; }
+        .result-hero .rv { font-size: 2.6rem; font-weight: 700; line-height: 1.1; }
+        .result-hero .rs { font-size: 0.9rem; opacity: 0.85; margin-top: 4px; }
+
+        .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        @media (max-width: 480px) { .result-grid { grid-template-columns: 1fr; } }
+        .result-item { background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; }
+        .result-item .r-label { font-size: 0.76rem; color: #718096; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 4px; }
+        .result-item .r-value { font-size: 1.05rem; font-weight: 600; color: #1a2a4a; }
+
+        /* Vdrop gauge */
+        .vdrop-gauge { background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px; margin-bottom: 16px; }
+        .vdrop-gauge h4 { font-size: 0.9rem; font-weight: 600; color: #1a2a4a; margin-bottom: 12px; }
+        .gauge-track { height: 22px; border-radius: 999px; position: relative; overflow: visible; margin-bottom: 8px; }
+        .gauge-fill { height: 100%; border-radius: 999px; transition: width 0.5s ease; }
+        .gauge-bg { background: linear-gradient(90deg, #22c55e 0%, #22c55e 33%, #f59e0b 33%, #f59e0b 55%, #ef4444 55%, #ef4444 100%); }
+        .gauge-marker { position: absolute; top: -6px; width: 4px; height: 34px; background: white; border-radius: 2px; box-shadow: 0 0 0 2px #1a2a4a; transform: translateX(-50%); transition: left 0.5s ease; }
+        .gauge-labels { display: flex; justify-content: space-between; font-size: 0.72rem; color: #718096; }
+        .vdrop-verdict { margin-top: 12px; border-radius: 8px; padding: 10px 14px; font-size: 0.88rem; font-weight: 500; }
+
+        /* Cable recommendation table */
+        .cable-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; margin-bottom: 14px; }
+        .cable-table th { background: #14532d; color: white; padding: 9px 12px; text-align: left; font-weight: 500; }
+        .cable-table th:first-child { border-radius: 8px 0 0 0; }
+        .cable-table th:last-child { border-radius: 0 8px 0 0; }
+        .cable-table td { padding: 8px 12px; border-bottom: 1px solid #e2e8f0; color: #4a5568; }
+        .cable-table tr:nth-child(even) td { background: #f7fafc; }
+        .cable-table .ok { color: #166534; font-weight: 600; }
+        .cable-table .warn { color: #92400e; font-weight: 600; }
+        .cable-table .fail { color: #991b1b; font-weight: 600; }
+        .cable-table .rec { background: #dcfce7 !important; }
+        .cable-table .rec td { border-left: 3px solid #22c55e; }
+
+        /* MeanWell tip */
+        .meanwell-tip { background: linear-gradient(135deg, #1e3a5f 0%, #1a2a4a 100%); border-radius: 10px; padding: 20px; color: white; margin-bottom: 16px; }
+        .meanwell-tip h4 { font-size: 1rem; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .meanwell-tip p, .meanwell-tip li { font-size: 0.85rem; opacity: 0.9; line-height: 1.6; }
+        .meanwell-tip ul { padding-left: 18px; margin-top: 8px; }
+        .meanwell-tip li { margin-bottom: 4px; }
+        .meanwell-tip .adj-badge { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 6px; padding: 2px 10px; font-size: 0.8rem; font-weight: 600; margin: 0 2px; }
+
+        /* Alert */
+        .alert { border-radius: 8px; padding: 12px 16px; margin-bottom: 12px; font-size: 0.88rem; display: flex; gap: 10px; align-items: flex-start; line-height: 1.5; }
+        .alert-warning { background: #fffbeb; border: 1px solid #f59e0b; color: #92400e; }
+        .alert-danger  { background: #fff5f5; border: 1px solid #fc8181; color: #9b2c2c; }
+        .alert-info    { background: #ebf8ff; border: 1px solid #63b3ed; color: #2c5282; }
+        .alert-success { background: #f0fff4; border: 1px solid #68d391; color: #276749; }
+        .alert-icon    { font-size: 1.1rem; flex-shrink: 0; padding-top: 1px; }
+
+        /* Buy links */
+        .buy-links { display: flex; flex-direction: column; gap: 10px; }
+        .buy-link { display: flex; align-items: center; gap: 12px; padding: 13px 16px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: transform 0.15s, box-shadow 0.15s; color: white; }
+        .buy-link:hover { transform: translateY(-2px); box-shadow: 0 5px 18px rgba(0,0,0,0.18); }
+        .buy-link-amazon { background: #ff9900; }
+        .buy-link-google { background: #4285f4; }
+        .buy-link-icon { font-size: 1.2rem; }
+        .buy-link-text .blm { font-size: 0.9rem; }
+        .buy-link-text .bls { font-size: 0.76rem; opacity: 0.88; font-weight: 400; }
+        .affiliate-notice { font-size: 0.74rem; color: #a0aec0; text-align: center; margin-top: 8px; font-style: italic; }
+
+        /* Sidebar */
+        .info-box { background: #f0fdf4; border-left: 4px solid #22c55e; border-radius: 0 8px 8px 0; padding: 14px 16px; margin-bottom: 14px; }
+        .info-box h4 { font-size: 0.88rem; font-weight: 600; color: #14532d; margin-bottom: 6px; }
+        .info-box p, .info-box li { font-size: 0.83rem; color: #166534; line-height: 1.55; }
+        .info-box ul { padding-left: 16px; }
+        .info-box li { margin-bottom: 3px; }
+        .info-box-warn { background: #fffbeb; border-left-color: #f59e0b; }
+        .info-box-warn h4 { color: #92400e; }
+        .info-box-warn p, .info-box-warn li { color: #78350f; }
+        .info-box-blue { background: #ebf8ff; border-left-color: #3182ce; }
+        .info-box-blue h4 { color: #2c5282; }
+        .info-box-blue p, .info-box-blue li { color: #2c5282; }
+
+        .ref-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+        .ref-table th { background: #14532d; color: white; padding: 9px 12px; text-align: left; font-weight: 500; }
+        .ref-table th:first-child { border-radius: 8px 0 0 0; }
+        .ref-table th:last-child { border-radius: 0 8px 0 0; }
+        .ref-table td { padding: 8px 12px; border-bottom: 1px solid #e2e8f0; color: #4a5568; }
+        .ref-table tr:nth-child(even) td { background: #f7fafc; }
+
+        .divider { border: none; border-top: 1px solid #e2e8f0; margin: 18px 0; }
+
+        footer { background: #0f3d20; color: rgba(255,255,255,0.6); text-align: center; padding: 24px 16px; font-size: 0.82rem; margin-top: 40px; }
+        footer a { color: rgba(255,255,255,0.8); }
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1409689781104144"
+     crossorigin="anonymous"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-82HX4HNTVF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-82HX4HNTVF');
+    </script>
+</head>
+<body>
+
+<header>
+    <div style="font-size:2.2rem;margin-bottom:8px;">🌿</div>
+    <h1>Garden Lighting Calculator</h1>
+    <p>Voltage drop, cable sizing, driver sizing and wiring advice for 12V &amp; 24V outdoor LED lighting</p>
+</header>
+
+<nav>
+    <a href="led-strip-driver-calculator.html">Driver Calculator</a>
+    <a href="led-strip-light-selector.html">Strip Selector</a>
+    <a href="lux-calculator.html">Lux Calculator</a>
+    <a href="#" class="active">Garden Lighting</a>
+    <a href="voltage-drop-calculator.html">Voltage Drop</a>
+    <a href="disclaimer.html">Disclaimer</a>
+</nav>
+
+<div class="container">
+
+    <div style="display:flex;justify-content:center;margin:16px 0;">
+        <div class="ad-banner ad-leaderboard">[ Google Ad — 728×90 Leaderboard ]</div>
+    </div>
+
+    <div class="layout">
+
+        <!-- ===== LEFT ===== -->
+        <div>
+            <div class="card">
+                <h2>🌱 Garden Lighting Calculator</h2>
+
+                <!-- Region Toggle -->
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;padding:11px 14px;background:#f7fafc;border-radius:10px;border:1px solid #e2e8f0;flex-wrap:wrap;">
+                    <span style="font-size:0.85rem;font-weight:600;color:#4a5568;">🌏 Region:</span>
+                    <div style="display:flex;border-radius:8px;overflow:hidden;border:2px solid #e2e8f0;">
+                        <button id="region-btn-au" onclick="setRegion('AU')" style="padding:7px 18px;border:none;background:#14532d;color:white;font-family:inherit;font-size:0.84rem;font-weight:600;cursor:pointer;">🇦🇺 Australia</button>
+                        <button id="region-btn-us" onclick="setRegion('US')" style="padding:7px 18px;border:none;background:#fafbfc;color:#718096;font-family:inherit;font-size:0.84rem;font-weight:500;cursor:pointer;">🇺🇸 United States</button>
+                        <button id="region-btn-in" onclick="setRegion('IN')" style="padding:7px 18px;border:none;background:#fafbfc;color:#718096;font-family:inherit;font-size:0.84rem;font-weight:500;cursor:pointer;">🇮🇳 India</button>
+                        <button id="region-btn-za" onclick="setRegion('ZA')" style="padding:7px 18px;border:none;background:#fafbfc;color:#718096;font-family:inherit;font-size:0.84rem;font-weight:500;cursor:pointer;">🇿🇦 South Africa</button>
+                    </div>
+                    <span id="region-hint" style="font-size:0.78rem;color:#718096;">AS/NZS 3000 · mm² cable sizes · Amazon AU</span>
+                </div>
+
+                <div class="mode-tabs">
+                    <button class="mode-tab active" onclick="switchMode('vdrop', this)">
+                        <span class="tab-icon">⚡</span>Voltage Drop
+                    </button>
+                    <button class="mode-tab" onclick="switchMode('driver', this)">
+                        <span class="tab-icon">🔌</span>Driver Sizing
+                    </button>
+                    <button class="mode-tab" onclick="switchMode('layout', this)">
+                        <span class="tab-icon">🗺️</span>Wiring Layout
+                    </button>
+                </div>
+
+                <!-- ===== TAB 1: Voltage Drop ===== -->
+                <div class="mode-panel active" id="mode-vdrop">
+                    <p style="font-size:0.88rem;color:#718096;margin-bottom:18px;">Calculate the voltage drop across your cable run and check if your cable size is adequate. Recommended maximum drop: <strong>5% (ideally ≤3% for LED fittings)</strong>.</p>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>System Voltage</label>
+                            <div class="toggle-group" id="vd-volt-group">
+                                <button class="toggle-btn active" onclick="setToggle('vd-volt-group',this);" data-val="12">12V</button>
+                                <button class="toggle-btn" onclick="setToggle('vd-volt-group',this);" data-val="24">24V</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="vd-watts">Total Load on This Run <span class="label-hint">— watts</span></label>
+                            <input type="number" id="vd-watts" placeholder="e.g. 60" min="1" max="5000" step="1">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="vd-length">Cable Run Length <span class="label-hint" id="vd-length-hint">— one-way metres</span></label>
+                            <input type="number" id="vd-length" placeholder="e.g. 20" min="0.5" max="500" step="0.5">
+                        </div>
+                        <div class="form-group">
+                            <label for="vd-csa">Cable Cross-Section <span class="label-hint" id="vd-csa-hint">— mm²</span></label>
+                            <div class="select-wrapper">
+                                <select id="vd-csa">
+                                    <option value="">— Select cable size —</option>
+                                    <option value="0.75">0.75 mm²</option>
+                                    <option value="1.0">1.0 mm²</option>
+                                    <option value="1.5">1.5 mm²</option>
+                                    <option value="2.5">2.5 mm²</option>
+                                    <option value="4.0">4.0 mm²</option>
+                                    <option value="6.0">6.0 mm²</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Wiring Topology</label>
+                        <div class="toggle-group" id="vd-topo-group">
+                            <button class="toggle-btn active" onclick="setToggle('vd-topo-group',this);" data-val="daisy">Daisy-chain (series run)</button>
+                            <button class="toggle-btn" onclick="setToggle('vd-topo-group',this);" data-val="homerun">Home-run (parallel spurs)</button>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="vd-fixtures">Number of Fixtures on this Run</label>
+                            <input type="number" id="vd-fixtures" placeholder="e.g. 6" min="1" max="100" step="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="vd-tolerance">Fitting Voltage Tolerance <span class="label-hint">— from brand datasheet (%)</span></label>
+                            <div class="select-wrapper">
+                                <select id="vd-tolerance">
+                                    <option value="3">3% — Strict (premium fittings)</option>
+                                    <option value="5" selected>5% — Standard (AS 3000 allowance)</option>
+                                    <option value="10">10% — Wide tolerance (most LED fittings)</option>
+                                    <option value="15">15% — Very wide (some DC fittings)</option>
+                                    <option value="custom">Custom — I'll enter it</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" id="vd-tol-custom-group" style="display:none;">
+                        <label for="vd-tol-custom">Custom tolerance (%) <span class="label-hint">— e.g. 8 for ±8%</span></label>
+                        <input type="number" id="vd-tol-custom" placeholder="e.g. 8" min="1" max="30" step="0.5">
+                    </div>
+
+                    <button class="btn-calc" onclick="calcVdrop()">⚡ Calculate Voltage Drop →</button>
+
+                    <div class="results-section" id="vdrop-results">
+                        <hr class="divider">
+
+                        <div class="result-hero" id="vd-hero">
+                            <div class="rl">Voltage at End of Run</div>
+                            <div class="rv" id="vd-res-volts">—</div>
+                            <div class="rs" id="vd-res-sub">—</div>
+                        </div>
+
+                        <div class="result-grid">
+                            <div class="result-item">
+                                <div class="r-label">Voltage Drop</div>
+                                <div class="r-value" id="vd-res-drop">—</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="r-label">Drop Percentage</div>
+                                <div class="r-value" id="vd-res-pct">—</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="r-label">Current Draw</div>
+                                <div class="r-value" id="vd-res-amps">—</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="r-label">Cable Resistance (total)</div>
+                                <div class="r-value" id="vd-res-resist">—</div>
+                            </div>
+                        </div>
+
+                        <div id="vd-gauge-container"></div>
+                        <div id="vd-cable-table"></div>
+                        <div id="vd-meanwell"></div>
+                        <div id="vd-alerts"></div>
+                        <div id="vd-buy"></div>
+                    </div>
+                </div>
+
+                <!-- ===== TAB 2: Driver Sizing ===== -->
+                <div class="mode-panel" id="mode-driver">
+                    <p style="font-size:0.88rem;color:#718096;margin-bottom:18px;">Size your garden lighting transformer or constant voltage driver with the correct safety margin. All garden LED fittings use <strong>constant voltage (CV)</strong> drivers — the driver maintains a fixed 12V or 24V output regardless of load.</p>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>System Voltage</label>
+                            <div class="toggle-group" id="dr-volt-group">
+                                <button class="toggle-btn active" onclick="setToggle('dr-volt-group',this);" data-val="12">12V</button>
+                                <button class="toggle-btn" onclick="setToggle('dr-volt-group',this);" data-val="24">24V</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="dr-fixtures">Number of Fixtures</label>
+                            <input type="number" id="dr-fixtures" placeholder="e.g. 10" min="1" max="200" step="1">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dr-watts">Watts per Fixture <span class="label-hint">— from fitting datasheet</span></label>
+                            <input type="number" id="dr-watts" placeholder="e.g. 5" min="0.5" max="500" step="0.5">
+                        </div>
+                        <div class="form-group">
+                            <label for="dr-future">Future Expansion <span class="label-hint">— additional % headroom</span></label>
+                            <div class="select-wrapper">
+                                <select id="dr-future">
+                                    <option value="0">None — no expansion planned</option>
+                                    <option value="20" selected>20% — some future fittings likely</option>
+                                    <option value="50">50% — significant expansion planned</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Installation Type</label>
+                        <div class="toggle-group" id="dr-install-group">
+                            <button class="toggle-btn active" onclick="setToggle('dr-install-group',this);" data-val="outdoor">Outdoor / garden</button>
+                            <button class="toggle-btn" onclick="setToggle('dr-install-group',this);" data-val="enclosure">In weatherproof enclosure</button>
+                            <button class="toggle-btn" onclick="setToggle('dr-install-group',this);" data-val="indoor">Driver indoors</button>
+                        </div>
+                    </div>
+
+                    <button class="btn-calc" onclick="calcDriver()">🔌 Size My Driver →</button>
+
+                    <div class="results-section" id="driver-results">
+                        <hr class="divider">
+
+                        <div class="result-hero" style="background:linear-gradient(135deg,#14532d,#166534);">
+                            <div class="rl">Recommended Driver Size</div>
+                            <div class="rv" id="dr-res-size">—</div>
+                            <div class="rs" id="dr-res-sub">—</div>
+                        </div>
+
+                        <div class="result-grid">
+                            <div class="result-item">
+                                <div class="r-label">Total Fixture Load</div>
+                                <div class="r-value" id="dr-res-load">—</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="r-label">With 20% Safety Buffer</div>
+                                <div class="r-value" id="dr-res-buf">—</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="r-label">With Expansion Headroom</div>
+                                <div class="r-value" id="dr-res-exp">—</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="r-label">Max Load on Driver</div>
+                                <div class="r-value" id="dr-res-maxload">—</div>
+                            </div>
+                        </div>
+
+                        <div id="dr-cv-cc-box"></div>
+                        <div id="dr-meanwell-box"></div>
+                        <div id="dr-alerts"></div>
+                        <div id="dr-buy"></div>
+                    </div>
+                </div>
+
+                <!-- ===== TAB 3: Wiring Layout ===== -->
+                <div class="mode-panel" id="mode-layout">
+                    <p style="font-size:0.88rem;color:#718096;margin-bottom:18px;">Not sure whether to daisy-chain your fittings or run separate spurs? Enter your details for a wiring recommendation.</p>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>System Voltage</label>
+                            <div class="toggle-group" id="ly-volt-group">
+                                <button class="toggle-btn active" onclick="setToggle('ly-volt-group',this);" data-val="12">12V</button>
+                                <button class="toggle-btn" onclick="setToggle('ly-volt-group',this);" data-val="24">24V</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ly-fixtures">Number of Fixtures</label>
+                            <input type="number" id="ly-fixtures" placeholder="e.g. 8" min="1" max="100" step="1">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ly-watts">Watts per Fixture</label>
+                            <input type="number" id="ly-watts" placeholder="e.g. 5" min="0.5" max="200" step="0.5">
+                        </div>
+                        <div class="form-group">
+                            <label for="ly-runlength">Longest Single Run <span class="label-hint" id="ly-length-hint">— metres, one-way</span></label>
+                            <input type="number" id="ly-runlength" placeholder="e.g. 25" min="1" max="300" step="1">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ly-spacing">Approximate Fixture Spacing <span class="label-hint">— metres apart</span></label>
+                            <input type="number" id="ly-spacing" placeholder="e.g. 3" min="0.5" max="50" step="0.5">
+                        </div>
+                        <div class="form-group">
+                            <label for="ly-csa">Cable Size <span class="label-hint" id="ly-csa-hint">— mm² cross-section</span></label>
+                            <div class="select-wrapper">
+                                <select id="ly-csa">
+                                    <option value="0.75">0.75 mm²</option>
+                                    <option value="1.0">1.0 mm²</option>
+                                    <option value="1.5" selected>1.5 mm² (common default)</option>
+                                    <option value="2.5">2.5 mm²</option>
+                                    <option value="4.0">4.0 mm²</option>
+                                    <option value="6.0">6.0 mm²</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ly-tolerance">Fitting Voltage Tolerance <span class="label-hint">— from brand datasheet, sets the pass/fail threshold</span></label>
+                        <div class="select-wrapper">
+                            <select id="ly-tolerance">
+                                <option value="3">3% — Strict (premium fittings)</option>
+                                <option value="5" selected>5% — Standard (AS 3000 allowance)</option>
+                                <option value="10">10% — Wide tolerance (most LED fittings)</option>
+                                <option value="15">15% — Very wide (some DC fittings)</option>
+                                <option value="custom">Custom — I'll enter it</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" id="ly-tol-custom-group" style="display:none;">
+                        <label for="ly-tol-custom">Custom tolerance (%) <span class="label-hint">— e.g. 8 for ±8%</span></label>
+                        <input type="number" id="ly-tol-custom" placeholder="e.g. 8" min="1" max="30" step="0.5">
+                    </div>
+
+                    <button class="btn-calc" onclick="calcLayout()">🗺️ Get Wiring Recommendation →</button>
+
+                    <div class="results-section" id="layout-results">
+                        <hr class="divider">
+                        <div id="ly-recommendation"></div>
+                        <div id="ly-alerts"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- In-content ad -->
+            <div style="display:flex;justify-content:center;margin-bottom:20px;">
+                <div class="ad-banner ad-leaderboard">[ Google Ad — 728×90 ]</div>
+            </div>
+        </div>
+
+        <!-- ===== RIGHT: Sidebar ===== -->
+        <div>
+            <div style="display:flex;justify-content:center;margin-bottom:20px;">
+                <div class="ad-banner ad-rectangle">[ Google Ad — 300×250 ]</div>
+            </div>
+
+            <div class="card">
+                <h2>📋 Voltage Drop Limits</h2>
+                <div class="info-box" id="std-allowance-box">
+                    <h4 id="std-allowance-heading">AS 3000 Allowance</h4>
+                    <p id="std-allowance-text">Australian wiring rules allow up to <strong>5% voltage drop</strong> at the point of use. For 12V that's 0.6V. For 24V that's 1.2V.</p>
+                </div>
+                <div class="info-box info-box-warn">
+                    <h4>⚠️ LED Fitting Reality</h4>
+                    <p>Most LED garden fittings tolerate ±10% input voltage but perform best within <strong>3% drop (≤0.36V on 12V)</strong>. Beyond 5%, expect dimming and colour shift at far-end fixtures.</p>
+                </div>
+                <table class="ref-table" style="margin-top:8px;">
+                    <thead>
+                        <tr><th>Voltage</th><th>3% Max</th><th>5% Max</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>12V</td><td>0.36V</td><td>0.60V</td></tr>
+                        <tr><td>24V</td><td>0.72V</td><td>1.20V</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2>🔌 CV vs CC Explained</h2>
+                <div class="info-box">
+                    <h4>Constant Voltage (CV) — What you use</h4>
+                    <p>Your transformer or external driver maintains a <strong>fixed voltage</strong> (12V or 24V). Current varies depending on how many fittings are connected. All multi-fixture garden systems are CV. Fittings connect in parallel.</p>
+                </div>
+                <div class="info-box info-box-blue">
+                    <h4>Constant Current (CC) — Inside the fitting</h4>
+                    <p>Some premium garden fittings contain an internal CC driver that converts the 12V/24V CV input into the precise <strong>fixed current</strong> (e.g. 350mA or 700mA) the LED chip needs. You never interact with this — it's invisible to the installer. The external system is always CV.</p>
+                </div>
+                <div class="info-box info-box-warn">
+                    <h4>⚡ Never connect LED strips or bare LED chips directly to a CC driver</h4>
+                    <p>CC drivers are for specific LED packages — not for multi-light garden systems or LED strip. Always use CV for garden installations.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>📏 Cable Resistance Reference</h2>
+                <table class="ref-table">
+                    <thead>
+                        <tr><th>Size</th><th>Ω/100m</th><th>Max current</th></tr>
+                    </thead>
+                    <tbody id="cable-ref-tbody">
+                        <tr><td>0.75mm²</td><td>2.33Ω</td><td>~6A</td></tr>
+                        <tr><td>1.0mm²</td><td>1.75Ω</td><td>~10A</td></tr>
+                        <tr><td>1.5mm²</td><td>1.17Ω</td><td>~13A</td></tr>
+                        <tr><td>2.5mm²</td><td>0.70Ω</td><td>~18A</td></tr>
+                        <tr><td>4.0mm²</td><td>0.44Ω</td><td>~25A</td></tr>
+                        <tr><td>6.0mm²</td><td>0.29Ω</td><td>~32A</td></tr>
+                    </tbody>
+                </table>
+                <p style="font-size:0.77rem;color:#a0aec0;margin-top:8px;">Based on copper conductor at 20°C. For outdoor buried cable, derate by ~10% for temperature.</p>
+            </div>
+
+            <div style="display:flex;justify-content:center;margin-top:4px;">
+                <div class="ad-banner ad-rectangle">[ Google Ad — 300×250 ]</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom explainer -->
+    <div class="card">
+        <h2>📖 Garden Lighting — Key Concepts</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;">
+            <div class="info-box">
+                <h4>Why Voltage Drop Matters More on 12V</h4>
+                <p>A 1V drop on a 24V system is only 4.2% — manageable. The same 1V drop on a 12V system is 8.3% — well outside the LED fitting's tolerance. This is why <strong>24V systems are far better for longer garden runs</strong>. The physics is identical but the percentage impact is halved.</p>
+            </div>
+            <div class="info-box info-box-blue">
+                <h4>Daisy-Chain vs Home-Run</h4>
+                <p>Daisy-chaining runs one cable from fitting to fitting — simple but every fitting downstream suffers accumulated voltage drop. A home-run layout runs an individual spur from the driver to each fitting — higher cable cost but every fitting sees the same voltage. For runs over 15m or more than 4 fittings, home-run wins.</p>
+            </div>
+            <div class="info-box info-box-warn">
+                <h4>Adjustable Voltage Drivers (MeanWell & others)</h4>
+                <p>Many quality CV drivers — including the MeanWell HLG, ELG and LPF series — have a built-in trim potentiometer that lets you adjust output voltage by <strong>±10%</strong>. On a 12V driver you can dial up to ~13.2V to pre-compensate for cable drop, so the far-end fitting still sees ~12V. A simple and effective trick for long runs without upsizing cable.</p>
+            </div>
+            <div class="info-box">
+                <h4>240V Mains Garden Lighting</h4>
+                <p>Some garden fittings run directly on 240V mains — typically flood lights, wall lights and some larger path lights. These must be installed by a <strong>licensed electrician</strong>, use outdoor-rated IP65+ weatherproof fittings, and comply with AS/NZS 3000 and any local council requirements. Mains garden circuits should be protected by a residual current device (RCD).</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // ─── Region ──────────────────────────────────────────────
+    let REGION = 'AU';
+
+    const AU_CABLES = [
+        { label: '0.75 mm²', csa: 0.75 },
+        { label: '1.0 mm²',  csa: 1.0  },
+        { label: '1.5 mm²',  csa: 1.5,  lyDefault: true },
+        { label: '2.5 mm²',  csa: 2.5  },
+        { label: '4.0 mm²',  csa: 4.0  },
+        { label: '6.0 mm²',  csa: 6.0  },
+    ];
+    const US_CABLES = [
+        { label: 'AWG 20 (≈0.5mm²)', csa: 0.519 },
+        { label: 'AWG 18 (≈0.8mm²)', csa: 0.823 },
+        { label: 'AWG 16 (≈1.3mm²)', csa: 1.31,  lyDefault: true },
+        { label: 'AWG 14 (≈2.1mm²)', csa: 2.08  },
+        { label: 'AWG 12 (≈3.3mm²)', csa: 3.31  },
+        { label: 'AWG 10 (≈5.3mm²)', csa: 5.26  },
+    ];
+    const IN_CABLES = [
+        { label: '0.75 mm²', csa: 0.75 },
+        { label: '1.0 mm²',  csa: 1.0  },
+        { label: '1.5 mm²',  csa: 1.5,  lyDefault: true },
+        { label: '2.5 mm²',  csa: 2.5  },
+        { label: '4.0 mm²',  csa: 4.0  },
+        { label: '6.0 mm²',  csa: 6.0  },
+    ];
+    const ZA_CABLES = [
+        { label: '0.75 mm²', csa: 0.75 },
+        { label: '1.0 mm²',  csa: 1.0  },
+        { label: '1.5 mm²',  csa: 1.5,  lyDefault: true },
+        { label: '2.5 mm²',  csa: 2.5  },
+        { label: '4.0 mm²',  csa: 4.0  },
+        { label: '6.0 mm²',  csa: 6.0  },
+    ];
+    const CABLE_CURRENT = {
+        0.75: '~6A', 1.0: '~10A', 1.5: '~13A', 2.5: '~18A', 4.0: '~25A', 6.0: '~32A',
+        0.519: '~3A', 0.823: '~5A', 1.31: '~10A', 2.08: '~15A', 3.31: '~20A', 5.26: '~30A',
+    };
+
+    function getCables()       { return REGION === 'US' ? US_CABLES : REGION === 'IN' ? IN_CABLES : REGION === 'ZA' ? ZA_CABLES : AU_CABLES; }
+    function getAmazonDomain() { return REGION === 'US' ? 'amazon.com' : REGION === 'IN' ? 'amazon.in' : 'amazon.com.au'; }
+    function getAmazonLabel()  { return REGION === 'US' ? 'Amazon US' : REGION === 'IN' ? 'Amazon India' : REGION === 'ZA' ? 'Takealot' : 'Amazon Australia'; }
+    function getShopDomain()   { return REGION === 'ZA' ? 'www.takealot.com' : getAmazonDomain(); }
+    function getShopSearch()   { return REGION === 'ZA' ? 'https://www.takealot.com/all?searchquery=' : 'https://www.' + getAmazonDomain() + '/s?k='; }
+    function getStandard()     { return REGION === 'US' ? 'NEC' : REGION === 'IN' ? 'IS 732' : REGION === 'ZA' ? 'SANS 10142' : 'AS/NZS 3000'; }
+    function getCableLabel(csa) {
+        const match = getCables().find(c => Math.abs(c.csa - csa) < 0.05);
+        return match ? match.label : csa + 'mm²';
+    }
+
+    function setRegion(r) {
+        REGION = r;
+        ['au','us','in','za'].forEach(code => {
+            const btn = document.getElementById('region-btn-' + code);
+            if (!btn) return;
+            const active = r === code.toUpperCase();
+            btn.style.background = active ? '#14532d' : '#fafbfc';
+            btn.style.color      = active ? 'white'   : '#718096';
+            btn.style.fontWeight = active ? '600'      : '500';
+        });
+        document.getElementById('region-hint').textContent = r === 'US'
+            ? 'NEC · AWG cable sizes · Amazon.com'
+            : r === 'IN'
+            ? 'IS 732 · mm² cable sizes · Amazon India'
+            : r === 'ZA'
+            ? 'SANS 10142 · mm² cable sizes · Takealot'
+            : 'AS/NZS 3000 · mm² cable sizes · Amazon AU';
+        // Label hints
+        const vdCsaHint = document.getElementById('vd-csa-hint');
+        const lyCsaHint = document.getElementById('ly-csa-hint');
+        const vdLenHint = document.getElementById('vd-length-hint');
+        const lyLenHint = document.getElementById('ly-length-hint');
+        if (vdCsaHint) vdCsaHint.textContent = r === 'US' ? '— AWG gauge' : '— mm²';
+        if (lyCsaHint) lyCsaHint.textContent = r === 'US' ? '— AWG gauge' : '— mm² cross-section';
+        if (vdLenHint) vdLenHint.textContent = r === 'US' ? '— one-way metres (1 ft = 0.305m)' : '— one-way metres';
+        if (lyLenHint) lyLenHint.textContent = r === 'US' ? '— metres, one-way (1 ft = 0.305m)' : '— metres, one-way';
+        // Rebuild cable selects
+        updateCableSelects();
+        // Sidebar standards box
+        const stdH = document.getElementById('std-allowance-heading');
+        const stdP = document.getElementById('std-allowance-text');
+        if (stdH) stdH.textContent = r === 'US' ? 'NEC Allowance' : r === 'IN' ? 'IS 732 Allowance' : r === 'ZA' ? 'SANS 10142 Allowance' : 'AS 3000 Allowance';
+        if (stdP) stdP.innerHTML   = r === 'US'
+            ? 'The NEC recommends a maximum of <strong>3% voltage drop</strong> on branch circuits, <strong>5% total</strong> (feeder + branch). For 12V that\'s 0.36V on the branch. For 24V that\'s 0.72V.'
+            : r === 'IN'
+            ? 'Indian Standard IS 732 permits a maximum of <strong>5% voltage drop</strong> at the point of use (230V system). For 12V low-voltage systems that\'s 0.6V. For 24V that\'s 1.2V.'
+            : r === 'ZA'
+            ? 'South African wiring rules (SANS 10142) permit a maximum of <strong>5% voltage drop</strong> at the point of use (230V system). For 12V low-voltage systems that\'s 0.6V. For 24V that\'s 1.2V.'
+            : 'Australian wiring rules allow up to <strong>5% voltage drop</strong> at the point of use. For 12V that\'s 0.6V. For 24V that\'s 1.2V.';
+        // Sidebar cable reference table
+        updateCableRefTable();
+        // Tolerance option text
+        ['vd-tolerance', 'ly-tolerance'].forEach(id => {
+            const sel = document.getElementById(id);
+            const opt5 = [...sel.options].find(o => o.value === '5');
+            if (opt5) opt5.text = '5% — Standard (' + getStandard() + ' allowance)';
+        });
+    }
+
+    function updateCableSelects() {
+        const cables = getCables();
+        ['vd-csa', 'ly-csa'].forEach(id => {
+            const sel   = document.getElementById(id);
+            const isLy  = id === 'ly-csa';
+            const prev  = parseFloat(sel.value);
+            sel.innerHTML = '';
+            if (!isLy) {
+                const blank = document.createElement('option');
+                blank.value = ''; blank.textContent = '— Select cable size —';
+                sel.appendChild(blank);
+            }
+            cables.forEach(c => {
+                const opt = document.createElement('option');
+                opt.value = c.csa;
+                opt.textContent = c.label + (c.lyDefault && isLy ? ' (common default)' : '');
+                if (prev && Math.abs(c.csa - prev) < 0.05) opt.selected = true;
+                else if (!prev && c.lyDefault && isLy)     opt.selected = true;
+                sel.appendChild(opt);
+            });
+        });
+    }
+
+    function updateCableRefTable() {
+        const tbody = document.getElementById('cable-ref-tbody');
+        if (!tbody) return;
+        tbody.innerHTML = getCables().map(c => {
+            const ohms = (1.75 / c.csa).toFixed(2);
+            const amps = CABLE_CURRENT[c.csa] || '—';
+            return `<tr><td>${c.label}</td><td>${ohms}Ω</td><td>${amps}</td></tr>`;
+        }).join('');
+    }
+
+    // ─── State ─────────────────────────────────────────────
+    const COPPER_RESISTIVITY = 0.0175; // Ω·mm²/m
+
+    function setToggle(groupId, btn) {
+        document.getElementById(groupId).querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+
+    function getToggleVal(groupId) {
+        const active = document.getElementById(groupId).querySelector('.toggle-btn.active');
+        return active ? active.dataset.val : null;
+    }
+
+    // Show/hide custom tolerance inputs
+    document.getElementById('vd-tolerance').addEventListener('change', function() {
+        document.getElementById('vd-tol-custom-group').style.display = this.value === 'custom' ? 'block' : 'none';
+    });
+    document.getElementById('ly-tolerance').addEventListener('change', function() {
+        document.getElementById('ly-tol-custom-group').style.display = this.value === 'custom' ? 'block' : 'none';
+    });
+
+    function getTolerance(selectId, customId) {
+        const sel = document.getElementById(selectId).value;
+        if (sel === 'custom') {
+            const v = parseFloat(document.getElementById(customId).value);
+            return isNaN(v) ? 5 : v;
+        }
+        return parseFloat(sel);
+    }
+
+    function switchMode(mode, btn) {
+        document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.mode-panel').forEach(p => p.classList.remove('active'));
+        document.getElementById('mode-' + mode).classList.add('active');
+        btn.classList.add('active');
+    }
+
+    // Standard driver sizes
+    const DRIVER_SIZES = [20, 30, 40, 50, 60, 75, 100, 120, 150, 200, 240, 320, 400, 480, 600];
+    function nextDriverSize(w) { return DRIVER_SIZES.find(s => s >= w) || Math.ceil(w / 50) * 50; }
+
+    // Voltage drop formula: Vd = I × (2 × L × ρ / CSA)
+    // I = W / V,  ρ = 0.0175 Ω·mm²/m
+    function calcVd(watts, voltage, lengthM, csa) {
+        const current = watts / voltage;
+        const resistance = 2 * lengthM * COPPER_RESISTIVITY / csa; // both conductors
+        const drop = current * resistance;
+        return { current, resistance, drop, pct: (drop / voltage) * 100 };
+    }
+
+    // Alert helper
+    function al(type, icon, msg) {
+        return `<div class="alert alert-${type}"><span class="alert-icon">${icon}</span><div>${msg}</div></div>`;
+    }
+
+    // Buy links helper
+    function buyLinks(q, label) {
+        const qe = encodeURIComponent(q);
+        const affTag = 'lighttools-22';
+        return `
+        <hr style="border:none;border-top:1px solid #e2e8f0;margin:16px 0;">
+        <h3 style="font-size:1rem;font-weight:600;color:#14532d;margin-bottom:12px;">🛒 ${label}</h3>
+        <div class="buy-links">
+            <a href="https://www.${getAmazonDomain()}/s?k=${qe}&tag=${affTag}" target="_blank" rel="noopener sponsored" class="buy-link buy-link-amazon">
+                <span class="buy-link-icon">🛒</span>
+                <span class="buy-link-text"><div class="blm">${getAmazonLabel()}</div><div class="bls">${q}</div></span>
+            </a>
+            <a href="https://www.google.com/search?q=${qe}+buy&tbm=shop" target="_blank" rel="noopener" class="buy-link buy-link-google">
+                <span class="buy-link-icon">🔍</span>
+                <span class="buy-link-text"><div class="blm">Google Shopping</div><div class="bls">Compare all retailers</div></span>
+            </a>
+        </div>
+        <p class="affiliate-notice">★ Amazon links support this free tool at no extra cost to you</p>`;
+    }
+
+    // MeanWell trim tip HTML
+    function meanwellTip(voltage, dropV, dropPct) {
+        const canTrim = dropPct > 1 && dropPct <= 10;
+        const trimV   = Math.min((voltage * 1.10), voltage + dropV + 0.2).toFixed(1);
+        if (!canTrim) return '';
+        return `
+        <div class="meanwell-tip">
+            <h4>🔧 Pro Tip — Adjustable Voltage Drivers (MeanWell &amp; others)</h4>
+            <p>Many quality constant voltage drivers — including the popular <strong>MeanWell HLG, ELG, LPF and PLN series</strong> — include a built-in <strong>trim potentiometer</strong> that lets you adjust the output voltage by approximately <strong>±10%</strong>.</p>
+            <p style="margin-top:8px;">For your run, the far-end fixtures are receiving about <strong>${(voltage - dropV).toFixed(2)}V</strong> due to cable drop. By trimming the driver output up to <span class="adj-badge">~${trimV}V</span>, the fittings at the end of the run will see close to the rated ${voltage}V — without needing to upsize the cable.</p>
+            <ul>
+                <li>Use a small flathead screwdriver on the trim pot (usually labelled ADJ or CV ADJ on the driver label)</li>
+                <li>Measure voltage at the <em>far end</em> of the cable run with a multimeter while adjusting</li>
+                <li>Set so the last fitting receives as close to ${voltage}.0V as possible</li>
+                <li>Confirm the first fitting (closest to driver) is still within its rated input voltage tolerance (usually ±10%)</li>
+                <li>Only adjust within the driver's rated output range — check the datasheet for min/max trim voltage</li>
+            </ul>
+            <p style="margin-top:8px;opacity:0.75;font-size:0.8rem;">Note: Not all drivers have a trim pot. Look for the ADJ screw on the driver casing or check the product datasheet before purchasing.</p>
+        </div>`;
+    }
+
+    // ─── TAB 1: Voltage Drop ─────────────────────────────
+    function calcVdrop() {
+        const voltage   = parseFloat(getToggleVal('vd-volt-group')) || 12;
+        const watts     = parseFloat(document.getElementById('vd-watts').value);
+        const length    = parseFloat(document.getElementById('vd-length').value);
+        const csa       = parseFloat(document.getElementById('vd-csa').value);
+        const topo      = getToggleVal('vd-topo-group');
+        const fixtures  = parseInt(document.getElementById('vd-fixtures').value) || 1;
+        const tolerance = getTolerance('vd-tolerance', 'vd-tol-custom'); // brand-specified % tolerance
+        const idealPct  = Math.min(3, tolerance);   // ideal threshold = 3% or tolerance if tighter
+        const maxPct    = tolerance;                 // hard limit = brand tolerance
+
+        if (!watts || !length || !csa) { alert('Please fill in all fields.'); return; }
+
+        const { current, resistance, drop, pct } = calcVd(watts, voltage, length, csa);
+        const endV = voltage - drop;
+
+        // Hero colour — uses brand tolerance
+        let heroBg, heroLabel;
+        if (pct <= idealPct)  { heroBg = 'linear-gradient(135deg,#14532d,#166534)'; heroLabel = `✅ Within ideal ${idealPct}% limit`; }
+        else if (pct <= maxPct) { heroBg = 'linear-gradient(135deg,#78350f,#92400e)'; heroLabel = `⚠️ Within brand tolerance (${maxPct}%) but over ideal`; }
+        else                  { heroBg = 'linear-gradient(135deg,#7f1d1d,#991b1b)'; heroLabel = `❌ Exceeds brand tolerance (${maxPct}%)`; }
+
+        document.getElementById('vd-hero').style.background = heroBg;
+        document.getElementById('vd-res-volts').textContent = endV.toFixed(2) + 'V';
+        document.getElementById('vd-res-sub').textContent   = heroLabel + ` (started at ${voltage}V)`;
+        document.getElementById('vd-res-drop').textContent  = drop.toFixed(3) + ' V';
+        document.getElementById('vd-res-pct').textContent   = pct.toFixed(1) + '%';
+        document.getElementById('vd-res-amps').textContent  = current.toFixed(2) + ' A';
+        document.getElementById('vd-res-resist').textContent = resistance.toFixed(3) + ' Ω';
+
+        // Gauge (0–10%)
+        const gaugeMax = 10;
+        const gaugePct = Math.min((pct / gaugeMax) * 100, 100);
+        document.getElementById('vd-gauge-container').innerHTML = `
+        <div class="vdrop-gauge">
+            <h4>📊 Voltage Drop — ${pct.toFixed(1)}% of ${voltage}V</h4>
+            <div class="gauge-track gauge-bg">
+                <div class="gauge-marker" style="left:${gaugePct}%"></div>
+            </div>
+            <div class="gauge-labels">
+                <span>0%</span><span style="color:#166534;font-weight:600">3% ideal</span><span style="color:#92400e;font-weight:600">5% max</span><span>10%+</span>
+            </div>
+            <div class="vdrop-verdict" style="${pct<=3?'background:#dcfce7;color:#166534;border:1px solid #22c55e':pct<=5?'background:#fef3c7;color:#92400e;border:1px solid #f59e0b':'background:#fee2e2;color:#991b1b;border:1px solid #ef4444'}">
+                ${pct<=idealPct ? `<strong>✅ Good:</strong> ${pct.toFixed(1)}% drop is within the ideal ${idealPct}% limit. Your fittings will perform at rated brightness and colour.`
+                : pct<=maxPct ? `<strong>⚠️ Acceptable for this brand (tolerance: ${maxPct}%):</strong> ${pct.toFixed(1)}% drop is within the brand's specified tolerance — the fittings should operate correctly, but check actual voltage at the far end on site. Consider an adjustable driver to trim out the drop entirely.`
+                : `<strong>❌ Exceeds brand tolerance (${maxPct}%):</strong> ${pct.toFixed(1)}% drop is beyond what this brand's fittings are rated for. Upsize the cable, split the run, use an adjustable driver to compensate, or contact the manufacturer.`}
+            </div>
+        </div>`;
+
+        // Cable comparison table — region-aware
+        const cableSizes = getCables();
+        let tableHTML = `
+        <h3 style="font-size:0.95rem;font-weight:600;color:#14532d;margin-bottom:10px;">📐 Cable Size Comparison</h3>
+        <div style="overflow-x:auto;">
+        <table class="cable-table">
+            <thead><tr><th>Cable</th><th>Drop</th><th>Drop %</th><th>End Voltage</th><th>Status</th></tr></thead>
+            <tbody>`;
+        let recSet = false;
+        cableSizes.forEach(cable => {
+            const sz = cable.csa;
+            const r = calcVd(watts, voltage, length, sz);
+            const isRec = !recSet && r.pct <= idealPct;
+            if (isRec) recSet = true;
+            const isCurrent = Math.abs(sz - csa) < 0.05;
+            const statusClass = r.pct <= idealPct ? 'ok' : r.pct <= maxPct ? 'warn' : 'fail';
+            const statusText  = r.pct <= idealPct ? `✅ Ideal (≤${idealPct}%)` : r.pct <= maxPct ? `⚠️ OK for brand (≤${maxPct}%)` : `❌ Over tolerance`;
+            tableHTML += `<tr class="${isRec ? 'rec' : ''}${isCurrent ? '" style="font-weight:600' : ''}">
+                <td>${cable.label}${isRec ? ' ⭐' : ''}${isCurrent ? ' ← yours' : ''}</td>
+                <td>${r.drop.toFixed(3)}V</td>
+                <td>${r.pct.toFixed(1)}%</td>
+                <td>${(voltage - r.drop).toFixed(2)}V</td>
+                <td class="${statusClass}">${statusText}</td>
+            </tr>`;
+        });
+        tableHTML += '</tbody></table></div>';
+        document.getElementById('vd-cable-table').innerHTML = tableHTML;
+
+        // MeanWell tip
+        document.getElementById('vd-meanwell').innerHTML = meanwellTip(voltage, drop, pct);
+
+        // Alerts
+        let alerts = '';
+        if (topo === 'daisy' && fixtures > 4) {
+            alerts += al('warning', '⚠️', `<strong>Daisy-chain with ${fixtures} fixtures:</strong> In a daisy-chain, each fixture draws current through the full preceding length of cable. Voltage at the last fixture will be lower than calculated here. Consider switching to a home-run layout, or splitting into two shorter daisy-chains from the driver.`);
+        }
+        if (voltage === 12 && length > 15) {
+            alerts += al('warning', '⚠️', `<strong>Long 12V run (${length}m):</strong> Low voltage systems suffer disproportionate drop on long runs. Consider upgrading to a 24V system — the same cable and load will produce only half the voltage drop percentage.`);
+        }
+        if (current > 16 && csa < 2.5) {
+            const upsizeTo = REGION === 'US' ? 'AWG 14' : '2.5mm²';
+            alerts += al('danger', '⚡', `<strong>High current (${current.toFixed(1)}A):</strong> This exceeds the recommended current capacity for ${getCableLabel(csa)} cable. Upsize to at least ${upsizeTo} for this load.`);
+        }
+        alerts += al('info', 'ℹ️', `<strong>Formula:</strong> Vdrop = I × (2 × L × 0.0175 / CSA), where I = W ÷ V. The factor of 2 accounts for both the active and return conductors. Copper resistivity = 0.0175 Ω·mm²/m at 20°C. ${REGION === 'US' ? 'Refer to NEC Article 210-19 for branch circuit voltage drop guidance.' : 'Refer to AS/NZS 3000 clause 3.6 for voltage drop requirements.'}`);
+        document.getElementById('vd-alerts').innerHTML = alerts;
+
+        // Buy links
+        const cableQ = REGION === 'US'
+            ? `${getCableLabel(csa)} direct burial low voltage landscape wire outdoor`
+            : `${csa}mm twin core outdoor cable garden low voltage`;
+        document.getElementById('vd-buy').innerHTML = buyLinks(cableQ, 'Find Garden Cable');
+
+        document.getElementById('vdrop-results').style.display = 'block';
+    }
+
+    // ─── TAB 2: Driver Sizing ────────────────────────────
+    function calcDriver() {
+        const voltage  = parseFloat(getToggleVal('dr-volt-group')) || 12;
+        const fixtures = parseInt(document.getElementById('dr-fixtures').value);
+        const watts    = parseFloat(document.getElementById('dr-watts').value);
+        const future   = parseFloat(document.getElementById('dr-future').value) || 0;
+        const install  = getToggleVal('dr-install-group');
+
+        if (!fixtures || !watts) { alert('Please fill in all fields.'); return; }
+
+        const totalLoad  = fixtures * watts;
+        const buffered   = totalLoad * 1.20;
+        const withFuture = buffered * (1 + future / 100);
+        const driverSize = nextDriverSize(withFuture);
+        const loadPct    = Math.round((totalLoad / driverSize) * 100);
+        const current    = totalLoad / voltage;
+
+        document.getElementById('dr-res-size').textContent    = `${driverSize}W`;
+        document.getElementById('dr-res-sub').textContent     = `${voltage}V Constant Voltage — ${loadPct}% loaded`;
+        document.getElementById('dr-res-load').textContent    = `${totalLoad}W`;
+        document.getElementById('dr-res-buf').textContent     = `${buffered.toFixed(0)}W`;
+        document.getElementById('dr-res-exp').textContent     = `${withFuture.toFixed(0)}W`;
+        document.getElementById('dr-res-maxload').textContent = `${loadPct}% of rated`;
+
+        // CV vs CC explainer
+        document.getElementById('dr-cv-cc-box').innerHTML = `
+        <div class="alert alert-info">
+            <span class="alert-icon">ℹ️</span>
+            <div>
+                <strong>Constant Voltage (CV) Driver — this is what you need.</strong> Your driver outputs a fixed ${voltage}V regardless of how many fittings are connected (up to its rated wattage). All fittings connect in parallel and share the total current. The driver doesn't "know" how many fittings are there — it just holds the voltage steady.
+                <br><br>
+                <strong>Constant Current (CC)</strong> drivers live <em>inside</em> some premium fittings and manage the LED's exact current requirements internally. From the outside, these fittings still connect to your ${voltage}V CV system like any other fitting — you'll never interact with their internal CC driver.
+            </div>
+        </div>`;
+
+        // MeanWell recommendation
+        document.getElementById('dr-meanwell-box').innerHTML = `
+        <div class="meanwell-tip">
+            <h4>🔧 Recommended: Adjustable Voltage Drivers (MeanWell &amp; equivalents)</h4>
+            <p>For garden and landscape installations, we strongly recommend specifying a driver with a built-in <strong>output voltage trim potentiometer</strong>. The <strong>MeanWell HLG series</strong> (and the ELG, LPF, PLN series) are industry favourites for this — robust, IP67 rated for outdoor use, and the trim pot lets you dial in the exact output voltage on site.</p>
+            <ul>
+                <li>Trim range is typically <span class="adj-badge">±10%</span> — so a 12V driver adjusts from ~10.8V to 13.2V; a 24V driver from ~21.6V to 26.4V</li>
+                <li>Use this to <strong>compensate for cable voltage drop</strong> on long runs — dial up slightly so the far-end fittings still see rated voltage</li>
+                <li>Also useful for commissioning — fine-tune brightness without needing a separate dimmer</li>
+                <li>Look for the <strong>ADJ</strong> or <strong>CV ADJ</strong> label on the driver casing. Adjust with a small flathead screwdriver while measuring voltage at the end of the cable run</li>
+                <li>For this ${driverSize}W, ${voltage}V system: look at the <strong>MeanWell HLG-${driverSize >= 100 ? driverSize : nextDriverSize(driverSize)}A</strong> or equivalent rated model</li>
+            </ul>
+        </div>`;
+
+        // IP rating advice
+        let alerts = '';
+        if (install === 'outdoor') {
+            alerts += al('warning', '🌧️', `<strong>Outdoor driver installation:</strong> The driver itself must be IP65 rated minimum for outdoor exposure, or IP67 if it may be wetted. Mount in a weatherproof enclosure with cable glands — never leave a driver exposed to direct rain unless specifically rated for it. MeanWell HLG series are IP67 rated and suitable for outdoor mounting.`);
+        }
+        if (install === 'enclosure') {
+            alerts += al('info', '📦', `<strong>Weatherproof enclosure:</strong> An IP55+ rated enclosure with cable glands and a lockable lid is ideal. Ensure adequate ventilation — drivers generate heat and need airflow to reach their rated lifespan. Don't pack too many drivers in a sealed box without a vent.`);
+        }
+        if (loadPct > 85) {
+            alerts += al('warning', '⚠️', `<strong>High load percentage (${loadPct}%):</strong> Running a driver above 80% of rated capacity reduces its lifespan. Consider sizing up to the next driver size for better reliability and thermal performance.`);
+        }
+        if (current > 10) {
+            const heavyCable = REGION === 'US' ? 'AWG 14 or larger' : '2.5mm² or larger';
+            alerts += al('info', 'ℹ️', `<strong>High current draw (${current.toFixed(1)}A):</strong> Ensure your cable from the driver to the first fitting is sized accordingly. At ${voltage}V, this system draws ${current.toFixed(1)}A — use at least ${heavyCable} for the main feed cable.`);
+        }
+        document.getElementById('dr-alerts').innerHTML = alerts;
+
+        const driverQ = REGION === 'US'
+            ? `${voltage}V ${driverSize}W LED driver constant voltage outdoor landscape`
+            : `MeanWell ${voltage}V ${driverSize}W LED driver constant voltage outdoor`;
+        document.getElementById('dr-buy').innerHTML = buyLinks(driverQ, 'Find a Driver / Transformer');
+
+        document.getElementById('driver-results').style.display = 'block';
+    }
+
+    // ─── TAB 3: Wiring Layout ────────────────────────────
+    function calcLayout() {
+        const voltage    = parseFloat(getToggleVal('ly-volt-group')) || 12;
+        const fixtures   = parseInt(document.getElementById('ly-fixtures').value);
+        const watts      = parseFloat(document.getElementById('ly-watts').value);
+        const runLength  = parseFloat(document.getElementById('ly-runlength').value);
+        const spacing    = parseFloat(document.getElementById('ly-spacing').value);
+        const csa        = parseFloat(document.getElementById('ly-csa').value);
+        const tolerance  = getTolerance('ly-tolerance', 'ly-tol-custom');
+        const idealPct   = Math.min(3, tolerance);
+        const maxPct     = tolerance;
+
+        if (!fixtures || !watts || !runLength || !csa) { alert('Please fill in all fields.'); return; }
+
+        const totalLoad = fixtures * watts;
+        const current   = totalLoad / voltage;
+
+        // Daisy-chain: full load travels the whole cable run
+        const daisyDrop = calcVd(totalLoad, voltage, runLength, csa);
+        // Home-run: only one fixture's load on the longest spur
+        const homerunDrop = calcVd(watts, voltage, runLength, csa);
+
+        // Adjustable driver calc — max trim is ±10% of nominal voltage
+        const maxTrim    = voltage * 1.10;
+        const trimNeeded = Math.min(voltage + daisyDrop.drop, maxTrim);
+        const adjWorks   = daisyDrop.drop <= (voltage * 0.10); // drop within 10% trim range
+        const adjEndV    = trimNeeded - daisyDrop.drop;
+        const adjNearV   = trimNeeded;
+
+        // Recommendation logic — uses brand tolerance as the pass/fail line
+        let rec, recType, heroBg;
+        if (daisyDrop.pct <= idealPct) {
+            rec = 'daisy';
+            recType = `Daisy-Chain — within ideal ${idealPct}% limit`;
+            heroBg = 'linear-gradient(135deg,#14532d,#166534)';
+        } else if (daisyDrop.pct <= maxPct) {
+            // Within brand tolerance — adjustable driver makes it cleaner
+            rec = 'daisy-warn';
+            recType = adjWorks ? 'Daisy-Chain + Adjustable Driver — optimal solution' : `Daisy-Chain — within brand tolerance (${maxPct}%)`;
+            heroBg = adjWorks ? 'linear-gradient(135deg,#1e3a5f,#1a2a4a)' : 'linear-gradient(135deg,#78350f,#92400e)';
+        } else if (adjWorks) {
+            // Over tolerance but adjustable driver can compensate
+            rec = 'daisy-adj';
+            recType = 'Daisy-Chain + Adjustable Driver — compensates the drop';
+            heroBg = 'linear-gradient(135deg,#1e3a5f,#1a2a4a)';
+        } else if (homerunDrop.pct <= idealPct) {
+            rec = 'homerun';
+            recType = 'Home-Run (parallel spurs) — recommended';
+            heroBg = 'linear-gradient(135deg,#14532d,#166534)';
+        } else {
+            rec = 'homerun-cable';
+            recType = 'Home-Run with upsized cable — recommended';
+            heroBg = 'linear-gradient(135deg,#14532d,#166534)';
+        }
+
+        // Card border colours
+        const daisyOk    = daisyDrop.pct <= 3;
+        const daisyAdj   = !daisyOk && adjWorks;
+        const daisyFail  = !daisyOk && !adjWorks;
+        const daisyColor = daisyOk ? '#22c55e' : daisyAdj ? '#f59e0b' : '#ef4444';
+        const homerunColor = (rec === 'homerun' || rec === 'homerun-cable') ? '#22c55e' : '#718096';
+        const adjColor   = adjWorks ? '#3b82f6' : '#e2e8f0';
+
+        // Adj driver card — only show when within trim range
+        const adjCard = adjWorks ? `
+            <div style="border:2px solid ${adjColor};border-radius:10px;padding:16px;background:#f0f7ff;">
+                <div style="font-weight:600;color:#1e40af;margin-bottom:8px;font-size:0.95rem;">
+                    🔧 Daisy-Chain + Adjustable Driver
+                </div>
+                <div style="font-size:0.82rem;color:#1e3a5f;line-height:1.6;">
+                    Same wiring, trim driver output up<br>
+                    <strong>Set driver to:</strong> ~${trimNeeded.toFixed(2)}V<br>
+                    <strong>First fitting sees:</strong> ${adjNearV.toFixed(2)}V ✅<br>
+                    <strong>Last fitting sees:</strong> ~${adjEndV.toFixed(2)}V ✅<br>
+                    <strong>Drop compensated:</strong> ${daisyDrop.drop.toFixed(2)}V trimmed out
+                </div>
+            </div>` : '';
+
+        // Grid: 2 or 3 columns depending on whether adj driver is relevant
+        const gridCols = adjWorks ? '1fr 1fr 1fr' : '1fr 1fr';
+
+        document.getElementById('ly-recommendation').innerHTML = `
+        <div class="result-hero" style="background:${heroBg};">
+            <div class="rl">Recommended Wiring Layout</div>
+            <div class="rv" style="font-size:1.5rem;">${recType}</div>
+            <div class="rs">${fixtures} fixtures × ${watts}W = ${totalLoad}W total · ${voltage}V · ${csa}mm²</div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:${gridCols};gap:12px;margin-bottom:16px;">
+            <div style="border:2px solid ${daisyColor};border-radius:10px;padding:14px;">
+                <div style="font-weight:600;color:${daisyColor};margin-bottom:8px;font-size:0.92rem;">
+                    ${daisyOk ? '✅' : daisyAdj ? '⚠️' : '❌'} Daisy-Chain
+                </div>
+                <div style="font-size:0.81rem;color:#4a5568;line-height:1.55;">
+                    Driver → F1 → F2 → ... → Fn<br>
+                    <strong>Cable:</strong> ${csa}mm² × ${runLength}m<br>
+                    <strong>Drop:</strong> ${daisyDrop.pct.toFixed(1)}% (${daisyDrop.drop.toFixed(2)}V)<br>
+                    <strong>Last fitting:</strong> ${(voltage - daisyDrop.drop).toFixed(2)}V
+                    ${daisyOk ? `<br><span style="color:#166534;font-weight:600;">✅ Within ideal ${idealPct}% limit</span>` : daisyAdj ? `<br><span style="color:#92400e;">⚠️ Over ideal — see adj. driver</span>` : `<br><span style="color:#991b1b;">❌ Exceeds 10% trim range</span>`}
+                </div>
+            </div>
+            ${adjCard}
+            <div style="border:2px solid ${homerunColor};border-radius:10px;padding:14px;">
+                <div style="font-weight:600;color:${homerunColor};margin-bottom:8px;font-size:0.92rem;">
+                    ${rec === 'homerun' || rec === 'homerun-cable' ? '✅' : '➡️'} Home-Run / Spurs
+                </div>
+                <div style="font-size:0.81rem;color:#4a5568;line-height:1.55;">
+                    Driver → F1 (own cable)<br>
+                    Driver → F2 (own cable) ...<br>
+                    <strong>Cable:</strong> ${csa}mm² per spur<br>
+                    <strong>Max spur drop:</strong> ${homerunDrop.pct.toFixed(1)}% (${homerunDrop.drop.toFixed(2)}V)<br>
+                    <strong>Each fitting:</strong> ~${(voltage - homerunDrop.drop).toFixed(2)}V
+                    ${homerunDrop.pct <= idealPct ? `<br><span style="color:#166534;font-weight:600;">✅ Within ideal ${idealPct}% limit</span>` : homerunDrop.pct <= maxPct ? `<br><span style="color:#92400e;">⚠️ OK for brand (${maxPct}%) — consider upsizing</span>` : `<br><span style="color:#991b1b;">❌ Exceeds brand tolerance — upsize cable</span>`}
+                </div>
+            </div>
+        </div>
+
+        <div class="alert alert-${daisyOk ? 'success' : rec === 'daisy-adj' || (rec === 'daisy-warn' && adjWorks) ? 'info' : rec.startsWith('daisy') ? 'warning' : 'info'}">
+            <span class="alert-icon">${daisyOk ? '✅' : rec === 'daisy-adj' || (rec === 'daisy-warn' && adjWorks) ? '🔧' : '💡'}</span>
+            <div>
+                ${daisyOk
+                    ? `<strong>Daisy-chain works perfectly.</strong> ${daisyDrop.pct.toFixed(1)}% drop on ${csa}mm² over ${runLength}m is within the ideal ${idealPct}% limit. No special measures needed — verify far-end voltage on site.`
+                    : rec === 'daisy-adj' || (rec === 'daisy-warn' && adjWorks)
+                    ? `<strong>Daisy-chain + adjustable driver is the simplest fix.</strong> The ${daisyDrop.pct.toFixed(1)}% drop (${daisyDrop.drop.toFixed(2)}V) ${daisyDrop.pct <= maxPct ? `is within the brand's ${maxPct}% tolerance but` : `exceeds the brand's ${maxPct}% tolerance —`} an adjustable driver trims it out cleanly. Set driver output to <strong>~${trimNeeded.toFixed(2)}V</strong>: last fitting sees ~${adjEndV.toFixed(2)}V, first fitting sees ${adjNearV.toFixed(2)}V — both within ±10% of rated voltage. No cable changes needed.`
+                    : `<strong>Home-run layout recommended.</strong> The daisy-chain drop of ${daisyDrop.pct.toFixed(1)}% (${daisyDrop.drop.toFixed(2)}V) exceeds both the brand's ${maxPct}% tolerance and the ±10% adjustable driver trim range. Individual spurs ensure every fitting sees consistent voltage. Use a junction box near the driver to distribute.`
+                }
+            </div>
+        </div>
+
+        ${adjWorks && (rec === 'daisy-adj' || rec === 'daisy-warn') ? `
+        <div class="alert alert-info" style="background:#f0f7ff;border-color:#3b82f6;color:#1e3a5f;">
+            <span class="alert-icon">🔧</span>
+            <div>
+                <strong>How to set the adjustable driver on site:</strong>
+                Connect a multimeter to the terminals at the <em>last fitting</em> in the run (far end). Slowly turn the ADJ trim pot on the driver with a small flathead screwdriver until the multimeter reads as close to ${voltage}.0V as possible. Lock the pot in place. The near-end fitting will read ~${adjNearV.toFixed(2)}V — still within the standard ±10% tolerance of most LED garden fittings.
+            </div>
+        </div>` : ''}
+        `;
+
+        let alerts = '';
+        if (spacing && spacing < 1.5) alerts += al('info', '📍', `<strong>Close fixture spacing (~${spacing}m):</strong> Consider whether each fixture needs its own circuit or whether they can share a spur. Very close fittings (under 1.5m) can usually share a daisy-chain without excessive drop issues.`);
+        if (voltage === 12 && runLength > 20) alerts += al('warning', '⚠️', `<strong>Long 12V run (${runLength}m):</strong> Strongly consider switching to 24V — you'll get the same performance with half the voltage drop percentage on identical cable.`);
+        document.getElementById('ly-alerts').innerHTML = alerts;
+
+        document.getElementById('layout-results').style.display = 'block';
+    }
+</script>
+
+<!-- FAQ Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What voltage should I use for garden lighting — 12V or 24V?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "12V is most common for garden lighting and suits runs up to about 5 metres from the driver. For longer runs or higher wattage fixtures, 24V is better — it carries the same power at half the current, which means much less voltage drop over distance. If your run is longer than 5 metres, use 24V."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How far can I run low voltage garden lighting cable?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On a 12V system with 1.5mm² cable, voltage drop becomes significant beyond 5 metres at typical garden light wattages. On a 24V system with 2.5mm² cable you can run 15–20 metres before voltage drop exceeds 10%. For longer runs, use heavier cable (4mm² or 6mm²), switch to 24V, or inject power at multiple points along the run."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is daisy-chain vs home-run wiring for garden lighting?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Daisy-chain wiring connects each light in series along a single cable run — simple to install but voltage drop accumulates with each light. Home-run wiring runs a separate cable from the driver to each light — more cable but each light receives full voltage. Home-run is preferred for quality installations where consistent brightness across all lights matters."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What IP rating do I need for outdoor garden lights?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Outdoor garden lights should be at minimum IP44 (splash-proof). For ground-mounted or path lights that may be hit by irrigation or rain, use IP65 or higher. For lights fully submerged in water features or ponds, use IP68. The driver/transformer also needs an appropriate IP rating — IP67 is recommended for outdoor drivers exposed to weather."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many garden lights can I connect to one driver?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Add up the total wattage of all lights and multiply by 1.2 for a 20% safety buffer. Choose a driver rated above that figure. For example, 10 lights at 3W each = 30W total × 1.2 = 36W minimum driver — so choose a 40W or 50W driver. Also check that your cable can carry the total current without excessive voltage drop."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need an electrician to install garden lighting?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In Australia, the 240V mains supply to the garden lighting transformer must be connected by a licensed electrician. The low-voltage (12V or 24V) side of the transformer — running the actual garden lights — can be installed by a competent DIYer in most states. Always check your state's electrical safety regulations. Never attempt to work on mains voltage yourself."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What cable size should I use for garden lighting?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For 12V garden lighting: use 1.5mm² for short runs under 5m, 2.5mm² for runs up to 10m, and 4mm² for runs up to 15m. For 24V systems you can use 1.5mm² for runs up to 10m. Always calculate voltage drop for your specific load — our garden lighting calculator does this automatically."
+      }
+    }
+  ]
+}
+</script>
+
+<style>
+    .garden-content { max-width: 860px; margin: 0 auto; padding: 0 16px 48px; }
+    .garden-content h2 { font-size: 1.3rem; font-weight: 700; color: #14532d; margin: 32px 0 12px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+    .garden-content h3 { font-size: 1rem; font-weight: 700; color: #1a2a4a; margin: 20px 0 8px; }
+    .garden-content p { font-size: 0.9rem; color: #4a5568; margin-bottom: 12px; line-height: 1.7; }
+    .garden-content ul { padding-left: 20px; margin-bottom: 12px; }
+    .garden-content li { font-size: 0.9rem; color: #4a5568; margin-bottom: 6px; line-height: 1.6; }
+    .garden-content table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 14px 0; }
+    .garden-content th { background: #14532d; color: white; padding: 8px 12px; text-align: left; }
+    .garden-content td { padding: 7px 12px; border-bottom: 1px solid #e2e8f0; color: #4a5568; }
+    .garden-content tr:nth-child(even) td { background: #f0fdf4; }
+    .garden-formula { background: #f0fdf4; border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 12px 0; font-family: 'Courier New', monospace; font-size: 0.9rem; color: #14532d; }
+
+    .garden-faq { max-width: 860px; margin: 0 auto; padding: 0 16px 48px; }
+    .garden-faq h2 { font-size: 1.3rem; font-weight: 700; color: #14532d; margin: 0 0 16px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+    .garden-faq-item { background: white; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 10px; overflow: hidden; }
+    .garden-faq-q { padding: 15px 20px; font-size: 0.92rem; font-weight: 600; color: #1a202c; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+    .garden-faq-q:hover { background: #f0fdf4; }
+    .garden-faq-arrow { color: #16a34a; font-size: 1rem; transition: transform 0.2s; flex-shrink: 0; }
+    .garden-faq-a { display: none; padding: 14px 20px; font-size: 0.88rem; color: #4a5568; line-height: 1.65; border-top: 1px solid #e2e8f0; }
+    .garden-faq-item.open .garden-faq-arrow { transform: rotate(180deg); }
+    .garden-faq-item.open .garden-faq-a { display: block; }
+</style>
+
+<!-- Article Section -->
+<div class="garden-content">
+    <h2>Garden Lighting Design Guide — Voltage Drop, Cable Sizing &amp; Wiring</h2>
+
+    <p>Low voltage garden lighting transforms outdoor spaces but requires careful design to get right. The two most common problems are lights that dim at the far end of the run (voltage drop) and drivers that overheat or trip (undersizing). This guide covers everything you need to design a reliable garden lighting system.</p>
+
+    <h3>12V vs 24V — Choosing the Right System Voltage</h3>
+    <p>The choice between 12V and 24V comes down to run length and total wattage. Both voltages are safe to handle and widely available, but they behave very differently over distance.</p>
+    <table>
+        <thead><tr><th>System</th><th>Best For</th><th>Max Practical Run</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td>12V</td><td>Small gardens, short runs</td><td>~5m at 1.5mm²</td><td>Widest product range, most common</td></tr>
+            <tr><td>24V</td><td>Larger gardens, longer runs</td><td>~15m at 2.5mm²</td><td>Half the current = quarter the voltage drop</td></tr>
+            <tr><td>48V</td><td>Very long commercial runs</td><td>40m+</td><td>Less common for residential</td></tr>
+        </tbody>
+    </table>
+    <p>At the same wattage, a 24V system carries half the current of a 12V system. Since voltage drop increases with current, this means 24V systems have dramatically less voltage drop over the same cable length — making 24V the professional's choice for any run over 5 metres.</p>
+
+    <h3>Understanding Voltage Drop in Garden Lighting</h3>
+    <p>Voltage drop is the reduction in voltage along the cable from driver to light. For LED garden lights, even small drops matter — a 10% drop on a 12V system means lights receive only 10.8V instead of 12V, which can cause noticeable dimming and reduce LED lifespan.</p>
+    <div class="garden-formula">Voltage Drop (V) = 2 × Length (m) × Current (A) × 0.0175 / Cable CSA (mm²)<br>Current (A) = Total Watts / System Voltage</div>
+    <p>The key levers to reduce voltage drop are: use larger cable, shorten the run, switch to 24V, or split into multiple shorter runs each fed from the driver.</p>
+
+    <h3>Cable Sizing Guide</h3>
+    <table>
+        <thead><tr><th>Cable Size</th><th>12V Max Run (10W/light × 4 lights)</th><th>24V Max Run</th><th>Suitable For</th></tr></thead>
+        <tbody>
+            <tr><td>1.0 mm²</td><td>~3m</td><td>~6m</td><td>Very short connection leads</td></tr>
+            <tr><td>1.5 mm²</td><td>~5m</td><td>~10m</td><td>Standard short runs</td></tr>
+            <tr><td>2.5 mm²</td><td>~8m</td><td>~16m</td><td>Most garden installations</td></tr>
+            <tr><td>4 mm²</td><td>~13m</td><td>~26m</td><td>Longer runs, higher loads</td></tr>
+            <tr><td>6 mm²</td><td>~20m</td><td>~40m</td><td>Large garden, commercial</td></tr>
+        </tbody>
+    </table>
+    <p>These figures assume a maximum 10% voltage drop. For critical installations or colour-sensitive lighting, design for 5% maximum drop.</p>
+
+    <h3>Daisy-Chain vs Home-Run Wiring</h3>
+    <p><strong>Daisy-chain</strong> connects lights one after another along a single cable. It is simple and uses less cable, but voltage drop accumulates at each fitting — the last light in the chain always receives less voltage than the first, causing uneven brightness.</p>
+    <p><strong>Home-run</strong> wiring runs a dedicated cable from the driver or a junction box to each individual light. Every light receives the same voltage, brightness is consistent, and a fault on one cable does not affect the others. Home-run is the preferred method for quality garden lighting installations.</p>
+    <p>A common compromise is a <strong>star or radial</strong> layout — a heavier main cable runs from the driver to a central junction box in the garden, then shorter home-run cables feed each light from the junction. This minimises total cable while keeping voltage consistent.</p>
+
+    <h3>Driver Sizing for Garden Lighting</h3>
+    <p>Add up the total wattage of all lights, then multiply by 1.2 for the 20% safety buffer. For example:</p>
+    <ul>
+        <li>8 × path lights at 3W = 24W</li>
+        <li>4 × spotlights at 10W = 40W</li>
+        <li>Total load = 64W × 1.2 = <strong>76.8W minimum driver</strong> → choose 100W</li>
+    </ul>
+    <p>For outdoor drivers, choose IP67 rating minimum. MeanWell LPV, HLG and ELG series are industry standards — avoid cheap unbranded drivers for permanent outdoor installations as they can fail in heat or moisture.</p>
+
+    <h3>IP Ratings for Garden Lighting</h3>
+    <table>
+        <thead><tr><th>IP Rating</th><th>Protection</th><th>Use For</th></tr></thead>
+        <tbody>
+            <tr><td>IP44</td><td>Splash proof</td><td>Covered outdoor areas, verandahs</td></tr>
+            <tr><td>IP54</td><td>Dust + splash proof</td><td>General outdoor use</td></tr>
+            <tr><td>IP65</td><td>Dust-tight + water jets</td><td>Path lights, spotlights, exposed outdoor</td></tr>
+            <tr><td>IP67</td><td>Temporary immersion (30 min, 1m)</td><td>Ground recessed lights, near water features</td></tr>
+            <tr><td>IP68</td><td>Continuous submersion</td><td>Pond lights, underwater features</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Australian Standards for Garden Lighting</h3>
+    <p>In Australia, garden lighting installations must comply with AS/NZS 3000 (Wiring Rules). Key requirements include:</p>
+    <ul>
+        <li>All mains-voltage wiring (240V to the transformer) must be installed by a licensed electrician</li>
+        <li>Outdoor cables must be UV-resistant and rated for outdoor use</li>
+        <li>Underground cables must be buried at the correct depth (typically 500mm for low voltage) and protected in conduit where they could be damaged</li>
+        <li>SELV (Safety Extra-Low Voltage) systems (12V/24V) are exempt from many wiring rules restrictions but must still be installed safely</li>
+        <li>Pool and spa areas have strict exclusion zones — always consult a licensed electrician for lighting near pools</li>
+    </ul>
+</div>
+
+<!-- FAQ Section -->
+<div class="garden-faq">
+    <h2>❓ Frequently Asked Questions</h2>
+
+    <div class="garden-faq-item">
+        <div class="garden-faq-q" onclick="this.parentElement.classList.toggle('open')">What voltage should I use for garden lighting — 12V or 24V? <span class="garden-faq-arrow">▼</span></div>
+        <div class="garden-faq-a">12V is most common and suits runs up to about 5 metres. For longer runs or higher wattage fixtures, 24V is better — it carries the same power at half the current, resulting in much less voltage drop. If your run is longer than 5 metres, use 24V.</div>
+    </div>
+
+    <div class="garden-faq-item">
+        <div class="garden-faq-q" onclick="this.parentElement.classList.toggle('open')">How far can I run low voltage garden lighting cable? <span class="garden-faq-arrow">▼</span></div>
+        <div class="garden-faq-a">On a 12V system with 1.5mm² cable, voltage drop becomes significant beyond 5 metres. On a 24V system with 2.5mm² cable you can run 15–20 metres before drop exceeds 10%. For longer runs, use heavier cable (4mm² or 6mm²), switch to 24V, or inject power at multiple points.</div>
+    </div>
+
+    <div class="garden-faq-item">
+        <div class="garden-faq-q" onclick="this.parentElement.classList.toggle('open')">What is daisy-chain vs home-run wiring? <span class="garden-faq-arrow">▼</span></div>
+        <div class="garden-faq-a">Daisy-chain connects each light in series along one cable — simple but voltage drop accumulates, making the last light dimmer. Home-run wiring runs a separate cable to each light from the driver — more cable but every light gets the same voltage and consistent brightness. Home-run is preferred for quality installations.</div>
+    </div>
+
+    <div class="garden-faq-item">
+        <div class="garden-faq-q" onclick="this.parentElement.classList.toggle('open')">What IP rating do I need for outdoor garden lights? <span class="garden-faq-arrow">▼</span></div>
+        <div class="garden-faq-a">Outdoor garden lights should be minimum IP44. For path lights or spots exposed to rain and irrigation, use IP65 or higher. For lights near or in water features, use IP67 or IP68. The driver should be IP67 minimum if mounted outdoors.</div>
+    </div>
+
+    <div class="garden-faq-item">
+        <div class="garden-faq-q" onclick="this.parentElement.classList.toggle('open')">How many garden lights can I connect to one driver? <span class="garden-faq-arrow">▼</span></div>
+        <div class="garden-faq-a">Add up the total wattage of all lights and multiply by 1.2 (20% safety buffer). Choose a driver rated above that figure. For example, 10 lights at 3W = 30W × 1.2 = 36W minimum — choose a 40W or 50W driver.</div>
+    </div>
+
+    <div class="garden-faq-item">
+        <div class="garden-faq-q" onclick="this.parentElement.classList.toggle('open')">Do I need an electrician to install garden lighting? <span class="garden-faq-arrow">▼</span></div>
+        <div class="garden-faq-a">In Australia, the 240V mains connection to the garden lighting transformer must be done by a licensed electrician. The low-voltage (12V/24V) side can generally be installed by a competent DIYer. Never attempt mains voltage work yourself — always check your state's electrical safety regulations.</div>
+    </div>
+
+    <div class="garden-faq-item">
+        <div class="garden-faq-q" onclick="this.parentElement.classList.toggle('open')">What cable size should I use for garden lighting? <span class="garden-faq-arrow">▼</span></div>
+        <div class="garden-faq-a">For 12V: use 1.5mm² for runs under 5m, 2.5mm² up to 10m, 4mm² up to 15m. For 24V systems you can use 1.5mm² up to 10m. Always calculate voltage drop for your specific load — use the calculator above for instant results.</div>
+    </div>
+</div>
+
+<footer>
+    <p><strong>LightTools</strong> — lighttools.com.au | Free tools for electricians, designers &amp; DIYers</p>
+    <p style="margin-top:8px;">© 2026 LightTools. Amazon links are affiliate links. We may earn a small commission at no extra cost to you. | <a href="disclaimer.html">Disclaimer &amp; Terms</a></p>
+</footer>
+
+</body>
+</html>

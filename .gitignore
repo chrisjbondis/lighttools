@@ -1,0 +1,10 @@
+# SSH keys — never commit these
+*.key
+*.pem
+
+# System
+.DS_Store
+Thumbs.db
+
+# Misc
+*.bak

@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LED Strip Light Selector — Find the Right Strip for Your Project | LightTools</title>
+    <meta name="description" content="Free LED strip light selector. Answer a few questions and get an instant recommendation — strip type, wattage, colour temperature, IP rating and channel advice. Covers SMD, COB, RGBW, neon silicone and high-output strips for every application.">
+    <link rel="canonical" href="https://lighttools.com.au/led-strip-light-selector.html">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f4f8;
+            color: #1a202c;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a2a4a 0%, #2d4a7a 100%);
+            color: white;
+            padding: 28px 20px 22px;
+            text-align: center;
+        }
+        header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+        header p { font-size: 1rem; opacity: 0.85; }
+
+        nav {
+            background: #152238;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        nav a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 500;
+            transition: color 0.2s;
+            padding: 4px 0;
+        }
+        nav a:hover, nav a.active { color: #f59e0b; }
+
+        .ad-banner {
+            background: #e8edf2;
+            border: 2px dashed #b0bec5;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #78909c;
+            font-size: 0.82rem;
+            text-align: center;
+        }
+        .ad-leaderboard { width: 100%; max-width: 728px; height: 90px; }
+        .ad-rectangle { width: 300px; height: 250px; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px 16px; }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 24px;
+        }
+        @media (max-width: 800px) {
+            .layout { grid-template-columns: 1fr; }
+            .ad-rectangle { width: 100%; }
+            header h1 { font-size: 1.5rem; }
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            padding: 28px;
+            margin-bottom: 20px;
+        }
+        .card h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1a2a4a;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        /* Progress bar */
+        .progress-wrap { margin-bottom: 24px; }
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.82rem;
+            color: #718096;
+            margin-bottom: 6px;
+        }
+        .progress-bar {
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f59e0b, #f97316);
+            border-radius: 999px;
+            transition: width 0.4s ease;
+        }
+
+        /* Step heading */
+        .step-heading {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a2a4a;
+            margin-bottom: 6px;
+        }
+        .step-sub {
+            font-size: 0.88rem;
+            color: #718096;
+            margin-bottom: 18px;
+        }
+
+        /* App grid — application picker */
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+        .app-btn {
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            background: #fafbfc;
+            padding: 14px 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .app-btn:hover { border-color: #2d4a7a; background: #f0f5ff; }
+        .app-btn.active { border-color: #2d4a7a; background: #2d4a7a; color: white; }
+        .app-btn .app-icon { font-size: 1.6rem; display: block; margin-bottom: 6px; }
+        .app-btn .app-label { font-size: 0.82rem; font-weight: 500; }
+
+        /* Toggle group */
+        .toggle-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+        .toggle-btn {
+            flex: 1;
+            min-width: 100px;
+            padding: 10px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            background: #fafbfc;
+            font-size: 0.9rem;
+            font-family: inherit;
+            font-weight: 500;
+            color: #718096;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .toggle-btn.active { border-color: #2d4a7a; background: #2d4a7a; color: white; }
+
+        .form-group { margin-bottom: 22px; }
+        label {
+            display: block;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+        .label-hint { font-weight: 400; color: #a0aec0; font-size: 0.8rem; }
+
+        /* Nav buttons */
+        .btn-row { display: flex; gap: 12px; margin-top: 8px; }
+        .btn-back {
+            flex: 1;
+            padding: 13px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            background: white;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: inherit;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-back:hover { border-color: #a0aec0; }
+        .btn-next {
+            flex: 2;
+            padding: 14px;
+            background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .btn-next:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(249,115,22,0.38); }
+        .btn-next:active { transform: translateY(0); }
+
+        /* Steps */
+        .step { display: none; }
+        .step.active { display: block; }
+
+        /* Results */
+        .result-hero {
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 18px;
+            color: white;
+            text-align: center;
+        }
+        .result-hero .rh-label { font-size: 0.8rem; opacity: 0.78; text-transform: uppercase; letter-spacing: 0.5px; }
+        .result-hero .rh-type { font-size: 1.9rem; font-weight: 700; margin: 6px 0; line-height: 1.2; }
+        .result-hero .rh-sub { font-size: 0.92rem; opacity: 0.88; }
+
+        .spec-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        @media (max-width: 480px) { .spec-grid { grid-template-columns: 1fr; } }
+        .spec-item {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 14px;
+        }
+        .spec-item .sl { font-size: 0.75rem; color: #718096; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 4px; }
+        .spec-item .sv { font-size: 1rem; font-weight: 600; color: #1a2a4a; }
+
+        /* Dotty section */
+        .dotty-card {
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 18px;
+            border: 1px solid #e2e8f0;
+        }
+        .dotty-header {
+            background: #1a2a4a;
+            color: white;
+            padding: 12px 18px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .dotty-body { padding: 16px 18px; }
+        .dotty-option {
+            display: flex;
+            gap: 14px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f4f8;
+            align-items: flex-start;
+        }
+        .dotty-option:last-child { border-bottom: none; }
+        .dotty-rank {
+            background: #f59e0b;
+            color: white;
+            border-radius: 50%;
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .dotty-option h4 { font-size: 0.9rem; font-weight: 600; color: #1a2a4a; margin-bottom: 3px; }
+        .dotty-option p { font-size: 0.83rem; color: #4a5568; line-height: 1.5; }
+
+        .alert {
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 12px;
+            font-size: 0.88rem;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            line-height: 1.5;
+        }
+        .alert-warning { background: #fffbeb; border: 1px solid #f59e0b; color: #92400e; }
+        .alert-info    { background: #ebf8ff; border: 1px solid #63b3ed; color: #2c5282; }
+        .alert-success { background: #f0fff4; border: 1px solid #68d391; color: #276749; }
+        .alert-caution { background: #fff5f5; border: 1px solid #fc8181; color: #9b2c2c; }
+        .alert-icon    { font-size: 1.1rem; flex-shrink: 0; padding-top: 1px; }
+
+        /* Buy links */
+        .buy-links { display: flex; flex-direction: column; gap: 10px; }
+        .buy-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.92rem;
+            transition: transform 0.15s, box-shadow 0.15s;
+            color: white;
+        }
+        .buy-link:hover { transform: translateY(-2px); box-shadow: 0 5px 18px rgba(0,0,0,0.18); }
+        .buy-link-amazon  { background: #ff9900; }
+        .buy-link-amazon2 { background: #e47911; }
+        .buy-link-google  { background: #4285f4; }
+        .buy-link-icon { font-size: 1.3rem; }
+        .buy-link-text .blm { font-size: 0.92rem; }
+        .buy-link-text .bls { font-size: 0.76rem; opacity: 0.88; font-weight: 400; }
+        .affiliate-notice { font-size: 0.74rem; color: #a0aec0; text-align: center; margin-top: 10px; font-style: italic; }
+
+        /* CTA to driver calc */
+        .cta-driver {
+            background: linear-gradient(135deg, #1a2a4a 0%, #2d4a7a 100%);
+            border-radius: 12px;
+            padding: 20px 24px;
+            color: white;
+            text-align: center;
+            margin-bottom: 18px;
+        }
+        .cta-driver h3 { font-size: 1rem; margin-bottom: 6px; }
+        .cta-driver p { font-size: 0.85rem; opacity: 0.82; margin-bottom: 14px; }
+        .cta-driver a {
+            display: inline-block;
+            background: #f59e0b;
+            color: white;
+            text-decoration: none;
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.92rem;
+            transition: background 0.2s;
+        }
+        .cta-driver a:hover { background: #f97316; }
+
+        /* Restart */
+        .btn-restart {
+            width: 100%;
+            padding: 13px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            background: white;
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: inherit;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 18px;
+        }
+        .btn-restart:hover { border-color: #a0aec0; }
+
+        /* Sidebar info */
+        .info-box {
+            background: #ebf8ff;
+            border-left: 4px solid #3182ce;
+            border-radius: 0 8px 8px 0;
+            padding: 14px 16px;
+            margin-bottom: 14px;
+        }
+        .info-box h4 { font-size: 0.88rem; font-weight: 600; color: #2c5282; margin-bottom: 6px; }
+        .info-box p, .info-box li { font-size: 0.83rem; color: #2c5282; line-height: 1.55; }
+        .info-box ul { padding-left: 16px; }
+        .info-box li { margin-bottom: 3px; }
+
+        .ref-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
+        .ref-table th { background: #1a2a4a; color: white; padding: 9px 12px; text-align: left; font-weight: 500; }
+        .ref-table th:first-child { border-radius: 8px 0 0 0; }
+        .ref-table th:last-child  { border-radius: 0 8px 0 0; }
+        .ref-table td { padding: 8px 12px; border-bottom: 1px solid #e2e8f0; color: #4a5568; }
+        .ref-table tr:nth-child(even) td { background: #f7fafc; }
+
+        .divider { border: none; border-top: 1px solid #e2e8f0; margin: 18px 0; }
+
+        footer {
+            background: #1a2a4a;
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            padding: 24px 16px;
+            font-size: 0.82rem;
+            margin-top: 40px;
+        }
+        footer a { color: rgba(255,255,255,0.8); }
+
+        /* COB badge */
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+        .badge-warn { background: #fef3c7; color: #92400e; }
+        .badge-good { background: #d1fae5; color: #065f46; }
+        .badge-info { background: #dbeafe; color: #1e40af; }
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1409689781104144"
+     crossorigin="anonymous"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-82HX4HNTVF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-82HX4HNTVF');
+    </script>
+</head>
+<body>
+
+<header>
+    <div style="font-size:2.2rem; margin-bottom:8px;">🔦</div>
+    <h1>LED Strip Light Selector</h1>
+    <p>Answer a few quick questions — get an instant recommendation for your project</p>
+</header>
+
+<nav>
+    <a href="led-strip-driver-calculator.html">Driver Calculator</a>
+    <a href="#" class="active">Strip Selector</a>
+    <a href="lux-calculator.html">Lux Calculator</a>
+    <a href="garden-lighting-calculator.html">Garden Lighting</a>
+    <a href="voltage-drop-calculator.html">Voltage Drop</a>
+    <a href="disclaimer.html">Disclaimer</a>
+</nav>
+
+<div class="container">
+
+    <div style="display:flex; justify-content:center; margin: 16px 0;">
+        <div class="ad-banner ad-leaderboard">[ Google Ad — 728×90 Leaderboard ]</div>
+    </div>
+
+    <div class="layout">
+
+        <!-- ===== LEFT: Selector ===== -->
+        <div>
+            <div class="card" id="selector-card">
+
+                <!-- Progress -->
+                <div class="progress-wrap">
+                    <div class="progress-label">
+                        <span id="step-label">Step 1 of 4</span>
+                        <span id="step-pct">25%</span>
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:25%"></div></div>
+                </div>
+
+                <!-- ===== STEP 1: Application ===== -->
+                <div class="step active" id="step-1">
+                    <div class="step-heading">What are you lighting?</div>
+                    <div class="step-sub">Pick the option that best describes your project</div>
+
+                    <div class="app-grid" id="app-grid">
+                        <button class="app-btn" data-app="kitchen" onclick="selectApp(this)">
+                            <span class="app-icon">🍳</span>
+                            <span class="app-label">Kitchen bench / under-cabinet</span>
+                        </button>
+                        <button class="app-btn" data-app="cove" onclick="selectApp(this)">
+                            <span class="app-icon">🏛️</span>
+                            <span class="app-label">Cove / pelmet / cornice</span>
+                        </button>
+                        <button class="app-btn" data-app="bathroom" onclick="selectApp(this)">
+                            <span class="app-icon">🚿</span>
+                            <span class="app-label">Bathroom / wet area</span>
+                        </button>
+                        <button class="app-btn" data-app="outdoor" onclick="selectApp(this)">
+                            <span class="app-icon">🌿</span>
+                            <span class="app-label">Outdoor / facade / garden</span>
+                        </button>
+                        <button class="app-btn" data-app="retail" onclick="selectApp(this)">
+                            <span class="app-icon">🛍️</span>
+                            <span class="app-label">Retail / commercial display</span>
+                        </button>
+                        <button class="app-btn" data-app="stair" onclick="selectApp(this)">
+                            <span class="app-icon">🪜</span>
+                            <span class="app-label">Staircase / handrail</span>
+                        </button>
+                        <button class="app-btn" data-app="rgb" onclick="selectApp(this)">
+                            <span class="app-icon">🎨</span>
+                            <span class="app-label">Colour / entertainment / RGB</span>
+                        </button>
+                        <button class="app-btn" data-app="neon" onclick="selectApp(this)">
+                            <span class="app-icon">✨</span>
+                            <span class="app-label">Neon / signage effect</span>
+                        </button>
+                        <button class="app-btn" data-app="ambient" onclick="selectApp(this)">
+                            <span class="app-icon">🛋️</span>
+                            <span class="app-label">General room ambient</span>
+                        </button>
+                        <button class="app-btn" data-app="cabinet" onclick="selectApp(this)">
+                            <span class="app-icon">🗄️</span>
+                            <span class="app-label">Cabinet / joinery / display</span>
+                        </button>
+                        <button class="app-btn" data-app="pool" onclick="selectApp(this)">
+                            <span class="app-icon">🏊</span>
+                            <span class="app-label">Pool / spa / fountain</span>
+                        </button>
+                        <button class="app-btn" data-app="mirror" onclick="selectApp(this)">
+                            <span class="app-icon">🪞</span>
+                            <span class="app-label">Mirror / vanity lighting</span>
+                        </button>
+                    </div>
+                    <p id="app-error" style="color:#e53e3e; font-size:0.85rem; margin-top:10px; display:none;">Please select an application first.</p>
+                    <div class="btn-row" style="margin-top:18px;">
+                        <button class="btn-next" style="flex:1" onclick="goStep(2)">Next — Preferences →</button>
+                    </div>
+                </div>
+
+                <!-- ===== STEP 2: Colour preferences ===== -->
+                <div class="step" id="step-2">
+                    <div class="step-heading">Colour & appearance</div>
+                    <div class="step-sub">Tell us how you want the light to look and behave</div>
+
+                    <div class="form-group">
+                        <label>Do you want to be able to change the colour or colour temperature?</label>
+                        <div class="toggle-group" id="colour-group">
+                            <button class="toggle-btn" onclick="setToggle('colour-group',this)" data-val="fixed">No — fixed white</button>
+                            <button class="toggle-btn" onclick="setToggle('colour-group',this)" data-val="tunable">Dim warm / tunable white</button>
+                            <button class="toggle-btn" onclick="setToggle('colour-group',this)" data-val="rgb">Full colour RGB</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="cct-group">
+                        <label>Preferred colour temperature <span class="label-hint">— what atmosphere do you want?</span></label>
+                        <div class="toggle-group" id="cct-toggle">
+                            <button class="toggle-btn" onclick="setToggle('cct-toggle',this)" data-val="2700">2700K<br><span style="font-size:0.75rem;font-weight:400">Very warm, intimate</span></button>
+                            <button class="toggle-btn" onclick="setToggle('cct-toggle',this)" data-val="3000">3000K<br><span style="font-size:0.75rem;font-weight:400">Warm, residential</span></button>
+                            <button class="toggle-btn" onclick="setToggle('cct-toggle',this)" data-val="4000">4000K<br><span style="font-size:0.75rem;font-weight:400">Cool white, task</span></button>
+                            <button class="toggle-btn" onclick="setToggle('cct-toggle',this)" data-val="5000">5000K<br><span style="font-size:0.75rem;font-weight:400">Daylight, crisp</span></button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>How visible will the strip itself be? <span class="label-hint">— can people see the strip, or is it hidden?</span></label>
+                        <div class="toggle-group" id="visibility-group">
+                            <button class="toggle-btn" onclick="setToggle('visibility-group',this)" data-val="hidden">Fully hidden<br><span style="font-size:0.75rem;font-weight:400">Inside channel/profile</span></button>
+                            <button class="toggle-btn" onclick="setToggle('visibility-group',this)" data-val="partial">Partially visible<br><span style="font-size:0.75rem;font-weight:400">Frosted cover/diffuser</span></button>
+                            <button class="toggle-btn" onclick="setToggle('visibility-group',this)" data-val="exposed">Fully exposed<br><span style="font-size:0.75rem;font-weight:400">Strip is on show</span></button>
+                        </div>
+                    </div>
+
+                    <div class="btn-row">
+                        <button class="btn-back" onclick="goStep(1)">← Back</button>
+                        <button class="btn-next" onclick="goStep(3)">Next — Environment →</button>
+                    </div>
+                </div>
+
+                <!-- ===== STEP 3: Environment ===== -->
+                <div class="step" id="step-3">
+                    <div class="step-heading">Installation environment</div>
+                    <div class="step-sub">This determines the IP rating and construction of the strip needed</div>
+
+                    <div class="form-group">
+                        <label>Where is the strip being installed?</label>
+                        <div class="toggle-group" id="env-group">
+                            <button class="toggle-btn" onclick="setToggle('env-group',this)" data-val="dry">Dry indoor<br><span style="font-size:0.75rem;font-weight:400">Bedroom, living, office</span></button>
+                            <button class="toggle-btn" onclick="setToggle('env-group',this)" data-val="damp">Damp / splash zone<br><span style="font-size:0.75rem;font-weight:400">Bathroom, laundry</span></button>
+                            <button class="toggle-btn" onclick="setToggle('env-group',this)" data-val="wet">Outdoor / wet<br><span style="font-size:0.75rem;font-weight:400">Garden, facade, rain</span></button>
+                            <button class="toggle-btn" onclick="setToggle('env-group',this)" data-val="submerged">Submerged<br><span style="font-size:0.75rem;font-weight:400">Pool, pond, fountain</span></button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Desired brightness level <span class="label-hint">— how much light output do you need?</span></label>
+                        <div class="toggle-group" id="brightness-group">
+                            <button class="toggle-btn" onclick="setToggle('brightness-group',this)" data-val="low">Subtle accent<br><span style="font-size:0.75rem;font-weight:400">Mood / glow only</span></button>
+                            <button class="toggle-btn" onclick="setToggle('brightness-group',this)" data-val="medium">General ambient<br><span style="font-size:0.75rem;font-weight:400">Everyday fill light</span></button>
+                            <button class="toggle-btn" onclick="setToggle('brightness-group',this)" data-val="high">Bright task light<br><span style="font-size:0.75rem;font-weight:400">Work surfaces, retail</span></button>
+                        </div>
+                    </div>
+
+                    <div class="btn-row">
+                        <button class="btn-back" onclick="goStep(2)">← Back</button>
+                        <button class="btn-next" onclick="goStep(4)">Get My Recommendation →</button>
+                    </div>
+                </div>
+
+                <!-- ===== STEP 4: Results ===== -->
+                <div class="step" id="step-4">
+                    <div id="results-container"></div>
+                    <button class="btn-restart" onclick="restart()">↩ Start Over — New Project</button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ===== RIGHT: Sidebar ===== -->
+        <div>
+            <div style="display:flex; justify-content:center; margin-bottom:20px;">
+                <div class="ad-banner ad-rectangle">[ Google Ad — 300×250 ]</div>
+            </div>
+
+            <div class="card">
+                <h2>💡 Strip Types at a Glance</h2>
+                <table class="ref-table">
+                    <thead>
+                        <tr><th>Type</th><th>Best For</th><th>IP</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>SMD (standard)</td><td>Most indoor uses</td><td>IP20</td></tr>
+                        <tr><td>SMD + diffuser</td><td>Visible installs</td><td>IP20+</td></tr>
+                        <tr><td>COB</td><td>Dot-free, coves</td><td>IP20</td></tr>
+                        <tr><td>IP65 SMD</td><td>Bathrooms, damp</td><td>IP65</td></tr>
+                        <tr><td>IP67/68 SMD</td><td>Outdoor, wet</td><td>IP67+</td></tr>
+                        <tr><td>Neon silicone</td><td>Signage, outdoor</td><td>IP67</td></tr>
+                        <tr><td>IP68 silicone</td><td>Pools, ponds</td><td>IP68</td></tr>
+                        <tr><td>RGB SMD</td><td>Colour/mood</td><td>IP20+</td></tr>
+                        <tr><td>RGBW SMD</td><td>Colour + white</td><td>IP20+</td></tr>
+                        <tr><td>Tunable white</td><td>Flexible CCT</td><td>IP20+</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2>🔵 Dot-Free Options</h2>
+                <div class="info-box" style="background:#f0fff4; border-color:#68d391;">
+                    <h4 style="color:#276749;">✅ Most Reliable: Channel + Diffuser</h4>
+                    <p style="color:#276749;">An aluminium extrusion with a frosted PC diffuser cover completely eliminates visible dots on any SMD strip. Proven technology, repairable, widely available.</p>
+                </div>
+                <div class="info-box" style="background:#fffbeb; border-color:#f59e0b;">
+                    <h4 style="color:#92400e;">⚠️ COB Strip — Use with Caution</h4>
+                    <p style="color:#92400e;">Genuinely dot-free but newer tech — no independent LM80 lifespan data yet. Still recommend mounting in an aluminium profile for heat management.</p>
+                </div>
+                <div class="info-box" style="background:#ebf8ff; border-color:#63b3ed;">
+                    <h4 style="color:#2c5282;">✅ Neon Silicone Flex</h4>
+                    <p style="color:#2c5282;">Built-in diffusion, no dots. Excellent for curves, signage and outdoor. Choose silicone over PU — wider temperature range and UV stable.</p>
+                </div>
+            </div>
+
+            <div style="display:flex; justify-content:center; margin-top:4px;">
+                <div class="ad-banner ad-rectangle">[ Google Ad — 300×250 ]</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom explainer -->
+    <div class="card">
+        <h2>📖 Understanding LED Strip Types</h2>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap:16px;">
+            <div class="info-box">
+                <h4>SMD Strip — The Workhorse</h4>
+                <p>SMD (Surface Mounted Diode) strips are the most common and widely available. They use individual LED chips spaced along the strip. Higher chip density = smoother light. Available in IP20 (indoor), IP65 (splash), IP67 and IP68 (fully waterproof). Proven, repairable, cost-effective.</p>
+            </div>
+            <div class="info-box">
+                <h4>COB Strip — Dot-Free, But Newer</h4>
+                <p>COB (Chip on Board) strips use a continuous phosphor coating over closely packed chips — completely eliminating the "dotty" appearance. Excellent aesthetics. However: no independent LM80 lifespan data exists yet, colour consistency can vary between rolls, and heat management requires an aluminium profile. Best mounted in channel.</p>
+            </div>
+            <div class="info-box">
+                <h4>Neon Silicone Flex</h4>
+                <p>A standard SMD strip encased in a continuous silicone extrusion that diffuses the light and gives a smooth neon-like glow. No dots. IP67 as standard — excellent for outdoor, facades, curved signage, pool surrounds and anywhere a visible, weather-resistant strip is needed. Choose silicone (not PU) — UV stable and rated to -40°C.</p>
+            </div>
+            <div class="info-box">
+                <h4>Channel + Diffuser — The Dot Fix</h4>
+                <p>An aluminium extrusion profile with a frosted polycarbonate diffuser cover mounted over any standard SMD strip is the most proven solution for eliminating visible dots. The aluminium also acts as a heatsink, extending strip life. Available in surface, recessed, corner and pendant profiles. The right choice for virtually any visible installation.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // ─── State ───────────────────────────────────────────────
+    let state = {
+        app: null,
+        colour: null,
+        cct: null,
+        visibility: null,
+        env: null,
+        brightness: null
+    };
+
+    // ─── Application lookup ───────────────────────────────────
+    const appData = {
+        kitchen:  { label: 'Kitchen Bench / Under-Cabinet', outdoor: false },
+        cove:     { label: 'Cove / Pelmet / Cornice',       outdoor: false },
+        bathroom: { label: 'Bathroom / Wet Area',           outdoor: false },
+        outdoor:  { label: 'Outdoor / Facade / Garden',     outdoor: true  },
+        retail:   { label: 'Retail / Commercial Display',   outdoor: false },
+        stair:    { label: 'Staircase / Handrail',          outdoor: false },
+        rgb:      { label: 'Colour / Entertainment / RGB',  outdoor: false },
+        neon:     { label: 'Neon / Signage Effect',         outdoor: true  },
+        ambient:  { label: 'General Room Ambient',          outdoor: false },
+        cabinet:  { label: 'Cabinet / Joinery / Display',   outdoor: false },
+        pool:     { label: 'Pool / Spa / Fountain',         outdoor: true  },
+        mirror:   { label: 'Mirror / Vanity',               outdoor: false }
+    };
+
+    // ─── Navigation ───────────────────────────────────────────
+    function goStep(n) {
+        if (n === 2 && !state.app) {
+            document.getElementById('app-error').style.display = 'block';
+            return;
+        }
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+        document.getElementById('step-' + n).classList.add('active');
+        const pct = Math.round((n / 4) * 100);
+        document.getElementById('progress-fill').style.width = pct + '%';
+        document.getElementById('step-label').textContent = n < 4 ? `Step ${n} of 3` : 'Your Recommendation';
+        document.getElementById('step-pct').textContent = pct + '%';
+
+        if (n === 4) buildResults();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function restart() {
+        state = { app: null, colour: null, cct: null, visibility: null, env: null, brightness: null };
+        document.querySelectorAll('.app-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('app-error').style.display = 'none';
+        goStep(1);
+    }
+
+    // ─── Toggles ─────────────────────────────────────────────
+    function setToggle(groupId, btn) {
+        document.getElementById(groupId).querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const key = groupId.replace('-group','').replace('-toggle','');
+        state[key] = btn.dataset.val;
+        if (groupId === 'colour-group') {
+            document.getElementById('cct-group').style.display =
+                btn.dataset.val === 'fixed' ? 'block' : 'none';
+        }
+    }
+
+    function selectApp(btn) {
+        document.querySelectorAll('.app-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        state.app = btn.dataset.app;
+        document.getElementById('app-error').style.display = 'none';
+    }
+
+    // ─── Recommendation engine ────────────────────────────────
+    function recommend() {
+        const app = state.app;
+        const colour = state.colour || 'fixed';
+        const cct = state.cct || '3000';
+        const vis = state.visibility || 'hidden';
+        const env = state.env || 'dry';
+        const bri = state.brightness || 'medium';
+
+        // ── IP rating ──
+        let ip, ipNote;
+        if (env === 'submerged' || app === 'pool') {
+            ip = 'IP68'; ipNote = 'Fully submersible — silicone-encased strip rated to 1–3m depth';
+        } else if (env === 'wet' || app === 'outdoor' || app === 'neon') {
+            ip = 'IP67'; ipNote = 'Weatherproof — suitable for rain and outdoor exposure';
+        } else if (env === 'damp' || app === 'bathroom' || app === 'mirror') {
+            ip = 'IP65'; ipNote = 'Splash-proof — suitable for bathrooms and damp areas';
+        } else {
+            ip = 'IP20'; ipNote = 'Standard indoor — keep away from moisture';
+        }
+
+        // ── Strip type ──
+        let stripType, stripNote, heroColor;
+
+        if (app === 'neon') {
+            stripType = 'Neon Silicone Flex';
+            stripNote = 'The neon silicone flex strip is the right call here. A standard LED strip encased in a continuous silicone extrusion gives you the smooth, dot-free neon glow with no individual LED dots visible. Choose silicone (not the cheaper PU type) — it\'s UV stable, handles -40°C to 65°C, and maintains IP67 rating long-term. Available in single colour, RGB and RGBW variants.';
+            heroColor = 'linear-gradient(135deg, #6b21a8, #a21caf)';
+        } else if (app === 'pool') {
+            stripType = 'IP68 Silicone-Encased Strip';
+            stripNote = 'Pool and water feature installations require a fully submersible IP68 strip in a silicone (not PU) enclosure, rated for continuous immersion. Ensure all connectors and cable entries are also IP68 rated. Use 24V for safety and to minimise voltage drop on longer pool perimeter runs. Have a licensed electrician install all pool-area lighting.';
+            heroColor = 'linear-gradient(135deg, #0369a1, #0ea5e9)';
+        } else if (colour === 'rgb') {
+            stripType = app === 'outdoor' ? 'RGB IP67 Strip' : 'RGB / RGBW Strip';
+            stripNote = 'For full colour control, an RGB strip gives you 16 million colours via a compatible LED controller. For white + colour, step up to RGBW (adds a dedicated white chip — much better quality white than mixed RGB). Pair with a PWM controller or a smart home hub (Zigbee, Z-Wave, Wi-Fi). Note: RGB strips require a dedicated RGB controller, not just a standard driver.';
+            heroColor = 'linear-gradient(135deg, #dc2626, #7c3aed)';
+        } else if (colour === 'tunable') {
+            stripType = 'Dual White / Tunable White Strip';
+            stripNote = 'A tunable white (dual-channel) strip has two rows of LEDs — warm white and cool white — that mix to any colour temperature from ~2700K to 6500K. Ideal for spaces where you want "dim to warm" behaviour (like filament bulbs) or the flexibility to shift from cosy evening ambience to crisp daylight for task work. Requires a 2-channel tunable white driver or smart controller.';
+            heroColor = 'linear-gradient(135deg, #f59e0b, #3b82f6)';
+        } else if ((vis === 'exposed' || vis === 'partial') && (app === 'cove' || app === 'cabinet' || app === 'stair')) {
+            stripType = ip === 'IP20' ? 'COB Strip (dot-free) or SMD + Diffuser Channel' : 'SMD Strip + Diffuser Channel';
+            stripNote = ip === 'IP20'
+                ? 'For a visible installation where dots would be noticeable, you have two solid options. First choice: an aluminium channel with a frosted diffuser over a high-density SMD strip — proven, repairable and widely available. Second option: COB strip, which is genuinely dot-free by design. COB is good but worth knowing: it\'s newer technology with no independent LM80 lifespan data yet, and colour consistency can vary between rolls. Whichever you choose, mount in an aluminium profile — it acts as a heatsink and extends life significantly.'
+                : 'For a damp/wet visible installation, use a high-density IP65 SMD strip inside a sealed aluminium channel with a frosted cover. COB strips have limited IP-rated options, so the channel approach is the safer and more reliable path here.';
+            heroColor = 'linear-gradient(135deg, #1a2a4a, #2d4a7a)';
+        } else {
+            stripType = ip === 'IP20' ? 'Standard SMD Strip' : `SMD Strip (${ip} rated)`;
+            stripNote = `A good quality SMD strip is exactly what you need here. For a${bri === 'low' ? ' subtle accent' : bri === 'high' ? ' high-output task' : ' general ambient'} application${ip !== 'IP20' ? ` in a ${env} environment` : ''}, a standard${ip !== 'IP20' ? ` ${ip}` : ''} SMD strip hits the right balance of output, reliability and value. Stick with a reputable brand — cheaper no-name strips often have inconsistent colour and poor lumen maintenance.`;
+            heroColor = 'linear-gradient(135deg, #1a2a4a, #2d4a7a)';
+        }
+
+        // ── Wattage ──
+        let wpm, wpmNote;
+        if (bri === 'low')    { wpm = '2.4–4.8 W/m'; }
+        else if (bri === 'high') { wpm = '9.6–14.4 W/m'; }
+        else {
+            if (app === 'kitchen' || app === 'retail') wpm = '7.2–9.6 W/m';
+            else wpm = '4.8–7.2 W/m';
+        }
+
+        // ── CCT recommendation ──
+        let cctRec, cctNote;
+        if (colour === 'rgb') { cctRec = 'RGB / RGBW'; cctNote = 'Full colour spectrum via controller'; }
+        else if (colour === 'tunable') { cctRec = '2700K–6500K'; cctNote = 'Adjustable via tunable white controller'; }
+        else {
+            const cctMap = {
+                kitchen: { k: '4000K', note: 'Cool white enhances food colours and visibility on bench surfaces' },
+                cove:    { k: '2700K–3000K', note: 'Warm tones work beautifully for indirect cove lighting' },
+                bathroom:{ k: '3000K–4000K', note: '3000K for relaxed feel, 4000K for make-up/grooming accuracy' },
+                outdoor: { k: '3000K', note: 'Warm white looks natural in garden and facade applications' },
+                retail:  { k: '4000K–5000K', note: 'Crisp cool white enhances product presentation' },
+                stair:   { k: '3000K', note: 'Warm, welcoming — safe without being harsh' },
+                rgb:     { k: 'RGB', note: 'Full colour spectrum' },
+                neon:    { k: cct + 'K', note: 'Matched to your colour temperature preference' },
+                ambient: { k: '2700K–3000K', note: 'Warm tones create a relaxing residential atmosphere' },
+                cabinet: { k: '3000K–4000K', note: '3000K for warm timber joinery, 4000K for modern/display' },
+                pool:    { k: '6500K', note: 'Cool daylight creates a crisp, clean water appearance' },
+                mirror:  { k: '4000K', note: 'Neutral white gives the most accurate skin tone rendering' }
+            };
+            const c = cctMap[app] || { k: '3000K', note: '' };
+            cctRec = state.cct ? state.cct + 'K (your preference)' : c.k;
+            cctNote = c.note;
+        }
+
+        // ── Voltage ──
+        const voltage = (app === 'outdoor' || app === 'pool' || bri === 'high') ? '24V (recommended)' : '12V or 24V';
+
+        // ── Dottiness ──
+        const showDotty = (vis === 'exposed' || vis === 'partial') && app !== 'neon' && app !== 'pool';
+
+        return { stripType, stripNote, heroColor, ip, ipNote, wpm, cctRec, cctNote, voltage, showDotty, colour };
+    }
+
+    // ─── Build results HTML ───────────────────────────────────
+    function buildResults() {
+        const r = recommend();
+        const appLabel = appData[state.app]?.label || state.app;
+        const affTag = 'lighttools-22';
+        const q = encodeURIComponent(r.stripType + ' LED strip ' + r.ip);
+        const amazonAU  = `https://www.amazon.com.au/s?k=${q}&tag=${affTag}`;
+        const amazonCOM = `https://www.amazon.com/s?k=${q}&tag=${affTag}`;
+        const googleShop = `https://www.google.com/search?q=${q}+buy&tbm=shop`;
+
+        // Dotty section
+        let dottyHTML = '';
+        if (r.showDotty) {
+            dottyHTML = `
+            <div class="dotty-card">
+                <div class="dotty-header">👁️ Dealing with "Dottiness" — Your Options</div>
+                <div class="dotty-body">
+                    <p style="font-size:0.85rem;color:#4a5568;margin-bottom:12px;">Your strip will be visible, so here's how to get a clean, dot-free result — ranked by reliability:</p>
+                    <div class="dotty-option">
+                        <div class="dotty-rank">1</div>
+                        <div>
+                            <h4>Aluminium Channel + Frosted Diffuser <span class="badge badge-good">Most Reliable</span></h4>
+                            <p>Mount any high-density SMD strip inside an aluminium extrusion profile with a frosted PC diffuser cover. The diffuser completely eliminates visible dots and the aluminium acts as a heatsink — extending strip life significantly. Available in surface mount, recessed, corner, pendant and stair-nose profiles. This is the most proven and repairable solution. Density of 120+ LEDs/m recommended for the smoothest result before diffusing.</p>
+                        </div>
+                    </div>
+                    <div class="dotty-option">
+                        <div class="dotty-rank">2</div>
+                        <div>
+                            <h4>High-Density SMD Strip (240 LEDs/m+) <span class="badge badge-info">Good Option</span></h4>
+                            <p>A very high-density strip (240 LEDs/m or more) has dots so close together they become almost invisible to the naked eye at normal viewing distances — particularly effective in cove and pelmet applications where you're only seeing reflected light. Still benefits from a channel to protect the strip and aid heat management.</p>
+                        </div>
+                    </div>
+                    <div class="dotty-option">
+                        <div class="dotty-rank">3</div>
+                        <div>
+                            <h4>COB Strip <span class="badge badge-warn">Use with Caveats</span></h4>
+                            <p>COB (Chip on Board) strip uses a continuous phosphor coating that is genuinely dot-free by design — no channel or diffuser needed for dot elimination. It looks great. However: it's newer technology with no independent LM80 lifespan data published yet, colour consistency between rolls can vary (no binning stage in production), and the phosphor coating can trap heat unless the strip is mounted in an aluminium profile. Our advice: specify COB from a reputable brand, always mount it in an aluminium channel, and be aware you may have less long-term reliability data backing the spec than with proven SMD options.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        // COB caveat alert if we recommended it
+        let cobAlert = '';
+        if (r.stripType.includes('COB')) {
+            cobAlert = `<div class="alert alert-warning"><span class="alert-icon">⚠️</span><div><strong>COB Strip Caveat:</strong> COB is a good product but is relatively new to market. No independent LM80 lifespan data has been published yet — manufacturer lifespan claims are predicted, not independently tested. Colour consistency can also vary between rolls. If longevity and consistency are critical (commercial spec, warranty-sensitive), a high-density SMD strip in an aluminium channel with frosted diffuser is the more proven alternative.</div></div>`;
+        }
+
+        let neonAlert = '';
+        if (r.stripType.includes('Neon') || r.stripType.includes('Silicone')) {
+            neonAlert = `<div class="alert alert-info"><span class="alert-icon">ℹ️</span><div><strong>Silicone vs PU Neon Flex:</strong> Always specify silicone neon flex, not PU (polyurethane). Silicone handles -40°C to +65°C (vs PU's -25°C to 50°C), is UV stable, won't yellow over time, and is chemically resistant. The price difference is worth it — cheap PU flex is a false economy outdoors.</div></div>`;
+        }
+
+        let poolAlert = '';
+        if (state.app === 'pool') {
+            poolAlert = `<div class="alert alert-caution"><span class="alert-icon">⚡</span><div><strong>Pool / Spa Safety:</strong> All pool and spa lighting in Australia must be installed by a licensed electrician and comply with AS 3000 and AS 2117. Ensure your transformer, driver and all cable terminations are IP68 rated and located outside the pool zone. Do not attempt pool electrical work as a DIY project.</div></div>`;
+        }
+
+        document.getElementById('results-container').innerHTML = `
+            <h2 style="font-size:1.2rem;font-weight:600;color:#1a2a4a;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #e2e8f0;">
+                ✅ Recommendation for: ${appLabel}
+            </h2>
+
+            <div class="result-hero" style="background:${r.heroColor}">
+                <div class="rh-label">Recommended Strip Type</div>
+                <div class="rh-type">${r.stripType}</div>
+                <div class="rh-sub">${r.ip} rated · ${r.voltage}</div>
+            </div>
+
+            <div class="spec-grid">
+                <div class="spec-item">
+                    <div class="sl">Colour / CCT</div>
+                    <div class="sv">${r.cctRec}</div>
+                </div>
+                <div class="spec-item">
+                    <div class="sl">Wattage per Metre</div>
+                    <div class="sv">${r.wpm}</div>
+                </div>
+                <div class="spec-item">
+                    <div class="sl">IP Rating</div>
+                    <div class="sv">${r.ip}</div>
+                </div>
+                <div class="spec-item">
+                    <div class="sl">Voltage</div>
+                    <div class="sv">${r.voltage}</div>
+                </div>
+            </div>
+
+            <div class="alert alert-success" style="margin-bottom:14px;">
+                <span class="alert-icon">💡</span>
+                <div>${r.stripNote}</div>
+            </div>
+
+            ${r.cctNote ? `<div class="alert alert-info"><span class="alert-icon">🌡️</span><div><strong>Why this colour temperature:</strong> ${r.cctNote}</div></div>` : ''}
+            ${cobAlert}
+            ${neonAlert}
+            ${poolAlert}
+
+            ${dottyHTML}
+
+            <hr class="divider">
+
+            <div class="cta-driver">
+                <h3>⚡ Got your strip spec? Now size your driver.</h3>
+                <p>Use our Driver Calculator to find exactly the right power supply — enter your W/m and total length to get a recommended driver size with buy links.</p>
+                <a href="led-strip-driver-calculator.html">Open Driver Calculator →</a>
+            </div>
+
+            <h3 style="font-size:1rem;font-weight:600;color:#1a2a4a;margin-bottom:12px;">🛒 Find This Strip Online</h3>
+            <div class="buy-links">
+                <a href="${amazonAU}" target="_blank" rel="noopener sponsored" class="buy-link buy-link-amazon">
+                    <span class="buy-link-icon">🛒</span>
+                    <span class="buy-link-text">
+                        <div class="blm">Search Amazon Australia</div>
+                        <div class="bls">${r.stripType} · ${r.ip}</div>
+                    </span>
+                </a>
+                <a href="${amazonCOM}" target="_blank" rel="noopener sponsored" class="buy-link" style="background:#e47911;">
+                    <span class="buy-link-icon">🛒</span>
+                    <span class="buy-link-text">
+                        <div class="blm">Search Amazon.com (US)</div>
+                        <div class="bls">${r.stripType} · ${r.ip}</div>
+                    </span>
+                </a>
+                <a href="${googleShop}" target="_blank" rel="noopener" class="buy-link buy-link-google">
+                    <span class="buy-link-icon">🔍</span>
+                    <span class="buy-link-text">
+                        <div class="blm">Compare on Google Shopping</div>
+                        <div class="bls">All retailers, best prices</div>
+                    </span>
+                </a>
+            </div>
+            <p class="affiliate-notice">★ Amazon links support this free tool at no extra cost to you</p>
+        `;
+    }
+</script>
+
+<!-- FAQ Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the difference between SMD and COB LED strips?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "SMD (Surface Mounted Device) LED strips have individual LED chips spaced along the strip, which can create visible dotting on surfaces when used without a diffuser channel. COB (Chip on Board) strips use a continuous line of tiny LED chips with a phosphor coating, producing a smooth dot-free light line. COB is preferred for high-end architectural and cove lighting where a seamless look is important."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What colour temperature should I choose for LED strips?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Colour temperature is measured in Kelvin (K). 2700K–3000K is warm white, similar to traditional incandescent — ideal for living rooms, bedrooms and hospitality. 4000K is neutral white, good for kitchens and retail. 5000K–6500K is cool daylight white, suited to workshops, garages and task lighting. For architectural and cove lighting, 2700K or 3000K is most common."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What IP rating do I need for LED strips in a bathroom?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Australian Standard AS/NZS 3000 divides bathrooms into zones. Zone 0 (inside the bath or shower) requires IP67 minimum. Zone 1 (directly above the bath/shower to 2.25m height) requires IP44 minimum. Zone 2 (within 0.6m of the shower) requires IP44. Outside these zones, IP20 is acceptable. In practice, IP65 strips are recommended for any bathroom application as they can handle steam and humidity."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many lumens do I need for under-cabinet LED strips?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For under-cabinet task lighting in kitchens, aim for 400–600 lumens per linear metre. A 9–14W/m LED strip at 24V typically achieves this. For purely decorative ambient lighting under cabinets, 150–300 lumens per metre is sufficient. High CRI strips (CRI 90+) are recommended for kitchen benchtops to render food colours accurately."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is CRI and why does it matter for LED strips?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "CRI (Colour Rendering Index) measures how accurately a light source renders colours compared to natural sunlight (CRI 100). Standard LED strips typically have CRI 80. High CRI strips (CRI 90+) render colours more vividly and accurately — important for retail, art galleries, kitchens and anywhere colour appearance matters. For general ambient lighting, CRI 80 is acceptable. For task lighting or display lighting, choose CRI 90 or higher."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need an aluminium channel for LED strips?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Aluminium channels serve two purposes: heat dissipation (extending LED strip life) and diffusion (eliminating visible dots). For strips above 10W/m, a channel is strongly recommended as it significantly extends lifespan. For cove and architectural lighting, a channel with opal diffuser creates a smooth glow rather than visible LED dots. Channels also protect the strip from mechanical damage and make installation neater."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between single colour and RGBW LED strips?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Single colour strips emit one fixed colour temperature (e.g. 3000K warm white) and are controlled with a simple on/off dimmer. RGB strips mix red, green and blue LEDs to create millions of colours but produce poor quality white light. RGBW strips add a dedicated white LED chip for quality white light alongside colour changing capability — ideal when you want both colour effects and good quality white light from one system."
+      }
+    }
+  ]
+}
+</script>
+
+<style>
+    .strip-content { max-width: 860px; margin: 0 auto; padding: 0 16px 48px; }
+    .strip-content h2 { font-size: 1.3rem; font-weight: 700; color: #4c1d95; margin: 32px 0 12px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+    .strip-content h3 { font-size: 1rem; font-weight: 700; color: #1a2a4a; margin: 20px 0 8px; }
+    .strip-content p { font-size: 0.9rem; color: #4a5568; margin-bottom: 12px; line-height: 1.7; }
+    .strip-content ul { padding-left: 20px; margin-bottom: 12px; }
+    .strip-content li { font-size: 0.9rem; color: #4a5568; margin-bottom: 6px; line-height: 1.6; }
+    .strip-content table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 14px 0; }
+    .strip-content th { background: #4c1d95; color: white; padding: 8px 12px; text-align: left; }
+    .strip-content td { padding: 7px 12px; border-bottom: 1px solid #e2e8f0; color: #4a5568; }
+    .strip-content tr:nth-child(even) td { background: #f5f3ff; }
+
+    .strip-faq { max-width: 860px; margin: 0 auto; padding: 0 16px 48px; }
+    .strip-faq h2 { font-size: 1.3rem; font-weight: 700; color: #4c1d95; margin: 0 0 16px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+    .strip-faq-item { background: white; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 10px; overflow: hidden; }
+    .strip-faq-q { padding: 15px 20px; font-size: 0.92rem; font-weight: 600; color: #1a202c; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+    .strip-faq-q:hover { background: #f5f3ff; }
+    .strip-faq-arrow { color: #6d28d9; font-size: 1rem; transition: transform 0.2s; flex-shrink: 0; }
+    .strip-faq-a { display: none; padding: 14px 20px; font-size: 0.88rem; color: #4a5568; line-height: 1.65; border-top: 1px solid #e2e8f0; }
+    .strip-faq-item.open .strip-faq-arrow { transform: rotate(180deg); }
+    .strip-faq-item.open .strip-faq-a { display: block; }
+</style>
+
+<!-- Article Section -->
+<div class="strip-content">
+    <h2>LED Strip Light Guide — Types, Wattage, CRI &amp; IP Ratings Explained</h2>
+
+    <p>With dozens of LED strip types on the market, choosing the right one can be overwhelming. This guide breaks down every key specification so you can confidently select the best strip for your project — whether it's under-cabinet kitchen lighting, architectural cove work, outdoor garden features or pool surrounds.</p>
+
+    <h3>SMD vs COB — Which Strip Type?</h3>
+    <p>The two main LED strip technologies have very different visual characteristics:</p>
+    <table>
+        <thead><tr><th>Type</th><th>Appearance</th><th>Best For</th><th>Notes</th></tr></thead>
+        <tbody>
+            <tr><td>SMD 2835</td><td>Visible individual dots</td><td>General lighting, under cabinet</td><td>Most common, good value</td></tr>
+            <tr><td>SMD 5050</td><td>Visible dots, brighter</td><td>High output, RGB colour</td><td>Used for RGB/RGBW strips</td></tr>
+            <tr><td>COB</td><td>Smooth continuous line</td><td>Cove, architectural, display</td><td>No hot spots, premium look</td></tr>
+            <tr><td>Neon Silicone</td><td>Uniform glowing tube</td><td>Signage, feature edges, outdoor</td><td>Very durable, weather resistant</td></tr>
+            <tr><td>High Density SMD</td><td>Near-seamless at distance</td><td>Retail, hospitality</td><td>High lumen output</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Colour Temperature Guide</h3>
+    <p>Colour temperature (measured in Kelvin) determines whether light appears warm and cosy or cool and crisp. Choosing the right CCT is as important as choosing the right wattage.</p>
+    <table>
+        <thead><tr><th>CCT</th><th>Appearance</th><th>Best Applications</th></tr></thead>
+        <tbody>
+            <tr><td>2700K</td><td>Very warm white</td><td>Bedrooms, living rooms, restaurants, hospitality</td></tr>
+            <tr><td>3000K</td><td>Warm white</td><td>Kitchens, bathrooms, retail, cove lighting</td></tr>
+            <tr><td>4000K</td><td>Neutral / cool white</td><td>Offices, kitchens, commercial spaces</td></tr>
+            <tr><td>5000K</td><td>Daylight</td><td>Workshops, garages, task lighting</td></tr>
+            <tr><td>6500K</td><td>Cool daylight</td><td>Industrial, security, display cabinets</td></tr>
+            <tr><td>Tunable White</td><td>Variable 2700–6500K</td><td>Human-centric lighting, healthcare, premium residential</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Understanding CRI</h3>
+    <p>CRI (Colour Rendering Index) measures how accurately colours appear under the light source compared to natural sunlight. It ranges from 0–100, with 100 being perfect.</p>
+    <ul>
+        <li><strong>CRI 80</strong> — standard, adequate for general ambient lighting</li>
+        <li><strong>CRI 90+</strong> — high CRI, colours appear vivid and accurate — recommended for kitchens, retail, art and anywhere colour appearance matters</li>
+        <li><strong>CRI 95+</strong> — museum quality, used in art galleries, jewellery display, medical lighting</li>
+    </ul>
+    <p>Never use low-CRI strips for food display, retail, or artwork — colours will look washed out and unnatural. High-CRI strips cost slightly more but the difference in light quality is immediately visible.</p>
+
+    <h3>Wattage Per Metre Guide</h3>
+    <table>
+        <thead><tr><th>W/m</th><th>Light Output</th><th>Typical Use</th></tr></thead>
+        <tbody>
+            <tr><td>4–6 W/m</td><td>Low</td><td>Decorative accent, under-furniture glow</td></tr>
+            <tr><td>8–10 W/m</td><td>Medium</td><td>Cove lighting, feature walls, stair lighting</td></tr>
+            <tr><td>12–15 W/m</td><td>High</td><td>Under-cabinet task, retail display, general illumination</td></tr>
+            <tr><td>18–24 W/m</td><td>Very High</td><td>High-output architectural, commercial task lighting</td></tr>
+            <tr><td>25+ W/m</td><td>Ultra High</td><td>Industrial, signage, replacing fluorescent</td></tr>
+        </tbody>
+    </table>
+
+    <h3>IP Ratings for LED Strips</h3>
+    <table>
+        <thead><tr><th>IP Rating</th><th>Protection</th><th>Use</th></tr></thead>
+        <tbody>
+            <tr><td>IP20</td><td>No moisture protection</td><td>Dry indoor only — coves, under cabinets</td></tr>
+            <tr><td>IP44</td><td>Splash resistant</td><td>Bathrooms outside Zone 1</td></tr>
+            <tr><td>IP65</td><td>Water jet resistant</td><td>Bathrooms, outdoor covered areas</td></tr>
+            <tr><td>IP67</td><td>Temporary immersion</td><td>Outdoor exposed, near water features</td></tr>
+            <tr><td>IP68</td><td>Continuous submersion</td><td>Pools, fountains, underwater features</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Do You Need an Aluminium Channel?</h3>
+    <p>Aluminium extrusion channels serve two functions: heat management and light diffusion. For strips above 10W/m, a channel is strongly recommended — it acts as a heatsink, keeping LED junction temperatures lower and dramatically extending strip lifespan. A strip running hot without a channel may last 10,000–20,000 hours; the same strip in a channel can last 50,000+ hours.</p>
+    <p>Opal diffuser covers on channels eliminate the visible LED dot pattern, creating a smooth, even glow. This is essential for cove lighting, shelf edge lighting, or anywhere the strip itself is visible to occupants.</p>
+
+    <h3>Colour Changing — RGB vs RGBW vs Tunable White</h3>
+    <ul>
+        <li><strong>Single colour</strong> — simplest, best light quality, lowest cost. Use when you just want white light.</li>
+        <li><strong>RGB</strong> — full colour changing but poor white light quality. Good for entertainment and feature lighting where colour effects are the point.</li>
+        <li><strong>RGBW</strong> — adds a dedicated white chip to RGB. Best of both — good colour changing plus quality white. More expensive and requires a compatible 4-channel controller.</li>
+        <li><strong>Tunable White (CCT)</strong> — adjusts between warm and cool white. No colour changing, but perfect for human-centric lighting that follows the natural daylight cycle.</li>
+    </ul>
+</div>
+
+<!-- FAQ Section -->
+<div class="strip-faq">
+    <h2>❓ Frequently Asked Questions</h2>
+
+    <div class="strip-faq-item">
+        <div class="strip-faq-q" onclick="this.parentElement.classList.toggle('open')">What is the difference between SMD and COB LED strips? <span class="strip-faq-arrow">▼</span></div>
+        <div class="strip-faq-a">SMD strips have individual LED chips spaced along the strip which can create visible dots without a diffuser. COB strips use a continuous line of tiny chips with a phosphor coating, producing a smooth dot-free line of light. COB is preferred for architectural and cove lighting where a seamless look is important.</div>
+    </div>
+
+    <div class="strip-faq-item">
+        <div class="strip-faq-q" onclick="this.parentElement.classList.toggle('open')">What colour temperature should I choose? <span class="strip-faq-arrow">▼</span></div>
+        <div class="strip-faq-a">2700K–3000K is warm white — ideal for living areas, bedrooms and hospitality. 4000K is neutral white, good for kitchens and retail. 5000K–6500K is cool daylight, suited to workshops and task lighting. For architectural cove lighting, 2700K or 3000K is most common.</div>
+    </div>
+
+    <div class="strip-faq-item">
+        <div class="strip-faq-q" onclick="this.parentElement.classList.toggle('open')">What IP rating do I need for bathroom LED strips? <span class="strip-faq-arrow">▼</span></div>
+        <div class="strip-faq-a">Zone 0 (inside bath/shower) requires IP67 minimum. Zone 1 (above the bath to 2.25m) requires IP44 minimum. Zone 2 (within 0.6m of shower) requires IP44. In practice, IP65 strips are recommended for any bathroom as they handle steam and humidity well.</div>
+    </div>
+
+    <div class="strip-faq-item">
+        <div class="strip-faq-q" onclick="this.parentElement.classList.toggle('open')">What is CRI and why does it matter? <span class="strip-faq-arrow">▼</span></div>
+        <div class="strip-faq-a">CRI (Colour Rendering Index) measures how accurately a light source renders colours compared to sunlight. CRI 80 is standard and adequate for general lighting. CRI 90+ renders colours vividly and accurately — important for kitchens, retail, art and display. Never use low-CRI strips for food display or retail as colours will appear washed out.</div>
+    </div>
+
+    <div class="strip-faq-item">
+        <div class="strip-faq-q" onclick="this.parentElement.classList.toggle('open')">Do I need an aluminium channel for my LED strips? <span class="strip-faq-arrow">▼</span></div>
+        <div class="strip-faq-a">For strips above 10W/m, a channel is strongly recommended — it acts as a heatsink and significantly extends strip lifespan. An opal diffuser cover eliminates visible LED dots, creating a smooth glow. Essential for cove lighting or anywhere the strip itself is visible.</div>
+    </div>
+
+    <div class="strip-faq-item">
+        <div class="strip-faq-q" onclick="this.parentElement.classList.toggle('open')">What is the difference between RGB and RGBW strips? <span class="strip-faq-arrow">▼</span></div>
+        <div class="strip-faq-a">RGB strips mix red, green and blue to create colours but produce poor quality white light. RGBW adds a dedicated white LED chip, giving you both full colour changing and good quality white light from one strip. RGBW requires a 4-channel controller and costs more but is worth it when you want both white and colour capability.</div>
+    </div>
+
+    <div class="strip-faq-item">
+        <div class="strip-faq-q" onclick="this.parentElement.classList.toggle('open')">How many lumens do I need for under-cabinet strips? <span class="strip-faq-arrow">▼</span></div>
+        <div class="strip-faq-a">For task lighting under kitchen cabinets, aim for 400–600 lumens per metre — typically a 9–14W/m strip. For purely decorative ambient lighting, 150–300 lumens per metre is sufficient. Choose CRI 90+ strips for kitchen benchtops to render food colours accurately.</div>
+    </div>
+</div>
+
+<footer>
+    <p><strong>LightTools</strong> — lighttools.com.au | Free tools for electricians, designers &amp; DIYers</p>
+    <p style="margin-top:8px;">© 2026 LightTools. Amazon links are affiliate links. We may earn a small commission at no extra cost to you. | <a href="disclaimer.html">Disclaimer &amp; Terms</a></p>
+</footer>
+
+</body>
+</html>

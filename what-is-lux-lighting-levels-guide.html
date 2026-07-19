@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What is Lux? Understanding Lighting Levels — Complete Guide | LightTools</title>
+    <meta name="description" content="What is lux? Learn how lux, lumens, and candela differ, what lux levels are required in Australian homes, offices and commercial spaces, and how to calculate lux for any room.">
+    <link rel="canonical" href="https://lighttools.com.au/what-is-lux-lighting-levels-guide.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1409689781104144" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-82HX4HNTVF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-82HX4HNTVF');
+    </script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: #f0f4f8; color: #1a202c; line-height: 1.6; }
+
+        header { background: linear-gradient(135deg, #1a2a4a 0%, #2d4a7a 60%, #1a3a6a 100%); color: white; padding: 60px 20px 50px; text-align: center; }
+        .logo { font-size: 2.6rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+        .logo span { color: #f59e0b; }
+        header h1 { font-size: 1.5rem; font-weight: 700; max-width: 700px; margin: 0 auto 16px; line-height: 1.3; }
+        header p { font-size: 0.95rem; opacity: 0.8; }
+
+        nav { background: #152238; padding: 10px 20px; display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
+        nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; padding: 4px 0; }
+        nav a:hover { color: #f59e0b; }
+        nav a.active { color: #f59e0b; }
+
+        .container { max-width: 820px; margin: 0 auto; padding: 48px 16px 72px; }
+
+        .meta-bar { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; margin-bottom: 36px; font-size: 0.82rem; color: #718096; }
+        .meta-tag { background: #e2e8f0; border-radius: 999px; padding: 4px 12px; font-weight: 600; color: #4a5568; }
+
+        .toc { background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); padding: 24px 28px; margin-bottom: 40px; }
+        .toc h2 { font-size: 0.88rem; font-weight: 700; color: #1a2a4a; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .toc ol { margin-left: 18px; }
+        .toc li { margin-bottom: 7px; }
+        .toc a { color: #2d4a7a; text-decoration: none; font-size: 0.9rem; }
+        .toc a:hover { color: #f59e0b; text-decoration: underline; }
+
+        .prose h2 { font-size: 1.35rem; font-weight: 700; color: #1a2a4a; margin: 52px 0 16px; border-left: 4px solid #f59e0b; padding-left: 14px; scroll-margin-top: 20px; }
+        .prose h3 { font-size: 1.05rem; font-weight: 700; color: #1a2a4a; margin: 28px 0 10px; }
+        .prose p { font-size: 0.97rem; color: #2d3748; line-height: 1.85; margin-bottom: 18px; }
+        .prose ul, .prose ol { margin: 0 0 18px 22px; }
+        .prose li { font-size: 0.95rem; color: #2d3748; margin-bottom: 9px; line-height: 1.7; }
+        .prose strong { color: #1a202c; }
+        .prose a { color: #2d4a7a; font-weight: 500; }
+        .prose a:hover { color: #f59e0b; }
+
+        .callout { border-radius: 10px; padding: 16px 20px; margin: 24px 0; font-size: 0.92rem; line-height: 1.7; }
+        .callout-tip { background: #fffbeb; border: 1px solid #f59e0b; color: #78350f; }
+        .callout-warn { background: #fef2f2; border: 1px solid #f87171; color: #7f1d1d; }
+        .callout-info { background: #eff6ff; border: 1px solid #93c5fd; color: #1e3a5f; }
+        .callout strong { display: block; margin-bottom: 4px; }
+
+        .lux-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.88rem; }
+        .lux-table th { background: #1a2a4a; color: white; padding: 10px 14px; text-align: left; font-weight: 600; }
+        .lux-table td { padding: 9px 14px; border-bottom: 1px solid #e2e8f0; color: #2d3748; vertical-align: top; }
+        .lux-table tr:nth-child(even) td { background: #f7fafc; }
+        .lux-table .lux-val { font-weight: 700; color: #1a2a4a; white-space: nowrap; }
+
+        .cta-box { background: linear-gradient(135deg, #1a2a4a, #2d4a7a); color: white; border-radius: 14px; padding: 28px 32px; margin: 40px 0; text-align: center; }
+        .cta-box h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; color: #f59e0b; }
+        .cta-box p { font-size: 0.92rem; opacity: 0.9; line-height: 1.75; margin-bottom: 18px; }
+        .cta-btn { display: inline-block; background: #f59e0b; color: #1a2a4a; font-weight: 700; font-size: 0.95rem; padding: 12px 28px; border-radius: 8px; text-decoration: none; }
+        .cta-btn:hover { background: #fbbf24; }
+
+        .disclaimer-strip { background: #fffbeb; border: 1px solid #f59e0b; border-radius: 10px; padding: 14px 20px; font-size: 0.82rem; color: #78350f; margin-top: 40px; }
+
+        footer { background: #1a2a4a; color: rgba(255,255,255,0.6); text-align: center; padding: 28px 16px; font-size: 0.82rem; }
+        footer strong { color: rgba(255,255,255,0.9); }
+        footer a { color: rgba(255,255,255,0.75); text-decoration: none; }
+        footer a:hover { color: #f59e0b; }
+        .footer-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 10px; }
+
+        @media (max-width: 600px) { header { padding: 40px 16px 32px; } header h1 { font-size: 1.25rem; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">Light<span>Tools</span></div>
+    <h1>What is Lux? Understanding Lighting Levels</h1>
+    <p>Written by a lighting designer with 18 years of industry experience</p>
+</header>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="led-strip-driver-calculator.html">Driver Calculator</a>
+    <a href="led-strip-light-selector.html">Strip Selector</a>
+    <a href="lux-calculator.html">Lux Calculator</a>
+    <a href="garden-lighting-calculator.html">Garden Lighting</a>
+    <a href="voltage-drop-calculator.html">Voltage Drop</a>
+    <a href="sparky-selector.html">Sparky Selector</a>
+    <a href="about.html">About</a>
+</nav>
+
+<div class="container">
+
+    <div class="meta-bar">
+        <span class="meta-tag">Lighting Fundamentals</span>
+        <span>Updated June 2026</span>
+        <span>10 min read</span>
+    </div>
+
+    <div class="toc">
+        <h2>In this guide</h2>
+        <ol>
+            <li><a href="#what-is-lux">What is lux?</a></li>
+            <li><a href="#lux-lumens-candela">Lux vs lumens vs candela</a></li>
+            <li><a href="#lux-levels">Recommended lux levels by room and task</a></li>
+            <li><a href="#australian-standards">Australian Standards for lighting (AS/NZS 1680)</a></li>
+            <li><a href="#how-to-measure">How to measure lux</a></li>
+            <li><a href="#factors">What affects lux levels in a room</a></li>
+            <li><a href="#calculate">How to calculate lux for a room</a></li>
+        </ol>
+    </div>
+
+    <div class="prose">
+
+        <h2 id="what-is-lux">What is lux?</h2>
+
+        <p>Lux (symbol: lx) is the SI unit of illuminance — the measure of how much light falls on a surface. One lux is equal to one lumen per square metre. In plain terms, it tells you how brightly lit a surface actually is, not just how much light a fitting emits.</p>
+
+        <p>The word comes from the Latin for light, and it's the unit you'll see in lighting design specifications, Australian Standards documents, and workplace safety requirements. When an engineer specifies "300 lux at bench height" for a workshop, they're describing the amount of light hitting the work surface — not the wattage of the fittings or the lumens in the box.</p>
+
+        <p>This distinction matters enormously in practice. A 1000 lumen downlight directly above your desk will produce very different lux levels depending on how high the ceiling is and how reflective the surfaces around it are. Lux is the number that captures the real-world result.</p>
+
+        <div class="callout callout-info">
+            <strong>Quick definition</strong>
+            1 lux = 1 lumen falling on 1 square metre of surface. Double the area and the lux halves, even though the light source hasn't changed.
+        </div>
+
+        <h2 id="lux-lumens-candela">Lux vs lumens vs candela — what's the difference?</h2>
+
+        <p>These three terms are related but measure different things, and they're commonly confused even by people who work with lighting regularly.</p>
+
+        <h3>Lumens (lm) — total light output</h3>
+        <p>Lumens measure the total amount of visible light emitted by a source in all directions. It's the number on the LED downlight box. A 13W LED downlight might produce 1100 lumens. That's the raw output of the fitting — it says nothing about how that light is distributed or how brightly it lights a specific surface.</p>
+
+        <h3>Candela (cd) — intensity in a direction</h3>
+        <p>Candela measures luminous intensity — how much light is emitted in a specific direction. A spotlight with a narrow beam concentrates its lumens into a small angle, producing a high candela value in that direction. The same fitting spread wide would have a lower candela value. Candela is most useful for evaluating directional fittings like spotlights, track lights, and luminaires with specific beam angles.</p>
+
+        <h3>Lux (lx) — light arriving at a surface</h3>
+        <p>Lux is what you actually experience. It's the illuminance at the point where light lands. This is the number that determines whether a space feels dim or well-lit, whether it meets a safety standard, or whether it's appropriate for the visual task at hand.</p>
+
+        <p>The relationship between these units: if you have a source emitting 1 candela uniformly in all directions, it produces 1 lux on every point of a sphere with a 1-metre radius surrounding it. Spread that same light over a 2-metre radius sphere and the lux drops to 0.25 lx — the inverse square law in action.</p>
+
+        <h2 id="lux-levels">Recommended lux levels by room and task</h2>
+
+        <p>Different tasks require very different amounts of light. Reading fine print, performing surgery, and walking down a corridor all have different illuminance requirements. The table below covers the most common residential, commercial, and industrial settings.</p>
+
+        <table class="lux-table">
+            <thead>
+                <tr>
+                    <th>Space / Task</th>
+                    <th>Recommended Lux</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Outdoor pathway / garden</td><td class="lux-val">5–50 lx</td><td>Safety and ambience; lower end for decorative, higher for security</td></tr>
+                <tr><td>Bedroom (general)</td><td class="lux-val">100–150 lx</td><td>Relaxed environment; dimmable recommended</td></tr>
+                <tr><td>Living room (general)</td><td class="lux-val">150–200 lx</td><td>Higher for reading zones</td></tr>
+                <tr><td>Reading / desk work</td><td class="lux-val">300–500 lx</td><td>Task lighting required at the reading surface</td></tr>
+                <tr><td>Kitchen benchtop</td><td class="lux-val">300–500 lx</td><td>Under-cabinet LED strips are ideal for this</td></tr>
+                <tr><td>Bathroom vanity</td><td class="lux-val">300–500 lx</td><td>At face height; avoid shadows from above-only lighting</td></tr>
+                <tr><td>Office (open plan)</td><td class="lux-val">320–500 lx</td><td>AS/NZS 1680.2.2 specifies 320 lx minimum for office work</td></tr>
+                <tr><td>Retail shop floor</td><td class="lux-val">500–1000 lx</td><td>Higher for display areas and fitting rooms</td></tr>
+                <tr><td>Workshop / trade bench</td><td class="lux-val">500–750 lx</td><td>Fine detail work may need 1000+ lx</td></tr>
+                <tr><td>Hospital / clinical areas</td><td class="lux-val">500–1000 lx</td><td>Examination areas up to 10,000 lx</td></tr>
+                <tr><td>School classroom</td><td class="lux-val">300–500 lx</td><td>Uniform distribution across desk surfaces</td></tr>
+                <tr><td>Car park (indoor)</td><td class="lux-val">75–100 lx</td><td>AS/NZS 1158.3.1 governs car park lighting</td></tr>
+                <tr><td>Emergency exit signage</td><td class="lux-val">10 lx minimum</td><td>AS 2293 requirement at floor level</td></tr>
+            </tbody>
+        </table>
+
+        <div class="callout callout-tip">
+            <strong>Tip: Layer your lighting</strong>
+            Rather than trying to achieve a single lux level from one fitting type, professional lighting designers layer ambient, task, and accent lighting. This gives you the right lux at the working surface without over-lighting the whole room.
+        </div>
+
+        <h2 id="australian-standards">Australian Standards for lighting (AS/NZS 1680)</h2>
+
+        <p>In Australia, workplace lighting is governed primarily by the AS/NZS 1680 series — Interior and Workplace Lighting. This standard is referenced by SafeWork Australia and is the basis for workplace lighting compliance in most commercial and industrial projects.</p>
+
+        <p>The key parts of the standard most relevant to building projects are:</p>
+
+        <ul>
+            <li><strong>AS/NZS 1680.1</strong> — General principles and recommendations. Covers definitions, measurement methods, glare, and uniformity requirements.</li>
+            <li><strong>AS/NZS 1680.2.1</strong> — Specific recommendations for circulation areas and lobbies.</li>
+            <li><strong>AS/NZS 1680.2.2</strong> — Specific recommendations for office areas. Specifies 320 lux maintained average for screen-based tasks and 400 lux for paper-based tasks.</li>
+            <li><strong>AS/NZS 1680.2.4</strong> — Recommendations for industrial tasks and manufacturing environments.</li>
+            <li><strong>AS/NZS 1680.2.5</strong> — Hospital and medical applications.</li>
+        </ul>
+
+        <p>The standard specifies maintained illuminance — the average lux level after accounting for lamp depreciation and dirt accumulation over time. This means the design target is typically 25–30% higher than the maintained value to allow for the light output dropping as the fitting ages.</p>
+
+        <div class="callout callout-warn">
+            <strong>Uniformity matters too</strong>
+            The standard doesn't just specify average lux — it also sets uniformity ratios. For office environments, the minimum point on the floor should be no less than 0.7 times the average. Bright patches and dark corners both cause visual fatigue.
+        </div>
+
+        <p>For residential projects, there's no mandatory compliance standard in the same way. However, the AS/NZS 1680.2.1 recommendations for domestic dwellings are widely used by lighting designers as a benchmark and are a sensible target for any renovation or new build.</p>
+
+        <h2 id="how-to-measure">How to measure lux</h2>
+
+        <p>The most accurate way to measure lux is with a calibrated lux meter (also called an illuminance meter or light meter). These devices use a photodiode sensor to measure the light falling on the sensor surface, and display the result directly in lux.</p>
+
+        <h3>Using a dedicated lux meter</h3>
+        <p>Professional lux meters cost from around $80 for a basic unit to several thousand dollars for a calibrated research-grade instrument. For most residential and small commercial work, a meter in the $100–$300 range gives adequate accuracy. Hold the sensor at the working plane height — typically 800mm above the floor for a desk or bench — and take readings at multiple points to get an average.</p>
+
+        <h3>Using a smartphone app</h3>
+        <p>Most smartphones have a light sensor (used for automatic brightness adjustment), and there are apps that read it and display an approximate lux value. The accuracy varies significantly between phone models because the sensors are calibrated for screen brightness control rather than photometric measurement. Treat smartphone lux readings as a rough guide only — they can be 20–40% off from true illuminance, sometimes more.</p>
+
+        <h3>Grid measurements</h3>
+        <p>For a more thorough assessment of a room, lighting engineers take measurements on a grid — typically at 0.5m or 1m intervals across the floor or working plane. This reveals hotspots and dark zones, and allows calculation of the uniformity ratio. For a desk layout in an office, measurements should be taken at the actual desk surface height with the screen and task lighting in their normal positions.</p>
+
+        <h2 id="factors">What affects lux levels in a room</h2>
+
+        <p>Achieving a target lux level isn't just about choosing a bright-enough fitting. Several factors determine how much light actually arrives at a surface:</p>
+
+        <h3>Mounting height</h3>
+        <p>Light intensity follows the inverse square law — double the distance from the source to the surface, and the lux drops to a quarter. This is the single biggest variable in most residential spaces. A downlight at 2.4m ceiling height produces significantly higher lux at desk level than the same fitting at 3.2m.</p>
+
+        <h3>Room reflectances</h3>
+        <p>Light bounces. A room with white walls, light-coloured floors, and a white ceiling will have substantially higher ambient lux than a room with dark surfaces, even with identical fittings. Lighting designers assign reflectance values to surfaces — typically 0.7 (70%) for ceilings, 0.5 for walls, and 0.3 for floors as starting assumptions for a typical interior. Dark feature walls or timber floors can significantly reduce these values and require more fittings to compensate.</p>
+
+        <h3>Beam angle</h3>
+        <p>A narrow-beam downlight (15–25°) concentrates light directly below it, producing high lux in a small circle. A wide-beam downlight (60–90°) spreads light over a larger area, reducing the peak lux but improving uniformity. Most residential downlights sit between 36° and 60° beam angle.</p>
+
+        <h3>Lamp depreciation</h3>
+        <p>LED fittings don't fail suddenly like old halogen lamps — they gradually dim over time. A quality LED fitting is rated to 70% of initial output (L70) after 50,000 hours. Budget fittings may reach L70 much sooner. If you design for a certain lux level when the fittings are new, expect that level to drop over the life of the installation.</p>
+
+        <h3>Dirt and dust accumulation</h3>
+        <p>Fittings collect dust, insects, and grime. A fitting in a dusty workshop environment can lose 10–20% of its output within a year if not cleaned regularly. The maintenance factor used in professional lighting calculations accounts for this — typically 0.8 for clean indoor environments.</p>
+
+        <h2 id="calculate">How to calculate lux for a room</h2>
+
+        <p>The most common method for estimating average illuminance is the lumen method (also called the zonal cavity method for more complex spaces). For simple rectangular rooms with a uniform fitting layout, it gives a reliable result:</p>
+
+        <p><strong>Average lux = (Number of fittings × Lumens per fitting × Utilisation factor × Maintenance factor) ÷ Area (m²)</strong></p>
+
+        <ul>
+            <li><strong>Utilisation factor (UF)</strong> — the proportion of lumens from the fittings that actually reaches the working plane. Depends on the room index, reflectances, and fitting type. Typically 0.4–0.7 for a typical room.</li>
+            <li><strong>Maintenance factor (MF)</strong> — accounts for dirt and lamp depreciation. Use 0.8 as a starting point for a clean indoor environment.</li>
+        </ul>
+
+        <p>Working backwards — if you know the target lux level, room area, and typical fitting output, you can calculate how many fittings you need:</p>
+
+        <p><strong>Number of fittings = (Target lux × Area) ÷ (Lumens per fitting × UF × MF)</strong></p>
+
+        <div class="callout callout-tip">
+            <strong>Use the LightTools Lux Calculator</strong>
+            Rather than doing this by hand, the <a href="lux-calculator.html">LightTools Lux Calculator</a> handles the maths for you. Enter your room dimensions, ceiling height, target lux level, and fitting lumens and it gives you an instant result including the number of fittings required.
+        </div>
+
+        <p>For anything more complex — irregular rooms, multiple fitting types, specific uniformity requirements, or compliance work — a photometric software package (Dialux, Relux, or AGi32) is the appropriate tool. These allow you to import manufacturer IES/LDT files and model the actual distribution of light from specific products.</p>
+
+        <p>For residential and small commercial work, however, the lumen method combined with a lux meter for verification covers the vast majority of situations you'll encounter.</p>
+
+    </div>
+
+    <div class="cta-box">
+        <h2>Calculate lux levels for your room</h2>
+        <p>Use the free LightTools Lux Calculator to find out how many fittings you need to hit your target illuminance.</p>
+        <a href="lux-calculator.html" class="cta-btn">Open Lux Calculator →</a>
+    </div>
+
+    <div class="disclaimer-strip">
+        <strong>Disclaimer:</strong> This guide is for general information purposes. For projects requiring compliance with AS/NZS 1680 or other Australian Standards, engage a qualified lighting designer or electrical engineer. See our <a href="disclaimer.html">full disclaimer</a>.
+    </div>
+
+</div>
+
+<footer>
+    <strong>LightTools</strong> — lighttools.com.au | Free tools for electricians, designers &amp; DIYers
+    <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="led-strip-installation-guide.html">LED Strip Guide</a>
+        <a href="lux-calculator.html">Lux Calculator</a>
+        <a href="led-strip-driver-calculator.html">Driver Calculator</a>
+        <a href="how-to-choose-led-strip-driver.html">Driver Guide</a>
+        <a href="voltage-drop-calculator.html">Voltage Drop</a>
+        <a href="sparky-selector.html">Sparky Selector</a>
+        <a href="disclaimer.html">Disclaimer &amp; Terms</a>
+        <a href="privacy.html">Privacy Policy</a>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Choose an LED Strip Driver — Complete Guide | LightTools</title>
+    <meta name="description" content="How to choose the right LED strip driver or power supply. Covers voltage (12V vs 24V), wattage headroom, constant voltage vs constant current, IP ratings, dimmability, and common wiring mistakes.">
+    <link rel="canonical" href="https://lighttools.com.au/how-to-choose-led-strip-driver.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1409689781104144" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-82HX4HNTVF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-82HX4HNTVF');
+    </script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: #f0f4f8; color: #1a202c; line-height: 1.6; }
+
+        header { background: linear-gradient(135deg, #1a2a4a 0%, #2d4a7a 60%, #1a3a6a 100%); color: white; padding: 60px 20px 50px; text-align: center; }
+        .logo { font-size: 2.6rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+        .logo span { color: #f59e0b; }
+        header h1 { font-size: 1.5rem; font-weight: 700; max-width: 700px; margin: 0 auto 16px; line-height: 1.3; }
+        header p { font-size: 0.95rem; opacity: 0.8; }
+
+        nav { background: #152238; padding: 10px 20px; display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
+        nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; padding: 4px 0; }
+        nav a:hover { color: #f59e0b; }
+        nav a.active { color: #f59e0b; }
+
+        .container { max-width: 820px; margin: 0 auto; padding: 48px 16px 72px; }
+
+        .meta-bar { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; margin-bottom: 36px; font-size: 0.82rem; color: #718096; }
+        .meta-tag { background: #e2e8f0; border-radius: 999px; padding: 4px 12px; font-weight: 600; color: #4a5568; }
+
+        .toc { background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); padding: 24px 28px; margin-bottom: 40px; }
+        .toc h2 { font-size: 0.88rem; font-weight: 700; color: #1a2a4a; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .toc ol { margin-left: 18px; }
+        .toc li { margin-bottom: 7px; }
+        .toc a { color: #2d4a7a; text-decoration: none; font-size: 0.9rem; }
+        .toc a:hover { color: #f59e0b; text-decoration: underline; }
+
+        .prose h2 { font-size: 1.35rem; font-weight: 700; color: #1a2a4a; margin: 52px 0 16px; border-left: 4px solid #f59e0b; padding-left: 14px; scroll-margin-top: 20px; }
+        .prose h3 { font-size: 1.05rem; font-weight: 700; color: #1a2a4a; margin: 28px 0 10px; }
+        .prose p { font-size: 0.97rem; color: #2d3748; line-height: 1.85; margin-bottom: 18px; }
+        .prose ul, .prose ol { margin: 0 0 18px 22px; }
+        .prose li { font-size: 0.95rem; color: #2d3748; margin-bottom: 9px; line-height: 1.7; }
+        .prose strong { color: #1a202c; }
+        .prose a { color: #2d4a7a; font-weight: 500; }
+        .prose a:hover { color: #f59e0b; }
+
+        .callout { border-radius: 10px; padding: 16px 20px; margin: 24px 0; font-size: 0.92rem; line-height: 1.7; }
+        .callout-tip { background: #fffbeb; border: 1px solid #f59e0b; color: #78350f; }
+        .callout-warn { background: #fef2f2; border: 1px solid #f87171; color: #7f1d1d; }
+        .callout-info { background: #eff6ff; border: 1px solid #93c5fd; color: #1e3a5f; }
+        .callout strong { display: block; margin-bottom: 4px; }
+
+        .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+        .compare-card { background: white; border-radius: 12px; padding: 20px 22px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+        .compare-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+        .compare-card.v12 h3 { color: #0284c7; }
+        .compare-card.v24 h3 { color: #16a34a; }
+        .compare-card ul { margin-left: 16px; }
+        .compare-card li { font-size: 0.875rem; color: #4a5568; margin-bottom: 7px; line-height: 1.6; }
+
+        .mistake-list { counter-reset: mistakes; }
+        .mistake { background: white; border-radius: 12px; padding: 18px 22px 18px 60px; margin-bottom: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); position: relative; border-left: 4px solid #dc2626; }
+        .mistake::before { counter-increment: mistakes; content: counter(mistakes); position: absolute; left: 18px; top: 18px; background: #dc2626; color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; line-height: 28px; text-align: center; }
+        .mistake h3 { font-size: 0.97rem; font-weight: 700; color: #1a2a4a; margin-bottom: 6px; }
+        .mistake p { font-size: 0.875rem; color: #4a5568; line-height: 1.7; margin: 0; }
+
+        .cta-box { background: linear-gradient(135deg, #1a2a4a, #2d4a7a); color: white; border-radius: 14px; padding: 28px 32px; margin: 40px 0; text-align: center; }
+        .cta-box h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; color: #f59e0b; }
+        .cta-box p { font-size: 0.92rem; opacity: 0.9; line-height: 1.75; margin-bottom: 18px; }
+        .cta-btn { display: inline-block; background: #f59e0b; color: #1a2a4a; font-weight: 700; font-size: 0.95rem; padding: 12px 28px; border-radius: 8px; text-decoration: none; }
+        .cta-btn:hover { background: #fbbf24; }
+
+        .disclaimer-strip { background: #fffbeb; border: 1px solid #f59e0b; border-radius: 10px; padding: 14px 20px; font-size: 0.82rem; color: #78350f; margin-top: 40px; }
+
+        footer { background: #1a2a4a; color: rgba(255,255,255,0.6); text-align: center; padding: 28px 16px; font-size: 0.82rem; }
+        footer strong { color: rgba(255,255,255,0.9); }
+        footer a { color: rgba(255,255,255,0.75); text-decoration: none; }
+        footer a:hover { color: #f59e0b; }
+        .footer-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 10px; }
+
+        @media (max-width: 600px) { header { padding: 40px 16px 32px; } header h1 { font-size: 1.25rem; } .compare-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">Light<span>Tools</span></div>
+    <h1>How to Choose an LED Strip Driver</h1>
+    <p>Written by a lighting designer with 18 years of industry experience</p>
+</header>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="led-strip-driver-calculator.html">Driver Calculator</a>
+    <a href="led-strip-light-selector.html">Strip Selector</a>
+    <a href="lux-calculator.html">Lux Calculator</a>
+    <a href="garden-lighting-calculator.html">Garden Lighting</a>
+    <a href="voltage-drop-calculator.html">Voltage Drop</a>
+    <a href="sparky-selector.html">Sparky Selector</a>
+    <a href="about.html">About</a>
+</nav>
+
+<div class="container">
+
+    <div class="meta-bar">
+        <span class="meta-tag">LED Strip Lighting</span>
+        <span>Updated June 2026</span>
+        <span>12 min read</span>
+    </div>
+
+    <div class="toc">
+        <h2>In this guide</h2>
+        <ol>
+            <li><a href="#what-is-driver">What is an LED driver and why does it matter?</a></li>
+            <li><a href="#voltage">12V vs 24V — which should you use?</a></li>
+            <li><a href="#wattage">Calculating the wattage you need</a></li>
+            <li><a href="#cv-vs-cc">Constant voltage vs constant current</a></li>
+            <li><a href="#dimming">Dimmability — PWM, 0–10V, DALI, and Triac</a></li>
+            <li><a href="#ip-rating">IP ratings and where it matters</a></li>
+            <li><a href="#quality">Driver quality and why cheap kills LEDs</a></li>
+            <li><a href="#mistakes">5 common wiring mistakes to avoid</a></li>
+        </ol>
+    </div>
+
+    <div class="prose">
+
+        <h2 id="what-is-driver">What is an LED driver and why does it matter?</h2>
+
+        <p>An LED strip driver — often called a power supply or transformer — converts 240V AC mains power down to the low-voltage DC that LED strips run on. Most LED strips run on 12V DC or 24V DC, and the driver is what makes that conversion happen safely and cleanly.</p>
+
+        <p>Getting the driver right is more important than most people realise. A mismatch between the driver and the strip doesn't just cause poor performance — it can cause premature LED failure, flickering, overheating, and in a worst case, a fire. The driver is the heart of any LED strip installation, and cutting corners here is the most common reason installations fail within a few years.</p>
+
+        <p>There are three things every driver selection must get right: voltage, wattage capacity, and dimming compatibility. Get all three right and the rest of the installation is straightforward. Miss any one of them and you'll have problems.</p>
+
+        <h2 id="voltage">12V vs 24V — which should you use?</h2>
+
+        <p>The voltage of your driver must match the voltage of your LED strip exactly. A 24V strip on a 12V driver will be dim and uneven. A 12V strip on a 24V driver will immediately fail and likely damage the LEDs permanently. There's no adjustment or flexibility here — it's one or the other.</p>
+
+        <p>So which voltage should you choose when you have a choice? Both 12V and 24V strips are widely available, and most strip types come in both voltages. The decision depends on your run length and installation type.</p>
+
+        <div class="compare-grid">
+            <div class="compare-card v12">
+                <h3>12V LED Strip</h3>
+                <ul>
+                    <li>Maximum run length ~5m per circuit before voltage drop becomes visible</li>
+                    <li>More LED strip options, especially at the budget end</li>
+                    <li>Lower voltage — marginally safer for DIY handling during install</li>
+                    <li>Better suited to short runs: shelving, display cabinets, under-bench</li>
+                    <li>Higher current draw for equivalent wattage (thicker cable needed for long runs)</li>
+                </ul>
+            </div>
+            <div class="compare-card v24">
+                <h3>24V LED Strip</h3>
+                <ul>
+                    <li>Maximum run length ~10m per circuit before voltage drop is noticeable</li>
+                    <li>Lower current for the same wattage — easier cable runs</li>
+                    <li>More consistent brightness along longer runs</li>
+                    <li>Better for commercial installations, cove lighting, and perimeter lighting</li>
+                    <li>More efficient over distance — the professional's default for most projects</li>
+                </ul>
+            </div>
+        </div>
+
+        <p>For anything beyond a simple 2–3m decorative run, 24V is the better choice. The lower current draw reduces voltage drop along the cable run, and the longer maximum run length gives you more flexibility in driver placement. Most experienced lighting designers default to 24V for commercial and residential projects alike.</p>
+
+        <div class="callout callout-info">
+            <strong>Voltage drop on LED strips</strong>
+            Even at the correct voltage, long runs of LED strip can appear dimmer at the far end from the driver. This is voltage drop within the strip itself. Use our <a href="voltage-drop-calculator.html">Voltage Drop Calculator</a> to check your cable runs, and feed long strips from both ends to keep brightness even.
+        </div>
+
+        <h2 id="wattage">Calculating the wattage you need</h2>
+
+        <p>The total wattage of your driver must be greater than the total wattage of your LED strips — but not just marginally greater. Running a driver at 100% of its rated capacity causes it to run hot, shortens its lifespan, and can cause voltage sag that dims your LEDs or introduces flicker.</p>
+
+        <p>The industry standard recommendation is to load a driver to no more than <strong>80% of its rated capacity</strong>. This is called the 80% derating rule.</p>
+
+        <p><strong>The formula:</strong> Total strip wattage ÷ 0.8 = minimum driver wattage</p>
+
+        <p>For example: if you have 6 metres of strip drawing 14.4W per metre, your total load is 86.4W. Dividing by 0.8 gives 108W — so you'd select a 120W driver as the minimum. Running a 100W driver at 86.4W would be 86% of capacity, which is above the safe continuous threshold.</p>
+
+        <p>The strip wattage per metre is printed on the reel label and listed in the product specifications — it's usually expressed as W/m. Common values are 4.8W/m, 9.6W/m, 14.4W/m, and 20W/m for high-output strips. Multiply this by your total run length to get the load.</p>
+
+        <div class="callout callout-tip">
+            <strong>Use the LightTools Driver Calculator</strong>
+            The <a href="led-strip-driver-calculator.html">LED Strip Driver Calculator</a> handles the 80% derating automatically. Enter your strip wattage per metre, total run length, and voltage, and it outputs the minimum driver wattage and recommended driver size.
+        </div>
+
+        <h3>Multiple runs from one driver</h3>
+        <p>You can run multiple strips from a single driver, as long as all strips are the same voltage and the combined wattage stays within the 80% threshold. Connect them in parallel — both positive terminals to the driver positive, both negative to driver negative. Never connect LED strips in series (end-to-end with the driver in between), as this adds voltages and will blow the LEDs.</p>
+
+        <h2 id="cv-vs-cc">Constant voltage vs constant current</h2>
+
+        <p>Most LED strips — and virtually all strips sold for residential use — are constant voltage (CV) devices. They're designed to run at a fixed voltage (12V or 24V DC) and draw whatever current they need. A constant voltage driver is what you want for these.</p>
+
+        <p>Constant current (CC) drivers are a different product for a different application. They're used with LED modules and some downlights that are designed to operate at a fixed current (typically 350mA, 700mA, or 1050mA) across a variable voltage range. These are not interchangeable with constant voltage strips.</p>
+
+        <p>If you're buying LED strip from a reputable supplier, it will be clearly marked as CV (constant voltage). If you're buying an LED driver, check the output specification — a CV driver will show a fixed output voltage (e.g., "Output: 24V DC") rather than a current range. Unless your LED product specifically calls for a CC driver, choose CV.</p>
+
+        <h2 id="dimming">Dimmability — PWM, 0–10V, DALI, and Triac</h2>
+
+        <p>Not all LED drivers are dimmable, and not all dimming systems are compatible with all drivers. Specifying the wrong dimming type is one of the most common and expensive mistakes in LED strip installations — you can end up with flickering, limited range, minimum brightness steps, or a driver that simply won't dim at all.</p>
+
+        <h3>PWM dimming</h3>
+        <p>Pulse Width Modulation (PWM) dims LEDs by rapidly switching them on and off — the longer the "on" period relative to the cycle, the brighter the light appears. Most simple LED dimmers and many DMX systems use PWM. The downside is that at low dim levels, some sensitive observers can see the flicker, and PWM signals can cause interference with nearby audio equipment. PWM frequency matters — a driver that runs at 1kHz or higher is much less likely to produce visible flicker than one running at 200–400Hz.</p>
+
+        <h3>0–10V dimming</h3>
+        <p>A standard used widely in commercial and architectural lighting. The dimmer sends a control voltage between 0V and 10V to the driver, which adjusts output accordingly. At 10V, full output; at 0V (or 1V depending on the standard), minimum or off. Reliable, noise-free, and widely compatible. Requires a 0–10V capable driver and a 0–10V wall dimmer or BMS control point.</p>
+
+        <h3>DALI</h3>
+        <p>Digital Addressable Lighting Interface — a two-way digital protocol used in building management systems. Each DALI driver has an address and can be individually controlled, grouped, and monitored. Overkill for most residential applications but standard in commercial office, hospitality, and retail fit-outs. Requires a DALI controller and DALI-compatible drivers.</p>
+
+        <h3>Triac / leading-edge dimming</h3>
+        <p>Triac dimmers (also called phase-cut or leading-edge dimmers) were designed for halogen and incandescent lamps and are the most common type of wall dimmer in Australian homes. Some LED drivers are "Triac dimmable" — meaning they accept the phase-cut signal from a standard wall dimmer. The compatibility is not universal, however. Many Triac-dimmable LED drivers have a minimum load requirement, a limited dimming range (e.g., only down to 15%), or flicker problems at low levels. Always check the driver's stated compatibility with your specific dimmer model before specifying.</p>
+
+        <div class="callout callout-warn">
+            <strong>Don't assume a dimmable driver works with your existing dimmer</strong>
+            "Dimmable" on the driver box means it has a dimming input — not that it works with every dimmer on the market. An incompatible combination can cause buzzing, flicker, limited range, or damage to the driver. Check the driver manufacturer's compatible dimmer list, or better yet, test before committing to a large installation.
+        </div>
+
+        <h2 id="ip-rating">IP ratings and where they matter</h2>
+
+        <p>IP (Ingress Protection) ratings describe how well a product is sealed against solids and liquids. The rating consists of two digits — the first covers dust and solid particles (0–6), the second covers water (0–9).</p>
+
+        <p>For LED drivers, the relevant question is: where will the driver be installed?</p>
+
+        <ul>
+            <li><strong>IP20</strong> — indoor, dry locations only. Standard for most residential driver installations inside a ceiling void or cabinet.</li>
+            <li><strong>IP44</strong> — splash-proof. Suitable for bathrooms (Zone 2 and outside the zones), covered outdoor areas, and anywhere that might see occasional water splash.</li>
+            <li><strong>IP65 / IP67</strong> — waterproof. Required for drivers installed in wet areas, exposed outdoor locations, or commercial kitchens. IP65 is splash-resistant; IP67 can handle temporary submersion.</li>
+            <li><strong>IP68</strong> — continuously submersible. Used for pool and water feature applications. Very rarely needed for the driver itself (which is usually kept well clear of water) but often required for the LED strip.</li>
+        </ul>
+
+        <p>Under Australian wiring rules (AS/NZS 3000), drivers installed within bathroom zones must meet the appropriate IP rating for that zone. Zone 0 (inside the bath or shower) requires IP67 minimum. Zone 1 (above the bath/shower) requires IP44 minimum. Anything within 600mm horizontally of a water source should be IP44 or better.</p>
+
+        <div class="callout callout-tip">
+            <strong>Put the driver outside the wet zone</strong>
+            The simplest approach for bathroom installations is to run low-voltage DC cable from a driver located outside the bathroom zones (in the ceiling void, for example) to the LED strip inside. This keeps the mains-voltage driver well away from water and simplifies compliance.
+        </div>
+
+        <h2 id="quality">Driver quality and why cheap kills LEDs</h2>
+
+        <p>LED drivers range in price from under $10 to several hundred dollars for professional-grade units. The quality gap between the cheapest and mid-tier products is enormous, and it directly affects the life of your LED strips.</p>
+
+        <p>A poor-quality driver has inconsistent output voltage. Instead of a clean 24.0V DC, it might deliver anywhere from 22V to 26V depending on load and temperature. LED strips are sensitive to overvoltage — even a sustained 5–10% overvoltage accelerates LED degradation and can halve the usable life of a quality strip. A driver that flickers under load will cause the same visible flicker in your strip, no matter how good the LEDs are.</p>
+
+        <p>Quality indicators to look for:</p>
+
+        <ul>
+            <li><strong>Power factor ≥ 0.9</strong> — indicates a proper power factor correction circuit, which reduces reactive current draw and runs cooler</li>
+            <li><strong>Efficiency ≥ 85%</strong> — higher efficiency means less heat generated in the driver itself</li>
+            <li><strong>Output ripple &lt; 1%</strong> — low ripple means clean, stable DC output and no flicker</li>
+            <li><strong>Certifications:</strong> SAA/RCM mark for Australia, CE, UL. Avoid any driver that only carries unknown or unverifiable certification marks</li>
+            <li><strong>Operating temperature range:</strong> a driver rated to 50°C ambient is more suitable for a confined ceiling void than one only rated to 40°C</li>
+            <li><strong>Warranty:</strong> reputable brands offer 3–5 year warranties. One year or less is a warning sign</li>
+        </ul>
+
+        <p>Well-regarded brands available in Australia include Mean Well, Philips Xitanium, Osram Optotronic, and Tridonic. For residential DIY projects where budget matters, the Mean Well LPV and HLG series represent excellent value for money and are widely available from Australian electrical wholesalers and online suppliers.</p>
+
+        <h2 id="mistakes">5 common wiring mistakes to avoid</h2>
+
+        <div class="mistake-list">
+            <div class="mistake">
+                <h3>Running strips in series</h3>
+                <p>LED strips must be wired in parallel — driver positive to each strip positive, driver negative to each strip negative. Wiring them in series adds voltages together and immediately destroys the LEDs. It's a mistake beginners make once and never again.</p>
+            </div>
+            <div class="mistake">
+                <h3>Undersizing the driver</h3>
+                <p>Calculating only the strip wattage and buying a driver of exactly that rating. Without the 80% headroom, the driver runs at full capacity continuously, overheats, and fails early — often taking the strip with it.</p>
+            </div>
+            <div class="mistake">
+                <h3>Using the wrong voltage</h3>
+                <p>Installing a 12V driver on a 24V strip, or vice versa. The voltage must match exactly. If you're not sure what voltage your strip runs on, check the label on the reel or the product specification — it will be clearly marked.</p>
+            </div>
+            <div class="mistake">
+                <h3>Installing a non-IP-rated driver in a wet area</h3>
+                <p>Putting an IP20 driver inside a bathroom ceiling cavity directly above the shower. Even if it never gets directly wet, steam and humidity degrade the driver over time. Use IP44 or better, or locate the driver outside the bathroom zones entirely.</p>
+            </div>
+            <div class="mistake">
+                <h3>Mixing dimming protocols</h3>
+                <p>Buying a DALI-dimmable driver and connecting it to a standard Triac wall dimmer, or buying a 0–10V driver and expecting it to respond to a PWM signal. Always confirm the dimming input type on the driver matches the dimming signal from your controller or wall plate.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="cta-box">
+        <h2>Calculate your driver size instantly</h2>
+        <p>Enter your strip wattage and run length — the calculator applies the 80% derating rule and tells you exactly what size driver to buy.</p>
+        <a href="led-strip-driver-calculator.html" class="cta-btn">Open Driver Calculator →</a>
+    </div>
+
+    <div class="disclaimer-strip">
+        <strong>Disclaimer:</strong> This guide is for general information purposes. Electrical work in Australia must be carried out by a licensed electrician. See our <a href="disclaimer.html">full disclaimer</a>.
+    </div>
+
+</div>
+
+<footer>
+    <strong>LightTools</strong> — lighttools.com.au | Free tools for electricians, designers &amp; DIYers
+    <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="led-strip-installation-guide.html">LED Strip Guide</a>
+        <a href="led-strip-driver-calculator.html">Driver Calculator</a>
+        <a href="lux-calculator.html">Lux Calculator</a>
+        <a href="what-is-lux-lighting-levels-guide.html">Lux Guide</a>
+        <a href="voltage-drop-calculator.html">Voltage Drop</a>
+        <a href="sparky-selector.html">Sparky Selector</a>
+        <a href="disclaimer.html">Disclaimer &amp; Terms</a>
+        <a href="privacy.html">Privacy Policy</a>
+    </div>
+</footer>
+
+</body>
+</html>

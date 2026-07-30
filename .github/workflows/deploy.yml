@@ -13,29 +13,34 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Deploy to server via SCP
+      - name: Deploy to server
         env:
           DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
           SERVER_IP: ${{ secrets.SERVER_IP }}
           WEBROOT: /var/www/lighttools
         run: |
+          set -euo pipefail
+
           echo "$DEPLOY_KEY" > /tmp/deploy_key
           chmod 600 /tmp/deploy_key
 
           SSH="ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no ubuntu@$SERVER_IP"
 
-          # Stage into a directory the ssh user owns. The webroot is owned by
-          # www-data, so scp'ing straight into it fails with permission denied.
-          $SSH "rm -rf ~/deploy-staging && mkdir -p ~/deploy-staging"
-
-          scp -i /tmp/deploy_key \
-              -o StrictHostKeyChecking=no \
-              *.html sitemap.xml ads.txt \
-              ubuntu@$SERVER_IP:~/deploy-staging/
+          # Ship the payload as a single tar stream rather than scp. The runner
+          # ships OpenSSH 9.x, whose scp uses the SFTP backend, and that is
+          # unreliable for multi-file transfers against this server's OpenSSH
+          # 8.2 - it consistently failed on the last file of the batch.
+          #
+          # Staging goes to the home dir because the webroot is owned by
+          # www-data, so writing into it directly as ubuntu is denied.
+          tar czf - *.html sitemap.xml ads.txt \
+            | $SSH "rm -rf ~/deploy-staging \
+                    && mkdir -p ~/deploy-staging \
+                    && tar xzf - -C ~/deploy-staging"
 
           # Move into place, then reset ownership and permissions.
-          # Directories must stay 755; files 644.
-          $SSH "sudo cp ~/deploy-staging/. $WEBROOT/ -r && \
+          # Directories stay 755, files 644.
+          $SSH "sudo cp -r ~/deploy-staging/. $WEBROOT/ && \
                 sudo chown www-data:www-data $WEBROOT/* && \
                 sudo chmod 755 $WEBROOT && \
                 sudo chmod 644 $WEBROOT/*.html $WEBROOT/*.xml $WEBROOT/*.txt && \

@@ -5,6 +5,11 @@ on:
     branches:
       - main
 
+# Serialise deploys so two runs cannot interleave on the server.
+concurrency:
+  group: deploy-lighttools
+  cancel-in-progress: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -31,20 +36,22 @@ jobs:
           # unreliable for multi-file transfers against this server's OpenSSH
           # 8.2 - it consistently failed on the last file of the batch.
           #
+          # Staging dir is site-specific: both repos deploy to the same server as
+          # the same user, and a shared path let concurrent runs cross-contaminate.
           # Staging goes to the home dir because the webroot is owned by
           # www-data, so writing into it directly as ubuntu is denied.
           tar czf - *.html sitemap.xml ads.txt \
-            | $SSH "rm -rf ~/deploy-staging \
-                    && mkdir -p ~/deploy-staging \
-                    && tar xzf - -C ~/deploy-staging"
+            | $SSH "rm -rf ~/deploy-staging-lighttools \
+                    && mkdir -p ~/deploy-staging-lighttools \
+                    && tar xzf - -C ~/deploy-staging-lighttools"
 
           # Move into place, then reset ownership and permissions.
           # Directories stay 755, files 644.
-          $SSH "sudo cp -r ~/deploy-staging/. $WEBROOT/ && \
+          $SSH "sudo cp -r ~/deploy-staging-lighttools/. $WEBROOT/ && \
                 sudo chown www-data:www-data $WEBROOT/* && \
                 sudo chmod 755 $WEBROOT && \
                 sudo chmod 644 $WEBROOT/*.html $WEBROOT/*.xml $WEBROOT/*.txt && \
-                rm -rf ~/deploy-staging && \
+                rm -rf ~/deploy-staging-lighttools && \
                 echo 'lighttools deploy complete'"
 
           rm /tmp/deploy_key

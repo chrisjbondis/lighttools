@@ -134,6 +134,7 @@
         .buy-link:hover { transform: translateY(-2px); box-shadow: 0 5px 18px rgba(0,0,0,0.18); }
         .buy-link-amazon { background: #ff9900; }
         .buy-link-google { background: #4285f4; }
+        .buy-link-solstice { background: linear-gradient(135deg, #1a2a4a, #2d4a7a); }
         .buy-link-icon { font-size: 1.2rem; }
         .buy-link-text .blm { font-size: 0.9rem; }
         .buy-link-text .bls { font-size: 0.76rem; opacity: 0.88; font-weight: 400; }
@@ -785,6 +786,11 @@
                 <span class="buy-link-icon">🔍</span>
                 <span class="buy-link-text"><div class="blm">Google Shopping</div><div class="bls">Compare all retailers</div></span>
             </a>
+            ${REGION === 'AU' ? `
+            <a href="https://www.solsticelighting.com.au" target="_blank" rel="noopener" class="buy-link buy-link-solstice">
+                <span class="buy-link-icon">📍</span>
+                <span class="buy-link-text"><div class="blm">VIC-based? Get it properly specified</div><div class="bls">Solstice Lighting — design, spec &amp; supply for Victorian projects</div></span>
+            </a>` : ''}
         </div>
         <p class="affiliate-notice">★ Amazon links support this free tool at no extra cost to you</p>`;
     }

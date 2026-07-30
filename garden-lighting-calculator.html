@@ -40,13 +40,9 @@
         nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; padding: 4px 0; }
         nav a:hover, nav a.active { color: #86efac; }
 
-        .ad-banner { background: #e8edf2; border: 2px dashed #b0bec5; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #78909c; font-size: 0.82rem; text-align: center; }
-        .ad-leaderboard { width: 100%; max-width: 728px; height: 90px; }
-        .ad-rectangle { width: 300px; height: 250px; }
-
         .container { max-width: 1100px; margin: 0 auto; padding: 20px 16px; }
         .layout { display: grid; grid-template-columns: 1fr 320px; gap: 24px; }
-        @media (max-width: 800px) { .layout { grid-template-columns: 1fr; } .ad-rectangle { width: 100%; } header h1 { font-size: 1.5rem; } }
+        @media (max-width: 800px) { .layout { grid-template-columns: 1fr; } header h1 { font-size: 1.5rem; } }
 
         .card { background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); padding: 28px; margin-bottom: 20px; }
         .card h2 { font-size: 1.2rem; font-weight: 600; color: #14532d; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #e2e8f0; }
@@ -198,10 +194,6 @@
 </nav>
 
 <div class="container">
-
-    <div style="display:flex;justify-content:center;margin:16px 0;">
-        <div class="ad-banner ad-leaderboard">[ Google Ad — 728×90 Leaderboard ]</div>
-    </div>
 
     <div class="layout">
 
@@ -500,17 +492,10 @@
 
             </div>
 
-            <!-- In-content ad -->
-            <div style="display:flex;justify-content:center;margin-bottom:20px;">
-                <div class="ad-banner ad-leaderboard">[ Google Ad — 728×90 ]</div>
-            </div>
         </div>
 
         <!-- ===== RIGHT: Sidebar ===== -->
         <div>
-            <div style="display:flex;justify-content:center;margin-bottom:20px;">
-                <div class="ad-banner ad-rectangle">[ Google Ad — 300×250 ]</div>
-            </div>
 
             <div class="card">
                 <h2>📋 Voltage Drop Limits</h2>
@@ -567,9 +552,6 @@
                 <p style="font-size:0.77rem;color:#a0aec0;margin-top:8px;">Based on copper conductor at 20°C. For outdoor buried cable, derate by ~10% for temperature.</p>
             </div>
 
-            <div style="display:flex;justify-content:center;margin-top:4px;">
-                <div class="ad-banner ad-rectangle">[ Google Ad — 300×250 ]</div>
-            </div>
         </div>
     </div>
 

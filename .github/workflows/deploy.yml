@@ -23,14 +23,14 @@ jobs:
 
           scp -i /tmp/deploy_key \
               -o StrictHostKeyChecking=no \
-              *.html sitemap.xml \
+              *.html sitemap.xml ads.txt \
               ubuntu@$SERVER_IP:/var/www/lighttools/
 
           ssh -i /tmp/deploy_key \
               -o StrictHostKeyChecking=no \
               ubuntu@$SERVER_IP \
               "sudo chown -R www-data:www-data /var/www/lighttools/ && \
-               sudo chmod -R 644 /var/www/lighttools/*.html && \
+               sudo chmod 644 /var/www/lighttools/*.html /var/www/lighttools/*.xml /var/www/lighttools/*.txt && \
                echo 'lighttools deploy complete'"
 
           rm /tmp/deploy_key

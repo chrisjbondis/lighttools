@@ -17,20 +17,29 @@ jobs:
         env:
           DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
           SERVER_IP: ${{ secrets.SERVER_IP }}
+          WEBROOT: /var/www/lighttools
         run: |
           echo "$DEPLOY_KEY" > /tmp/deploy_key
           chmod 600 /tmp/deploy_key
 
+          SSH="ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no ubuntu@$SERVER_IP"
+
+          # Stage into a directory the ssh user owns. The webroot is owned by
+          # www-data, so scp'ing straight into it fails with permission denied.
+          $SSH "rm -rf ~/deploy-staging && mkdir -p ~/deploy-staging"
+
           scp -i /tmp/deploy_key \
               -o StrictHostKeyChecking=no \
               *.html sitemap.xml ads.txt \
-              ubuntu@$SERVER_IP:/var/www/lighttools/
+              ubuntu@$SERVER_IP:~/deploy-staging/
 
-          ssh -i /tmp/deploy_key \
-              -o StrictHostKeyChecking=no \
-              ubuntu@$SERVER_IP \
-              "sudo chown -R www-data:www-data /var/www/lighttools/ && \
-               sudo chmod 644 /var/www/lighttools/*.html /var/www/lighttools/*.xml /var/www/lighttools/*.txt && \
-               echo 'lighttools deploy complete'"
+          # Move into place, then reset ownership and permissions.
+          # Directories must stay 755; files 644.
+          $SSH "sudo cp ~/deploy-staging/. $WEBROOT/ -r && \
+                sudo chown www-data:www-data $WEBROOT/* && \
+                sudo chmod 755 $WEBROOT && \
+                sudo chmod 644 $WEBROOT/*.html $WEBROOT/*.xml $WEBROOT/*.txt && \
+                rm -rf ~/deploy-staging && \
+                echo 'lighttools deploy complete'"
 
           rm /tmp/deploy_key

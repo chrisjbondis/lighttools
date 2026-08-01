@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outdoor Fitting Selector — Coastal Zone &amp; Material Guide | LightTools</title>
+    <meta name="description" content="Free outdoor lighting fitting selector. Get a material, coating and fixing recommendation for your coastal zone under AS/NZS 2312/4312, plus guidance for fittings going in or near water.">
+    <link rel="canonical" href="https://lighttools.com.au/fitting-selector.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1409689781104144" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-82HX4HNTVF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-82HX4HNTVF');
+    </script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: #f0f4f8; color: #1a202c; line-height: 1.6; }
+
+        header { background: linear-gradient(135deg, #1a2a4a 0%, #2d4a7a 60%, #1a3a6a 100%); color: white; padding: 48px 20px 40px; text-align: center; }
+        .logo { font-size: 1.1rem; font-weight: 700; opacity: 0.7; margin-bottom: 20px; }
+        .logo span { color: #f59e0b; }
+        header h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 10px; }
+        header p { font-size: 1rem; opacity: 0.8; max-width: 560px; margin: 0 auto; }
+
+        nav { background: #152238; padding: 10px 20px; display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
+        nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; padding: 4px 0; }
+        nav a:hover { color: #f59e0b; }
+        nav a.active { color: #f59e0b; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 40px 16px 60px; }
+        .layout { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; align-items: start; }
+        @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+
+        .card { background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); padding: 28px; margin-bottom: 20px; }
+        .card h2 { font-size: 1.15rem; font-weight: 700; color: #1a2a4a; margin-bottom: 16px; }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 0.88rem; font-weight: 600; color: #2d3748; margin-bottom: 8px; }
+        .form-group input[type="text"] {
+            width: 100%; padding: 11px 14px; border: 1.5px solid #e2e8f0; border-radius: 8px;
+            font-family: inherit; font-size: 0.95rem; color: #1a202c;
+        }
+        .form-group input[type="text"]:focus { outline: none; border-color: #f59e0b; }
+
+        .zone-options { display: flex; flex-direction: column; gap: 8px; }
+        .zone-option {
+            display: flex; align-items: flex-start; gap: 12px; padding: 13px 16px; border-radius: 10px;
+            border: 1.5px solid #e2e8f0; cursor: pointer; transition: border-color 0.15s, background 0.15s;
+        }
+        .zone-option:hover { border-color: #f59e0b; }
+        .zone-option.selected { border-color: #f59e0b; background: #fffbeb; }
+        .zone-option input[type="radio"] { margin-top: 3px; accent-color: #f59e0b; }
+        .zone-option .zo-title { font-size: 0.92rem; font-weight: 700; color: #1a2a4a; }
+        .zone-option .zo-sub { font-size: 0.8rem; color: #718096; margin-top: 2px; }
+
+        .toggle-group { display: flex; gap: 10px; }
+        .toggle-btn {
+            flex: 1; padding: 12px; border-radius: 8px; border: 1.5px solid #e2e8f0; background: white;
+            font-family: inherit; font-size: 0.9rem; font-weight: 600; color: #4a5568; cursor: pointer;
+        }
+        .toggle-btn.active { border-color: #f59e0b; background: #fffbeb; color: #92400e; }
+
+        .btn-calculate {
+            width: 100%; padding: 14px; background: #1a2a4a; color: white; border: none; border-radius: 10px;
+            font-family: inherit; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background 0.15s;
+        }
+        .btn-calculate:hover { background: #2d4a7a; }
+
+        .results-section { display: none; margin-top: 24px; }
+
+        .result-hero { border-radius: 12px; padding: 22px 24px; color: white; margin-bottom: 18px; }
+        .result-hero .rh-zone { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.85; margin-bottom: 6px; }
+        .result-hero .rh-title { font-size: 1.2rem; font-weight: 800; }
+
+        .spec-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.87rem; }
+        .spec-table th { background: #1a2a4a; color: white; padding: 9px 12px; text-align: left; font-weight: 600; width: 30%; }
+        .spec-table td { padding: 11px 12px; border-bottom: 1px solid #e2e8f0; color: #2d3748; }
+        .spec-table tr:last-child td { border-bottom: none; }
+
+        .info-box { border-radius: 10px; padding: 16px 18px; margin-bottom: 12px; font-size: 0.88rem; line-height: 1.7; }
+        .info-box-blue { background: #eff6ff; border: 1px solid #93c5fd; color: #1e3a5f; }
+        .info-box-warn { background: #fffbeb; border: 1px solid #f59e0b; color: #78350f; }
+        .info-box h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 6px; }
+
+        .cta-driver {
+            background: linear-gradient(135deg, #1a2a4a 0%, #2d4a7a 100%);
+            border-radius: 12px; padding: 20px 24px; color: white; text-align: center; margin-bottom: 20px;
+        }
+        .cta-driver h3 { font-size: 1rem; margin-bottom: 6px; }
+        .cta-driver p { font-size: 0.85rem; opacity: 0.82; margin-bottom: 14px; }
+        .cta-driver a {
+            display: inline-block; background: #f59e0b; color: white; text-decoration: none; padding: 10px 22px;
+            border-radius: 8px; font-weight: 700; font-size: 0.92rem; transition: background 0.2s;
+        }
+        .cta-driver a:hover { background: #f97316; }
+
+        .ref-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+        .ref-table th { background: #f7fafc; color: #4a5568; padding: 8px 10px; text-align: left; font-weight: 700; border-bottom: 2px solid #e2e8f0; }
+        .ref-table td { padding: 8px 10px; border-bottom: 1px solid #edf2f7; color: #2d3748; }
+
+        .disclaimer-strip { background: #fffbeb; border: 1px solid #f59e0b; border-radius: 10px; padding: 14px 20px; font-size: 0.82rem; color: #78350f; margin-top: 24px; }
+
+        .prose h2 { font-size: 1.3rem; font-weight: 700; color: #1a2a4a; margin: 44px 0 14px; border-left: 4px solid #f59e0b; padding-left: 14px; }
+        .prose p { font-size: 0.95rem; color: #2d3748; line-height: 1.8; margin-bottom: 16px; }
+        .prose a { color: #2d4a7a; font-weight: 500; }
+        .prose a:hover { color: #f59e0b; }
+
+        footer { background: #1a2a4a; color: rgba(255,255,255,0.6); text-align: center; padding: 28px 16px; font-size: 0.82rem; }
+        footer strong { color: rgba(255,255,255,0.9); }
+        footer a { color: rgba(255,255,255,0.75); text-decoration: none; }
+        footer a:hover { color: #f59e0b; }
+        .footer-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">Light<span>Tools</span></div>
+    <h1>🧭 Outdoor Fitting Selector</h1>
+    <p>Get a material, coating and fixing recommendation for your coastal zone — or guidance for fittings going in or near water</p>
+</header>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="garden-lighting-calculator.html">Garden Lighting</a>
+    <a href="lux-calculator.html">Lux Calculator</a>
+    <a href="led-strip-driver-calculator.html">Driver Calculator</a>
+    <a href="led-strip-light-selector.html">Strip Selector</a>
+    <a href="voltage-drop-calculator.html">Voltage Drop</a>
+    <a href="fitting-selector.html" class="active">Fitting Selector</a>
+    <a href="sparky-selector.html">Sparky Selector</a>
+</nav>
+
+<div class="container">
+
+    <div class="layout">
+
+        <!-- ===== LEFT: Selector ===== -->
+        <div>
+            <div class="card">
+                <h2>🧭 Fitting Selector</h2>
+
+                <div class="form-group">
+                    <label for="site-label">Site (suburb or description) <span style="font-weight:400;color:#a0aec0;">— for your reference only, not used in the calculation</span></label>
+                    <input type="text" id="site-label" placeholder="e.g. Torquay VIC, or 'front driveway'">
+                </div>
+
+                <div class="form-group">
+                    <label>How close is the site to the coast?</label>
+                    <div class="zone-options" id="zone-group">
+                        <label class="zone-option selected" data-zone="CX">
+                            <input type="radio" name="zone" value="CX" checked>
+                            <span><span class="zo-title">Right on the coast</span><span class="zo-sub"> — within ~200m of a surf beach or exposed open sea (Zone CX)</span></span>
+                        </label>
+                        <label class="zone-option" data-zone="C45">
+                            <input type="radio" name="zone" value="C45">
+                            <span><span class="zo-title">Near the coast, sheltered</span><span class="zo-sub"> — sheltered bay, up to ~50m inland, or general coastal strip (Zone C4/C5)</span></span>
+                        </label>
+                        <label class="zone-option" data-zone="C3">
+                            <input type="radio" name="zone" value="C3">
+                            <span><span class="zo-title">Coastal-influenced</span><span class="zo-sub"> — roughly 100m to a few km inland (Zone C3)</span></span>
+                        </label>
+                        <label class="zone-option" data-zone="C2">
+                            <input type="radio" name="zone" value="C2">
+                            <span><span class="zo-title">Mostly inland</span><span class="zo-sub"> — up to ~1km from sheltered water (Zone C2)</span></span>
+                        </label>
+                        <label class="zone-option" data-zone="C1">
+                            <input type="radio" name="zone" value="C1">
+                            <span><span class="zo-title">Well inland</span><span class="zo-sub"> — 50km+ from the sea, most of Australia (Zone C1)</span></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Will this fitting be in or near water? <span style="font-weight:400;color:#a0aec0;">— pool, pond, spa or water feature</span></label>
+                    <div class="toggle-group" id="water-group">
+                        <button type="button" class="toggle-btn" data-water="no" onclick="setWater(false, this)">No — dry / atmospheric only</button>
+                        <button type="button" class="toggle-btn" data-water="yes" onclick="setWater(true, this)">Yes — in or near water</button>
+                    </div>
+                </div>
+
+                <button class="btn-calculate" onclick="getRecommendation()">Get My Recommendation →</button>
+
+                <div class="results-section" id="results">
+
+                    <div class="result-hero" id="result-hero">
+                        <div class="rh-zone" id="result-zone-label">ZONE CX</div>
+                        <div class="rh-title" id="result-title">Extreme coastal exposure</div>
+                    </div>
+
+                    <div id="result-body"></div>
+
+                    <div class="disclaimer-strip">
+                        ⚡ This is a planning and specification starting point, not a certification. Local wind, topography and vegetation shift the real-world exposure — confirm with a qualified supplier or installer, especially for sites near a zone boundary.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== RIGHT: Sidebar ===== -->
+        <div>
+
+            <div class="cta-driver">
+                <h3>🎨 Need the full design done?</h3>
+                <p>Beyond a material spec — full layout, fixture selection, a proper plan. I work at Solstice Lighting, design/spec/supply for Victorian projects.</p>
+                <a href="https://www.solsticelighting.com.au" target="_blank" rel="noopener">Contact Solstice Lighting →</a>
+            </div>
+
+            <div class="card">
+                <h2>📋 Corrosivity Zones at a Glance</h2>
+                <table class="ref-table">
+                    <thead>
+                        <tr><th>Zone</th><th>Distance Guide</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>CX</strong></td><td>~0–200m, surf beach</td></tr>
+                        <tr><td><strong>C4/C5</strong></td><td>~0–50m sheltered coast</td></tr>
+                        <tr><td><strong>C3</strong></td><td>~100m–few km inland</td></tr>
+                        <tr><td><strong>C2</strong></td><td>Up to ~1km from water</td></tr>
+                        <tr><td><strong>C1</strong></td><td>50km+ inland</td></tr>
+                    </tbody>
+                </table>
+                <p style="font-size:0.77rem;color:#a0aec0;margin-top:10px;">Per AS/NZS 2312 / AS 4312 atmospheric corrosivity categories.</p>
+            </div>
+
+            <div class="card">
+                <h2>💡 On the Material Options</h2>
+                <div class="info-box info-box-blue">
+                    <h4>Brass, bronze &amp; copper</h4>
+                    <p>Don't corrode structurally in salt air — they oxidise/patina on the surface instead, which is largely cosmetic and often intentional. A legitimate premium choice for CX/C4/C5 zones, not just a stainless-or-aluminium binary. The patina look is a design choice — some clients love it, some don't, so it's worth setting expectations.</p>
+                </div>
+                <div class="info-box info-box-blue">
+                    <h4>Good-quality plastics/composites</h4>
+                    <p>UV-stabilised polymers (not generic ABS) can outperform poor-quality aluminium in coastal zones, since there's no metal to corrode at all. Main failure mode is UV degradation over time, not salt attack — quality of the polymer matters as much as base material choice does for metal fittings.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Bottom explainer -->
+    <div class="card prose">
+        <h2>How this tool works</h2>
+        <p>Select the description that best matches your site's distance from the coast, and whether the fitting will be in or near water. For dry/atmospheric sites, you'll get a material, coating and fixing recommendation based on AS/NZS 2312 and AS 4312 corrosivity zones — see our guide on <a href="why-fitting-construction-matters.html">why fitting construction matters</a> for the reasoning behind these recommendations.</p>
+        <p>For fittings going in or near water, material selection depends heavily on the water type — freshwater, chlorinated pool, or salt-chlorinated pool all behave differently. Rather than guess at a spec, this tool points you toward a proper conversation about your specific situation — see our guide on <a href="fittings-that-live-in-water.html">fittings that live in water</a> for the full detail on why.</p>
+        <p>For in-ground fittings specifically, the cable join matters as much as the fitting material — see our guide on <a href="in-ground-fittings-ip68-joins.html">in-ground fittings and IP68 joins</a>.</p>
+    </div>
+
+</div>
+
+<script>
+    let selectedZone = 'CX';
+    let inWater = null;
+
+    const ZONE_DATA = {
+        CX:  { label: 'ZONE CX — EXTREME', title: 'Extreme coastal exposure', colour: 'linear-gradient(135deg,#7f1d1d,#991b1b)',
+               material: 'Marine-grade 316 stainless, solid brass/bronze/copper, or marine-rated UV-stable polymer/composite',
+               coating: 'Marine powder coat system with full pre-treatment, or none needed (raw 316, or brass/bronze/copper left to patina)',
+               fixings: '316 stainless only' },
+        C45: { label: 'ZONE C4/C5 — HIGH / VERY HIGH', title: 'Sheltered coastal exposure', colour: 'linear-gradient(135deg,#92400e,#b45309)',
+               material: '316 stainless, brass/bronze/copper, or high-quality marine-rated polymer preferred; high-spec coated aluminium as fallback',
+               coating: 'Full pre-treatment + powder coat (if aluminium); inspect and maintain regularly',
+               fixings: '316 stainless' },
+        C3:  { label: 'ZONE C3 — MEDIUM', title: 'Coastal-influenced exposure', colour: 'linear-gradient(135deg,#b45309,#d97706)',
+               material: 'Coated aluminium (good quality die-cast), 304 stainless, or good-quality UV-stable polymer/composite',
+               coating: 'Standard powder coat with pre-treatment',
+               fixings: 'Stainless or coated' },
+        C2:  { label: 'ZONE C2 — LOW', title: 'Mostly inland exposure', colour: 'linear-gradient(135deg,#166534,#15803d)',
+               material: 'Standard coated aluminium or polymer/composite',
+               coating: 'Standard powder coat',
+               fixings: 'Standard coated/stainless' },
+        C1:  { label: 'ZONE C1 — VERY LOW', title: 'Well inland — standard exposure', colour: 'linear-gradient(135deg,#14532d,#166534)',
+               material: 'Standard aluminium/polymer fittings',
+               coating: 'Standard finish, no special coastal spec needed',
+               fixings: 'Standard' }
+    };
+
+    document.querySelectorAll('.zone-option').forEach(opt => {
+        opt.addEventListener('click', () => {
+            document.querySelectorAll('.zone-option').forEach(o => o.classList.remove('selected'));
+            opt.classList.add('selected');
+            opt.querySelector('input').checked = true;
+            selectedZone = opt.dataset.zone;
+        });
+    });
+
+    function setWater(isWater, btn) {
+        inWater = isWater;
+        document.querySelectorAll('#water-group .toggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+
+    function getRecommendation() {
+        if (inWater === null) {
+            alert('Please select whether this fitting will be in or near water.');
+            return;
+        }
+
+        const hero = document.getElementById('result-hero');
+        const body = document.getElementById('result-body');
+        const siteLabel = document.getElementById('site-label').value.trim();
+        const siteText = siteLabel ? ` for ${siteLabel}` : '';
+
+        if (inWater) {
+            hero.style.background = 'linear-gradient(135deg,#0369a1,#0ea5e9)';
+            document.getElementById('result-zone-label').textContent = 'WATER-CONTACT APPLICATION';
+            document.getElementById('result-title').textContent = 'This needs a proper spec, not a generic recommendation' + siteText;
+
+            body.innerHTML = `
+                <div class="info-box info-box-blue">
+                    <h4>Why this tool won't guess a material spec for you</h4>
+                    <p>The right fitting for water contact depends heavily on the <strong>water type</strong> — freshwater ponds, chlorinated pools, and salt-chlorinated pools all age fittings completely differently, even at the same IP rating. Getting this wrong is one of the more common ways a pool or water-feature lighting job fails early. See our guide on <a href="fittings-that-live-in-water.html">fittings that live in water</a> for the full detail.</p>
+                </div>
+                <div class="info-box info-box-warn">
+                    <h4>Worth knowing: premier water-contact brands</h4>
+                    <p><strong>Aqualux</strong> and <strong>Hunza</strong> are premier, fully maintainable fitting brands in the Australian market worth looking at for water-contact applications.</p>
+                </div>
+                <div class="info-box info-box-blue">
+                    <h4>Get the right fitting for your specific situation</h4>
+                    <p>Rather than risk under-specifying, get in touch with Solstice Lighting directly — I work there, and we can help select the right fitting once we know your water type and application.</p>
+                    <p style="margin-top:10px;"><a href="https://www.solsticelighting.com.au" target="_blank" rel="noopener" style="color:#1a2a4a;font-weight:700;">Contact Solstice Lighting →</a></p>
+                </div>
+            `;
+        } else {
+            const z = ZONE_DATA[selectedZone];
+            hero.style.background = z.colour;
+            document.getElementById('result-zone-label').textContent = z.label;
+            document.getElementById('result-title').textContent = z.title + siteText;
+
+            body.innerHTML = `
+                <table class="spec-table">
+                    <tr><th>Minimum material</th><td>${z.material}</td></tr>
+                    <tr><th>Coating / finish</th><td>${z.coating}</td></tr>
+                    <tr><th>Fixings</th><td>${z.fixings}</td></tr>
+                </table>
+                <div class="info-box info-box-blue">
+                    <h4>ℹ️ IP rating is a separate consideration</h4>
+                    <p>This recommendation covers material and corrosion resistance only — it doesn't cover ingress protection (IP rating), which depends on the specific application (in-ground, wall-mounted, near water, etc.) rather than coastal distance. Check the application-specific IP rating separately.</p>
+                </div>
+            `;
+        }
+
+        document.getElementById('results').style.display = 'block';
+        document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+</script>
+
+<footer>
+    <strong>LightTools</strong> — lighttools.com.au | Free tools for electricians, designers &amp; DIYers
+    <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="garden-lighting-calculator.html">Garden Lighting</a>
+        <a href="why-fitting-construction-matters.html">Fitting Construction Guide</a>
+        <a href="fittings-that-live-in-water.html">Fittings That Live in Water</a>
+        <a href="sparky-selector.html">Sparky Selector</a>
+        <a href="disclaimer.html">Disclaimer &amp; Terms</a>
+    </div>
+</footer>
+
+</body>
+</html>

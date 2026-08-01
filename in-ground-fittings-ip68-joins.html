@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>In-Ground Fittings: Water Ingress &amp; How to Do a Proper IP68 Join | LightTools</title>
+    <meta name="description" content="An IP68 rating tests the sealed housing, not the cable join. Learn the two routes water actually takes into an in-ground fitting, and how to do a proper direct-bury IP68 connection that won't fail in the first season.">
+    <link rel="canonical" href="https://lighttools.com.au/in-ground-fittings-ip68-joins.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1409689781104144" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-82HX4HNTVF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-82HX4HNTVF');
+    </script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: #f0f4f8; color: #1a202c; line-height: 1.6; }
+
+        header { background: linear-gradient(135deg, #1a2a4a 0%, #2d4a7a 60%, #1a3a6a 100%); color: white; padding: 60px 20px 50px; text-align: center; }
+        .logo { font-size: 2.6rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+        .logo span { color: #f59e0b; }
+        header h1 { font-size: 1.5rem; font-weight: 700; max-width: 700px; margin: 0 auto 16px; line-height: 1.3; }
+        header p { font-size: 0.95rem; opacity: 0.8; }
+
+        nav { background: #152238; padding: 10px 20px; display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
+        nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; padding: 4px 0; }
+        nav a:hover { color: #f59e0b; }
+        nav a.active { color: #f59e0b; }
+
+        .container { max-width: 820px; margin: 0 auto; padding: 48px 16px 72px; }
+
+        .meta-bar { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; margin-bottom: 36px; font-size: 0.82rem; color: #718096; }
+        .meta-tag { background: #e2e8f0; border-radius: 999px; padding: 4px 12px; font-weight: 600; color: #4a5568; }
+
+        .toc { background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); padding: 24px 28px; margin-bottom: 40px; }
+        .toc h2 { font-size: 0.88rem; font-weight: 700; color: #1a2a4a; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .toc ol { margin-left: 18px; }
+        .toc li { margin-bottom: 7px; }
+        .toc a { color: #2d4a7a; text-decoration: none; font-size: 0.9rem; }
+        .toc a:hover { color: #f59e0b; text-decoration: underline; }
+
+        .prose h2 { font-size: 1.35rem; font-weight: 700; color: #1a2a4a; margin: 52px 0 16px; border-left: 4px solid #f59e0b; padding-left: 14px; scroll-margin-top: 20px; }
+        .prose h3 { font-size: 1.05rem; font-weight: 700; color: #1a2a4a; margin: 28px 0 10px; }
+        .prose p { font-size: 0.97rem; color: #2d3748; line-height: 1.85; margin-bottom: 18px; }
+        .prose ul, .prose ol { margin: 0 0 18px 22px; }
+        .prose li { font-size: 0.95rem; color: #2d3748; margin-bottom: 9px; line-height: 1.7; }
+        .prose strong { color: #1a202c; }
+        .prose a { color: #2d4a7a; font-weight: 500; }
+        .prose a:hover { color: #f59e0b; }
+
+        .callout { border-radius: 10px; padding: 16px 20px; margin: 24px 0; font-size: 0.92rem; line-height: 1.7; }
+        .callout-tip { background: #fffbeb; border: 1px solid #f59e0b; color: #78350f; }
+        .callout-warn { background: #fef2f2; border: 1px solid #f87171; color: #7f1d1d; }
+        .callout-info { background: #eff6ff; border: 1px solid #93c5fd; color: #1e3a5f; }
+        .callout strong { display: block; margin-bottom: 4px; }
+
+        .step-box { background: white; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); padding: 22px 24px; margin-bottom: 14px; display: flex; gap: 18px; align-items: flex-start; }
+        .step-num { background: #1a2a4a; color: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 0.88rem; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+        .step-content h3 { font-size: 0.97rem; font-weight: 700; color: #1a2a4a; margin-bottom: 6px; }
+        .step-content p { font-size: 0.88rem; color: #4a5568; line-height: 1.7; margin: 0; }
+
+        .cta-box { background: linear-gradient(135deg, #1a2a4a, #2d4a7a); color: white; border-radius: 14px; padding: 28px 32px; margin: 40px 0; text-align: center; }
+        .cta-box h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; color: #f59e0b; }
+        .cta-box p { font-size: 0.92rem; opacity: 0.9; line-height: 1.75; margin-bottom: 18px; }
+        .cta-btn { display: inline-block; background: #f59e0b; color: #1a2a4a; font-weight: 700; font-size: 0.95rem; padding: 12px 28px; border-radius: 8px; text-decoration: none; }
+        .cta-btn:hover { background: #fbbf24; }
+
+        .disclaimer-strip { background: #fffbeb; border: 1px solid #f59e0b; border-radius: 10px; padding: 14px 20px; font-size: 0.82rem; color: #78350f; margin-top: 40px; }
+
+        footer { background: #1a2a4a; color: rgba(255,255,255,0.6); text-align: center; padding: 28px 16px; font-size: 0.82rem; }
+        footer strong { color: rgba(255,255,255,0.9); }
+        footer a { color: rgba(255,255,255,0.75); text-decoration: none; }
+        footer a:hover { color: #f59e0b; }
+        .footer-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 10px; }
+
+        @media (max-width: 600px) { header { padding: 40px 16px 32px; } header h1 { font-size: 1.25rem; } .step-box { flex-direction: column; gap: 10px; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">Light<span>Tools</span></div>
+    <h1>In-Ground Fittings: Water Ingress &amp; How to Do a Proper IP68 Join</h1>
+    <p>Written by a lighting designer with 18 years of industry experience</p>
+</header>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="garden-lighting-calculator.html">Garden Lighting</a>
+    <a href="lux-calculator.html">Lux Calculator</a>
+    <a href="led-strip-driver-calculator.html">Driver Calculator</a>
+    <a href="led-strip-light-selector.html">Strip Selector</a>
+    <a href="voltage-drop-calculator.html">Voltage Drop</a>
+    <a href="fitting-selector.html">Fitting Selector</a>
+    <a href="sparky-selector.html">Sparky Selector</a>
+    <a href="about.html">About</a>
+</nav>
+
+<div class="container">
+
+    <div class="meta-bar">
+        <span class="meta-tag">Exterior Lighting</span>
+        <span>Updated August 2026</span>
+        <span>13 min read</span>
+    </div>
+
+    <div class="toc">
+        <h2>In this guide</h2>
+        <ol>
+            <li><a href="#two-routes">Two routes water takes into an in-ground fitting</a></li>
+            <li><a href="#route-b">Why Route B is the one that actually kills fittings</a></li>
+            <li><a href="#solutions">How manufacturers try to solve this</a></li>
+            <li><a href="#how-to">How to do a proper IP68 join in the field</a></li>
+            <li><a href="#takeaway">Practical takeaway — it all connects to material choice</a></li>
+        </ol>
+    </div>
+
+    <div class="prose">
+
+        <p>An in-ground fitting's IP68 rating describes a sealed housing, tested in a lab. It says nothing about the join where the cable actually leaves the fitting, or the connections further down the run. This is the detail that separates an in-ground fitting that genuinely lasts 15 years buried in a lawn from one that fails within 18 months — and in the field, it's a very common failure, not a rare edge case.</p>
+
+        <h2 id="two-routes">Two routes water takes into an in-ground fitting</h2>
+
+        <p>Most buyers only think about one of these. Worth stating both explicitly:</p>
+
+        <ul>
+            <li><strong>Route A — through the housing seal or lens gasket.</strong> This is what the IP68 lab test actually measures: submerge the sealed housing, check nothing gets in.</li>
+            <li><strong>Route B — down or along the cable.</strong> Water runs down the outside of the cable jacket to the entry point, or wicks along the stranded conductor itself via capillary action <em>between the individual strands</em> — bypassing a perfectly good housing seal entirely, because the water never actually has to get past that seal to reach the inside of the fitting.</li>
+        </ul>
+
+        <h2 id="route-b">Why Route B is the one that actually kills fittings in the field</h2>
+
+        <p>A fitting can be genuinely IP68 straight out of the box and still fail within a season if the cable entry isn't managed properly — because the failure path never goes anywhere near the tested seal at all. This is a very common failure pattern in the field: fittings turning up with water clearly having travelled up the inside of the cable and into the housing, with the housing seal itself completely intact.</p>
+
+        <div class="callout callout-warn">
+            <strong>This is routine, not rare</strong>
+            Cable-path water ingress is one of the most common in-ground lighting failures seen on real jobs — not a theoretical edge case. If an in-ground fitting is failing early and the housing seal looks fine, the cable entry and the join further down the run are the first place to look.
+        </div>
+
+        <h2 id="solutions">How manufacturers try to solve this</h2>
+
+        <ul>
+            <li><strong>Gel-filled or resin-potted cable entries</strong> — fully encapsulate the conductor right at the entry point, physically stopping capillary wicking along the strands before it can start.</li>
+            <li><strong>Double-sealed cable glands</strong> — add a compression seal directly on the cable jacket, on top of the housing's own seal.</li>
+            <li><strong>Pre-terminated quick-connect systems</strong> — designed so the field join happens inside a purpose-built connector, rather than as a raw twist-and-tape or wire-nut joint out in the open.</li>
+            <li><strong>Anti-siphon connector systems</strong> — some manufacturers now build connectors specifically designed to stop water travelling up the cable into the fitting via capillary action, rather than relying on the housing seal alone. This is a genuinely useful category to know about and ask a supplier for by function, even if the specific product detail for a confirmed recommendation is still being finalised on our end — worth checking this guide again for an update once that's locked in.</li>
+        </ul>
+
+        <h2 id="how-to">How to do a proper IP68 join in the field</h2>
+
+        <div class="step-box">
+            <div class="step-num">1</div>
+            <div class="step-content">
+                <h3>Strip the cable cleanly</h3>
+                <p>No nicked strands — a nicked strand is a wicking path in itself, regardless of what connector goes over the top of it.</p>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-num">2</div>
+            <div class="step-content">
+                <h3>Use a genuinely gel- or resin-filled IP68 connector rated for direct burial</h3>
+                <p>Not a housing that's IP68 dry but relies on a grease that can be displaced over time or under mechanical disturbance.</p>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-num">3</div>
+            <div class="step-content">
+                <h3>Terminate in an accessible valve box where possible</h3>
+                <p>Rather than a bare direct-buried joint — this makes future fault-finding possible without digging up the lawn.</p>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-num">4</div>
+            <div class="step-content">
+                <h3>Form a drip loop before the cable enters the fitting or gland</h3>
+                <p>So water runs off the low point of the loop instead of tracking straight into the entry point.</p>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-num">5</div>
+            <div class="step-content">
+                <h3>Don't mix dissimilar metals at the join</h3>
+                <p>Galvanic corrosion between the conductor, lug and terminal accelerates failure — especially relevant in the coastal corrosivity zones covered in our <a href="why-fitting-construction-matters.html">fitting construction guide</a>.</p>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-num">6</div>
+            <div class="step-content">
+                <h3>Get the crimp and torque right</h3>
+                <p>A loose crimp leaves a gap for water to wick into before it ever reaches the "sealed" part of the connector — the connector's own rating doesn't help if the crimp underneath it is poor.</p>
+            </div>
+        </div>
+
+        <div class="step-box">
+            <div class="step-num">7</div>
+            <div class="step-content">
+                <h3>Insulation-resistance test before backfilling</h3>
+                <p>Cheap to check now with a megger. Expensive and disruptive to diagnose later once the garden bed is finished and the fitting is buried.</p>
+            </div>
+        </div>
+
+        <h2 id="takeaway">Practical takeaway — it all connects to material choice</h2>
+
+        <p>Getting the cable join right ties directly back to the material and coating decisions in our <a href="why-fitting-construction-matters.html">fitting construction guide</a> — the right base material and coating mean nothing if the cable join is the actual point of failure. Both need to be right together; neither substitutes for the other.</p>
+
+        <div class="callout callout-info">
+            <strong>A good, verified how-to reference</strong>
+            We're planning to link a genuine, verified video walkthrough of a proper IP68 direct-bury join here — check back for an update, as we'd rather leave this blank than link something unverified.
+        </div>
+
+    </div>
+
+    <div class="cta-box">
+        <h2>Not sure your site plan handles this correctly?</h2>
+        <p>Cable routing and join placement should be part of the design, not an afterthought on install day. I work at Solstice Lighting, design/spec/supply for Victorian projects.</p>
+        <a href="https://www.solsticelighting.com.au" class="cta-btn" target="_blank" rel="noopener">Contact Solstice Lighting →</a>
+    </div>
+
+    <div class="disclaimer-strip">
+        <strong>Disclaimer:</strong> This guide is for general information purposes. Electrical connections, especially buried and in-ground work, must be carried out by a licensed electrician in accordance with AS/NZS 3000. See our <a href="disclaimer.html">full disclaimer</a>.
+    </div>
+
+</div>
+
+<footer>
+    <strong>LightTools</strong> — lighttools.com.au | Free tools for electricians, designers &amp; DIYers
+    <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="garden-lighting-calculator.html">Garden Lighting</a>
+        <a href="lux-calculator.html">Lux Calculator</a>
+        <a href="led-strip-driver-calculator.html">Driver Calculator</a>
+        <a href="sparky-selector.html">Sparky Selector</a>
+        <a href="disclaimer.html">Disclaimer &amp; Terms</a>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Far Does Outdoor Light Really Travel? Lumens, Lux &amp; Glare Explained | LightTools</title>
+    <meta name="description" content="Outdoor lighting doesn't work like indoor lighting. Learn the inverse square law, how few lumens you actually need outdoors, why glare matters more than brightness, and real fixture wattage guides for paths, steps, trees and driveways.">
+    <link rel="canonical" href="https://lighttools.com.au/how-far-does-outdoor-light-travel.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1409689781104144" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-82HX4HNTVF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-82HX4HNTVF');
+    </script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: #f0f4f8; color: #1a202c; line-height: 1.6; }
+
+        header { background: linear-gradient(135deg, #1a2a4a 0%, #2d4a7a 60%, #1a3a6a 100%); color: white; padding: 60px 20px 50px; text-align: center; }
+        .logo { font-size: 2.6rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+        .logo span { color: #f59e0b; }
+        header h1 { font-size: 1.5rem; font-weight: 700; max-width: 700px; margin: 0 auto 16px; line-height: 1.3; }
+        header p { font-size: 0.95rem; opacity: 0.8; }
+
+        nav { background: #152238; padding: 10px 20px; display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
+        nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; padding: 4px 0; }
+        nav a:hover { color: #f59e0b; }
+        nav a.active { color: #f59e0b; }
+
+        .container { max-width: 820px; margin: 0 auto; padding: 48px 16px 72px; }
+
+        .meta-bar { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; margin-bottom: 36px; font-size: 0.82rem; color: #718096; }
+        .meta-tag { background: #e2e8f0; border-radius: 999px; padding: 4px 12px; font-weight: 600; color: #4a5568; }
+
+        .toc { background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); padding: 24px 28px; margin-bottom: 40px; }
+        .toc h2 { font-size: 0.88rem; font-weight: 700; color: #1a2a4a; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .toc ol { margin-left: 18px; }
+        .toc li { margin-bottom: 7px; }
+        .toc a { color: #2d4a7a; text-decoration: none; font-size: 0.9rem; }
+        .toc a:hover { color: #f59e0b; text-decoration: underline; }
+
+        .prose h2 { font-size: 1.35rem; font-weight: 700; color: #1a2a4a; margin: 52px 0 16px; border-left: 4px solid #f59e0b; padding-left: 14px; scroll-margin-top: 20px; }
+        .prose h3 { font-size: 1.05rem; font-weight: 700; color: #1a2a4a; margin: 28px 0 10px; }
+        .prose p { font-size: 0.97rem; color: #2d3748; line-height: 1.85; margin-bottom: 18px; }
+        .prose ul, .prose ol { margin: 0 0 18px 22px; }
+        .prose li { font-size: 0.95rem; color: #2d3748; margin-bottom: 9px; line-height: 1.7; }
+        .prose strong { color: #1a202c; }
+        .prose a { color: #2d4a7a; font-weight: 500; }
+        .prose a:hover { color: #f59e0b; }
+
+        .callout { border-radius: 10px; padding: 16px 20px; margin: 24px 0; font-size: 0.92rem; line-height: 1.7; }
+        .callout-tip { background: #fffbeb; border: 1px solid #f59e0b; color: #78350f; }
+        .callout-warn { background: #fef2f2; border: 1px solid #f87171; color: #7f1d1d; }
+        .callout-info { background: #eff6ff; border: 1px solid #93c5fd; color: #1e3a5f; }
+        .callout strong { display: block; margin-bottom: 4px; }
+
+        .lux-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.88rem; }
+        .lux-table th { background: #1a2a4a; color: white; padding: 10px 14px; text-align: left; font-weight: 600; }
+        .lux-table td { padding: 9px 14px; border-bottom: 1px solid #e2e8f0; color: #2d3748; vertical-align: top; }
+        .lux-table tr:nth-child(even) td { background: #f7fafc; }
+        .lux-table .lux-val { font-weight: 700; color: #1a2a4a; white-space: nowrap; }
+
+        .worked-example { background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); padding: 24px 28px; margin: 28px 0; border-top: 4px solid #f59e0b; }
+        .worked-example h3 { font-size: 1rem; font-weight: 700; color: #1a2a4a; margin-bottom: 16px; }
+        .worked-example .step { display: flex; gap: 14px; margin-bottom: 12px; align-items: flex-start; }
+        .worked-example .step-n { background: #1a2a4a; color: white; border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+        .worked-example .step-text { font-size: 0.9rem; color: #2d3748; line-height: 1.7; }
+        .worked-example .result { background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 12px 16px; font-size: 0.9rem; color: #14532d; font-weight: 600; margin-top: 14px; }
+
+        .cta-box { background: linear-gradient(135deg, #1a2a4a, #2d4a7a); color: white; border-radius: 14px; padding: 28px 32px; margin: 40px 0; text-align: center; }
+        .cta-box h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; color: #f59e0b; }
+        .cta-box p { font-size: 0.92rem; opacity: 0.9; line-height: 1.75; margin-bottom: 18px; }
+        .cta-btn { display: inline-block; background: #f59e0b; color: #1a2a4a; font-weight: 700; font-size: 0.95rem; padding: 12px 28px; border-radius: 8px; text-decoration: none; }
+        .cta-btn:hover { background: #fbbf24; }
+
+        .disclaimer-strip { background: #fffbeb; border: 1px solid #f59e0b; border-radius: 10px; padding: 14px 20px; font-size: 0.82rem; color: #78350f; margin-top: 40px; }
+
+        footer { background: #1a2a4a; color: rgba(255,255,255,0.6); text-align: center; padding: 28px 16px; font-size: 0.82rem; }
+        footer strong { color: rgba(255,255,255,0.9); }
+        footer a { color: rgba(255,255,255,0.75); text-decoration: none; }
+        footer a:hover { color: #f59e0b; }
+        .footer-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 10px; }
+
+        @media (max-width: 600px) { header { padding: 40px 16px 32px; } header h1 { font-size: 1.25rem; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">Light<span>Tools</span></div>
+    <h1>How Far Does Outdoor Light Really Travel?</h1>
+    <p>Lumens, lux, glare and light trespass — written by a lighting designer with 18 years of industry experience</p>
+</header>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="garden-lighting-calculator.html">Garden Lighting</a>
+    <a href="lux-calculator.html">Lux Calculator</a>
+    <a href="led-strip-driver-calculator.html">Driver Calculator</a>
+    <a href="led-strip-light-selector.html">Strip Selector</a>
+    <a href="voltage-drop-calculator.html">Voltage Drop</a>
+    <a href="fitting-selector.html">Fitting Selector</a>
+    <a href="sparky-selector.html">Sparky Selector</a>
+    <a href="about.html">About</a>
+</nav>
+
+<div class="container">
+
+    <div class="meta-bar">
+        <span class="meta-tag">Exterior Lighting</span>
+        <span>Updated August 2026</span>
+        <span>11 min read</span>
+    </div>
+
+    <div class="toc">
+        <h2>In this guide</h2>
+        <ol>
+            <li><a href="#why-different">Why outdoor lighting doesn't behave like indoor lighting</a></li>
+            <li><a href="#inverse-square">The inverse square law, in plain terms</a></li>
+            <li><a href="#how-little">How little light you actually need outdoors</a></li>
+            <li><a href="#glare">Glare — the real enemy, not dimness</a></li>
+            <li><a href="#trespass">Light trespass and obtrusive lighting</a></li>
+            <li><a href="#real-numbers">Real fixture wattages — rules of thumb from the field</a></li>
+            <li><a href="#takeaway">Practical takeaway — how to plan without guessing</a></li>
+        </ol>
+    </div>
+
+    <div class="prose">
+
+        <h2 id="why-different">Why outdoor lighting doesn't behave like indoor lighting</h2>
+
+        <p>Most people size outdoor lighting the same way they'd shop for a lamp — bigger wattage, more lumens, "brighter must be better." That instinct is carried over from indoor lighting, where rooms are enclosed, surfaces bounce light back at you, and the goal is usually even, generous illumination.</p>
+
+        <p>None of that applies outside. There are no walls or ceiling to reflect light back into the space. There's no fixed distance between the fitting and the surface — a path light might be 300mm from the ground it's lighting, while a façade wash could be throwing light 6 metres up a wall. And critically, the human eye behaves completely differently outdoors at night: it dark-adapts, and over-lighting actively works against that adaptation rather than helping it.</p>
+
+        <p>The result is that outdoor lighting projects sized using indoor instincts are almost always over-lit — and over-lit outdoor lighting doesn't just waste energy, it actively makes a space feel less comfortable and less safe, for reasons covered below.</p>
+
+        <h2 id="inverse-square">The inverse square law, in plain terms</h2>
+
+        <p>Light intensity falls off with the <strong>square</strong> of the distance from the source. Double the distance, and you don't get half the light — you get a quarter. Triple the distance, and you're down to a ninth. This is the single most important physical fact to understand before speccing any outdoor fitting.</p>
+
+        <div class="callout callout-info">
+            <strong>The formula</strong>
+            Illuminance (lux) = Luminous Intensity (candela) ÷ Distance² (metres). It's why a fitting that feels perfectly bright 1 metre away can feel almost useless from 3 metres — the light hasn't dropped by three times, it's dropped by nine.
+        </div>
+
+        <div class="worked-example">
+            <h3>Worked example — a common 12V garden spike light</h3>
+            <div class="step">
+                <div class="step-n">1</div>
+                <div class="step-text">A typical 3W 12V garden spike light produces roughly 250 lumens, with a luminous intensity of approximately 200 candela in its main beam direction.</div>
+            </div>
+            <div class="step">
+                <div class="step-n">2</div>
+                <div class="step-text">At 0.5m from the fitting: 200 ÷ 0.5² = 200 ÷ 0.25 = <strong>800 lux</strong> — very bright, directly under the fitting.</div>
+            </div>
+            <div class="step">
+                <div class="step-n">3</div>
+                <div class="step-text">At 1.5m from the fitting: 200 ÷ 1.5² = 200 ÷ 2.25 = <strong>~89 lux</strong> — already down to roughly a ninth of the close-range value.</div>
+            </div>
+            <div class="step">
+                <div class="step-n">4</div>
+                <div class="step-text">At 3m from the fitting: 200 ÷ 3² = 200 ÷ 9 = <strong>~22 lux</strong> — a fraction of the original reading, from tripling the distance.</div>
+            </div>
+            <div class="result">This is why garden lighting is about placement and spacing, not raw output — a fitting that seems underwhelming on the showroom bench can be exactly right once it's actually positioned in the landscape.</div>
+        </div>
+
+        <h2 id="how-little">How little light you actually need outdoors</h2>
+
+        <p>Because of the fall-off above, and because the eye dark-adapts at night, outdoor lighting standards call for dramatically less illuminance than most people expect. AS/NZS 1158.3.1 — the Australian standard covering pedestrian and residential-scale path lighting — sets category levels far below typical indoor lighting:</p>
+
+        <table class="lux-table">
+            <thead>
+                <tr><th>Category</th><th>Typical Application</th><th>Target Lux</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>PP1</td><td>High pedestrian activity, town centres</td><td class="lux-val">10 lx</td></tr>
+                <tr><td>PP2</td><td>Medium activity walkways</td><td class="lux-val">7 lx</td></tr>
+                <tr><td>PP3</td><td>Residential streets, local paths</td><td class="lux-val">3 lx</td></tr>
+                <tr><td>PP4</td><td>Low-activity residential paths</td><td class="lux-val">1.5 lx</td></tr>
+                <tr><td>PP5</td><td>Minor paths, low-risk areas</td><td class="lux-val">0.85 lx</td></tr>
+            </tbody>
+        </table>
+
+        <p>Compare that against typical indoor targets — living areas 100–300 lux, task and reading areas 300–500+ lux — and the gap is enormous. A residential garden path sitting at 3 lux is doing its job correctly, even though that number looks tiny next to an indoor spec.</p>
+
+        <div class="callout callout-tip">
+            <strong>Why so little is actually correct</strong>
+            The eye dark-adapts outdoors, becoming far more sensitive to low light levels than it is indoors under electric lighting. Over-lighting a path doesn't just waste power — it destroys that adaptation, creates harsh contrast between lit and unlit zones, and produces hot spots and hard shadows that can make a space feel <em>less</em> safe and navigable, not more.
+        </div>
+
+        <h2 id="glare">Glare — the real enemy, not dimness</h2>
+
+        <p>The most common outdoor lighting failure isn't insufficient brightness — it's glare. Glare happens when there's a direct line of sight to the LED chip itself, typically from an unshielded fitting mounted too low or aimed carelessly. A path can be technically compliant on paper — correct lux level, correct spacing — and still be genuinely unpleasant and hard to walk if the fittings themselves are glary.</p>
+
+        <p>Glare and illuminance are measuring two different things. A fitting review that only checks "is it bright enough" and never checks "can you see the light source directly" will miss the problem entirely. Proper shielding — recessed lenses, hoods, baffles, or simply mounting height and aim angle — is what separates a comfortable, professional-feeling installation from one that looks technically fine in a spec sheet but is unpleasant to actually stand in.</p>
+
+        <h2 id="trespass">Light trespass and obtrusive lighting</h2>
+
+        <p>Light trespass is light spilling beyond the boundary of the property it's meant to be lighting — onto a neighbour's bedroom window, into the night sky, or as glare visible from a public road. AS/NZS 4282:2023 (Control of the Obtrusive Effects of Outdoor Lighting) governs this, covering spill light, sky glow, and glare as assessed at property boundaries and building façades.</p>
+
+        <p>This isn't a theoretical compliance detail — councils increasingly reference AS/NZS 4282 during planning approvals for larger residential and commercial landscape lighting schemes, particularly where a project borders residential neighbours. The practical takeaway is straightforward: the fix for light trespass is almost always aiming and shielding fittings correctly, not simply reducing the number of fittings or their wattage. A well-aimed, well-shielded low-output fitting causes far less trespass than a poorly-aimed high-output one.</p>
+
+        <h2 id="real-numbers">Real fixture wattages — rules of thumb from the field</h2>
+
+        <p>Once the lux targets and glare/trespass principles above are understood, actual fixture selection becomes far simpler than most guides make it sound. These are the wattages that consistently work well across typical residential garden lighting projects:</p>
+
+        <table class="lux-table">
+            <thead>
+                <tr><th>Fixture Type</th><th>Typical Wattage</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Path lights</td><td class="lux-val">3W</td></tr>
+                <tr><td>Step lights</td><td class="lux-val">1–2W</td></tr>
+                <tr><td>Tree uplights</td><td class="lux-val">3–6W</td></tr>
+                <tr><td>Façade wash</td><td class="lux-val">6W</td></tr>
+                <tr><td>Driveways</td><td class="lux-val">6W</td></tr>
+            </tbody>
+        </table>
+
+        <p>These figures assume good-quality LED fittings with reasonable optical control — a cheap fitting with poor beam shaping may need to run at higher wattage to achieve the same practical result, which is itself a good argument for spending on fitting quality rather than compensating with raw output.</p>
+
+        <h2 id="takeaway">Practical takeaway — how to plan without guessing</h2>
+
+        <p>Outdoor lighting layout doesn't need to be guesswork if you work from the right starting point:</p>
+
+        <ol>
+            <li><strong>Start from the target lux level for the application</strong> — a residential path is PP3–PP5 territory (0.85–3 lux), not indoor room brightness.</li>
+            <li><strong>Choose fixture wattage from proven ranges</strong> — the table above covers the common cases; don't default to the biggest fitting on the shelf.</li>
+            <li><strong>Prioritise shielding and aim over raw output</strong> — a well-aimed 3W fitting beats a poorly-aimed 10W one on both comfort and compliance.</li>
+            <li><strong>Check boundaries, not just the space itself</strong> — walk the property line at night before calling a design finished; that's where trespass problems show up.</li>
+            <li><strong>Use the inverse square relationship to plan spacing</strong> — don't assume even coverage from widely-spaced fittings; check the actual fall-off at the midpoint between fixtures.</li>
+        </ol>
+
+        <div class="callout callout-warn">
+            <strong>A note on real jobs</strong>
+            Over-lighting is the most common mistake seen in the field — driveways and facades pushed far brighter than the standard calls for, usually because "brighter equals safer" feels intuitively true. It isn't; it usually just creates glare complaints from neighbours and a harsher, less inviting result.
+        </div>
+
+    </div>
+
+    <div class="cta-box">
+        <h2>Plan your garden lighting layout</h2>
+        <p>The Garden Lighting Calculator handles voltage drop, cable sizing and driver selection for your 12V/24V outdoor system — and the Lux Calculator lets you check illuminance targets directly.</p>
+        <a href="garden-lighting-calculator.html" class="cta-btn">Open Garden Lighting Calculator →</a>
+    </div>
+
+    <div class="disclaimer-strip">
+        <strong>Disclaimer:</strong> This guide is for general information purposes. Lux targets reference AS/NZS 1158.3.1 and AS/NZS 4282:2023 as general guidance — specific projects, especially those bordering neighbouring properties or requiring council approval, should be verified against the current standards by a qualified lighting designer. See our <a href="disclaimer.html">full disclaimer</a>.
+    </div>
+
+</div>
+
+<footer>
+    <strong>LightTools</strong> — lighttools.com.au | Free tools for electricians, designers &amp; DIYers
+    <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="garden-lighting-calculator.html">Garden Lighting</a>
+        <a href="lux-calculator.html">Lux Calculator</a>
+        <a href="led-strip-driver-calculator.html">Driver Calculator</a>
+        <a href="sparky-selector.html">Sparky Selector</a>
+        <a href="disclaimer.html">Disclaimer &amp; Terms</a>
+    </div>
+</footer>
+
+</body>
+</html>

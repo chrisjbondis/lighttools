@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choosing the Right LED: CCT, CRI &amp; Beam Angle Explained | LightTools</title>
+    <meta name="description" content="CCT, CRI and beam angle are on every LED spec sheet, and most buyers get them backwards. A practical, room-by-room guide — plus why light isn't just something you see by, and how it actually affects the body.">
+    <link rel="canonical" href="https://lighttools.com.au/choosing-the-right-led-cct-cri-beam-angle.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1409689781104144" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-82HX4HNTVF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-82HX4HNTVF');
+    </script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: #f0f4f8; color: #1a202c; line-height: 1.6; }
+
+        header { background: linear-gradient(135deg, #1a2a4a 0%, #2d4a7a 60%, #1a3a6a 100%); color: white; padding: 60px 20px 50px; text-align: center; }
+        .logo { font-size: 2.6rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+        .logo span { color: #f59e0b; }
+        header h1 { font-size: 1.5rem; font-weight: 700; max-width: 700px; margin: 0 auto 16px; line-height: 1.3; }
+        header p { font-size: 0.95rem; opacity: 0.8; }
+
+        nav { background: #152238; padding: 10px 20px; display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
+        nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; padding: 4px 0; }
+        nav a:hover { color: #f59e0b; }
+        nav a.active { color: #f59e0b; }
+
+        .container { max-width: 820px; margin: 0 auto; padding: 48px 16px 72px; }
+
+        .meta-bar { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; margin-bottom: 36px; font-size: 0.82rem; color: #718096; }
+        .meta-tag { background: #e2e8f0; border-radius: 999px; padding: 4px 12px; font-weight: 600; color: #4a5568; }
+
+        .toc { background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); padding: 24px 28px; margin-bottom: 40px; }
+        .toc h2 { font-size: 0.88rem; font-weight: 700; color: #1a2a4a; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .toc ol { margin-left: 18px; }
+        .toc li { margin-bottom: 7px; }
+        .toc a { color: #2d4a7a; text-decoration: none; font-size: 0.9rem; }
+        .toc a:hover { color: #f59e0b; text-decoration: underline; }
+
+        .prose h2 { font-size: 1.35rem; font-weight: 700; color: #1a2a4a; margin: 52px 0 16px; border-left: 4px solid #f59e0b; padding-left: 14px; scroll-margin-top: 20px; }
+        .prose h3 { font-size: 1.05rem; font-weight: 700; color: #1a2a4a; margin: 28px 0 10px; }
+        .prose p { font-size: 0.97rem; color: #2d3748; line-height: 1.85; margin-bottom: 18px; }
+        .prose ul, .prose ol { margin: 0 0 18px 22px; }
+        .prose li { font-size: 0.95rem; color: #2d3748; margin-bottom: 9px; line-height: 1.7; }
+        .prose strong { color: #1a202c; }
+        .prose a { color: #2d4a7a; font-weight: 500; }
+        .prose a:hover { color: #f59e0b; }
+
+        .callout { border-radius: 10px; padding: 16px 20px; margin: 24px 0; font-size: 0.92rem; line-height: 1.7; }
+        .callout-tip { background: #fffbeb; border: 1px solid #f59e0b; color: #78350f; }
+        .callout-warn { background: #fef2f2; border: 1px solid #f87171; color: #7f1d1d; }
+        .callout-info { background: #eff6ff; border: 1px solid #93c5fd; color: #1e3a5f; }
+        .callout-purple { background: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; }
+        .callout strong { display: block; margin-bottom: 4px; }
+
+        .lux-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.87rem; }
+        .lux-table th { background: #1a2a4a; color: white; padding: 10px 12px; text-align: left; font-weight: 600; }
+        .lux-table td { padding: 9px 12px; border-bottom: 1px solid #e2e8f0; color: #2d3748; vertical-align: top; }
+        .lux-table tr:nth-child(even) td { background: #f7fafc; }
+        .lux-table .lux-val { font-weight: 700; color: #1a2a4a; white-space: nowrap; }
+
+        .worked-example { background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); padding: 24px 28px; margin: 28px 0; border-top: 4px solid #f59e0b; }
+        .worked-example h3 { font-size: 1rem; font-weight: 700; color: #1a2a4a; margin-bottom: 16px; }
+        .worked-example .step { display: flex; gap: 14px; margin-bottom: 12px; align-items: flex-start; }
+        .worked-example .step-n { background: #1a2a4a; color: white; border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+        .worked-example .step-text { font-size: 0.9rem; color: #2d3748; line-height: 1.7; }
+        .worked-example .result { background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 12px 16px; font-size: 0.9rem; color: #14532d; font-weight: 600; margin-top: 14px; }
+
+        .cta-box { background: linear-gradient(135deg, #1a2a4a, #2d4a7a); color: white; border-radius: 14px; padding: 28px 32px; margin: 40px 0; text-align: center; }
+        .cta-box h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; color: #f59e0b; }
+        .cta-box p { font-size: 0.92rem; opacity: 0.9; line-height: 1.75; margin-bottom: 18px; }
+        .cta-btn { display: inline-block; background: #f59e0b; color: #1a2a4a; font-weight: 700; font-size: 0.95rem; padding: 12px 28px; border-radius: 8px; text-decoration: none; }
+        .cta-btn:hover { background: #fbbf24; }
+
+        .disclaimer-strip { background: #fffbeb; border: 1px solid #f59e0b; border-radius: 10px; padding: 14px 20px; font-size: 0.82rem; color: #78350f; margin-top: 40px; }
+
+        footer { background: #1a2a4a; color: rgba(255,255,255,0.6); text-align: center; padding: 28px 16px; font-size: 0.82rem; }
+        footer strong { color: rgba(255,255,255,0.9); }
+        footer a { color: rgba(255,255,255,0.75); text-decoration: none; }
+        footer a:hover { color: #f59e0b; }
+        .footer-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 10px; }
+
+        @media (max-width: 600px) { header { padding: 40px 16px 32px; } header h1 { font-size: 1.25rem; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">Light<span>Tools</span></div>
+    <h1>Choosing the Right LED: CCT, CRI &amp; Beam Angle Explained</h1>
+    <p>Written by a lighting designer with 18 years of industry experience</p>
+</header>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="lux-calculator.html">Lux Calculator</a>
+    <a href="led-strip-driver-calculator.html">Driver Calculator</a>
+    <a href="led-strip-light-selector.html">Strip Selector</a>
+    <a href="garden-lighting-calculator.html">Garden Lighting</a>
+    <a href="fitting-selector.html">Fitting Selector</a>
+    <a href="sparky-selector.html">Sparky Selector</a>
+    <a href="guides.html">Guides</a>
+    <a href="about.html">About</a>
+</nav>
+
+<div class="container">
+
+    <div class="meta-bar">
+        <span class="meta-tag">Lighting Fundamentals</span>
+        <span>Updated August 2026</span>
+        <span>16 min read</span>
+    </div>
+
+    <div class="toc">
+        <h2>In this guide</h2>
+        <ol>
+            <li><a href="#cct">CCT — what the Kelvin number actually means</a></li>
+            <li><a href="#cri">CRI — when it's worth paying for, and when it isn't</a></li>
+            <li><a href="#beam">Beam angle — the number that determines whether it works</a></li>
+            <li><a href="#spacing">Downlight spacing and layout</a></li>
+            <li><a href="#physiology">Why this actually matters — light, physiology and how we function</a></li>
+            <li><a href="#takeaway">Practical takeaway — spec'ing a kitchen</a></li>
+        </ol>
+    </div>
+
+    <div class="prose">
+
+        <p>CCT, CRI and beam angle are printed on every LED box and every spec sheet, and most buyers either ignore them entirely or get them backwards. This is the "how to actually read a spec sheet" guide — practical and room-by-room, not a physics lecture. It also goes somewhere most competitor content doesn't: light isn't just something you see by, it's a direct physiological input, whether you're aware of it or not — and the last section explains why that's genuinely useful to understand, not just interesting trivia.</p>
+
+        <h2 id="cct">CCT — what the Kelvin number actually means</h2>
+
+        <p>Correlated Colour Temperature (CCT) describes the visual warmth or coolness of a light source, measured in Kelvin. Lower numbers look warmer (more amber/orange), higher numbers look cooler (more blue/white).</p>
+
+        <table class="lux-table">
+            <thead>
+                <tr><th>CCT Range</th><th>Character</th><th>Typical Application</th></tr>
+            </thead>
+            <tbody>
+                <tr><td class="lux-val">2700–3000K</td><td>Warm, relaxed</td><td>Living rooms, bedrooms</td></tr>
+                <tr><td class="lux-val">3000–4000K</td><td>Neutral</td><td>Kitchens, bathrooms</td></tr>
+                <tr><td class="lux-val">3500–5000K+</td><td>Cool / daylight</td><td>Task-heavy areas, garages, offices</td></tr>
+            </tbody>
+        </table>
+
+        <div class="callout callout-warn">
+            <strong>CCT is not brightness</strong>
+            This is the single most common mix-up. Brightness is measured in lumens — a completely separate number. A 2700K fitting and a 5000K fitting can output the exact same lumens; one just looks warmer than the other. Choosing a cooler CCT to "make a room brighter" is a common and easily avoided mistake.
+        </div>
+
+        <h3>What's actually specified on real jobs</h3>
+        <p>In practice, the defaults are more nuanced than a simple lookup table:</p>
+        <ul>
+            <li><strong>Living rooms and bedrooms</strong> — 3000K as the default, with the odd accent or uplight run in 2700K for extra warmth where it suits the space.</li>
+            <li><strong>Kitchens and bathrooms</strong> — 3000K generally, but sometimes 4000K specifically at a mirror or makeup light, to give a decent colour balance against natural exterior light at that spot.</li>
+            <li><strong>Task-heavy areas</strong> (garage, home office) — mostly 4000K, though 3000K still gets used depending on the job and how the space is actually lived in.</li>
+        </ul>
+
+        <h2 id="cri">CRI — when it's worth paying for, and when it isn't</h2>
+
+        <p>Colour Rendering Index (CRI) measures how accurately a light source reveals the true colours of objects, on a scale to 100 — where 100 matches natural daylight perfectly. Below 80 reads as visibly poor. 90 and above is the tier worth calling "great."</p>
+
+        <p><strong>Where it matters:</strong> kitchens (food colour), bathrooms (skin tone at the mirror), wardrobes and dressing areas (matching clothes accurately), retail and display lighting — anywhere colour accuracy genuinely affects a decision someone's making under that light.</p>
+
+        <p><strong>Where it doesn't matter much:</strong> garages, general circulation spaces, storage. 80 CRI is fine here — there's no need to pay the premium for 90+ in a space where nobody's judging colour under the light.</p>
+
+        <div class="callout callout-tip">
+            <strong>The residential rule of thumb</strong>
+            In a residential setting, CRI 90 is the practical minimum across the board — not just in the rooms where it "obviously" matters. The reasoning: incandescent lighting, which is what people are used to and subconsciously comparing everything against even now, was effectively CRI 100. CRI 90+ isn't a premium upsell — it's the baseline needed to not read as a downgrade from what people already know.
+        </div>
+
+        <h2 id="beam">Beam angle — the number that determines whether it works</h2>
+
+        <table class="lux-table">
+            <thead>
+                <tr><th>Beam Angle</th><th>Character</th><th>Typical Use</th></tr>
+            </thead>
+            <tbody>
+                <tr><td class="lux-val">~10–20°</td><td>Spot</td><td>Accent/feature — highlighting art or a single object</td></tr>
+                <tr><td class="lux-val">~24–35°</td><td>Narrow flood</td><td>Benchtops, task areas needing concentrated light</td></tr>
+                <tr><td class="lux-val">~36–45°</td><td>Flood</td><td>General room downlighting — the most common residential choice</td></tr>
+                <tr><td class="lux-val">46°+</td><td>Wide flood</td><td>Large open areas, ambient fill</td></tr>
+            </tbody>
+        </table>
+
+        <p>The mistake that gets made constantly: specifying a flood or wide-flood downlight over a kitchen island or benchtop, then wondering why the task area still feels dim. Beam angle needs to be chosen for the actual task happening at that point, not just the general room type.</p>
+
+        <div class="callout callout-purple">
+            <strong>The bigger lever than the angle number itself</strong>
+            A well-recessed 60° fitting will often outperform a poorly-recessed narrower one on actual glare and comfort. In practice: island bench and benchtop work well in the 36–60° range, general living areas around 60°, and feature walls or accent points also around 60° — but a highly recessed source for low glare matters more than chasing a specific angle number. That's a more useful thing to understand than a beam-angle-by-room lookup table.
+        </div>
+
+        <h2 id="spacing">Downlight spacing and layout</h2>
+
+        <p>Spacing needs to work together with beam angle and ceiling height — too tight and you get an over-lit "runway" look with overlapping hot spots; too wide and you get dark patches between fittings. As a general starting point, spacing roughly equal to the ceiling height gives reasonably even coverage for a standard flood distribution, though this shifts with beam angle and target lux level.</p>
+
+        <p>Rather than eyeballing it, the <a href="lux-calculator.html">Lux Calculator</a> handles this properly — enter room dimensions, ceiling height and fitting output, and it calculates actual coverage rather than a rule-of-thumb spacing guess.</p>
+
+        <h2 id="physiology">Why this actually matters — light, physiology and how we function</h2>
+
+        <p>The "wrong spec" jobs worth talking about usually aren't really about a fitting looking wrong. They're about a spec that fights how the body actually responds to light — and understanding the mechanism changes how you think about CCT choice, not just the visual outcome.</p>
+
+        <h3>The eye does two jobs, not one</h3>
+        <p>Rods and cones handle vision — what you consciously see. But a separate set of cells in the retina, <strong>intrinsically photosensitive retinal ganglion cells (ipRGCs)</strong>, containing the photopigment <strong>melanopsin</strong>, don't contribute to conscious sight at all. They feed directly into the suprachiasmatic nucleus — the brain's master clock — and drive non-image-forming responses: melatonin suppression, alertness, pupil response, circadian entrainment.</p>
+
+        <p>Light isn't just something you see by. It's a direct physiological input, whether you're aware of it or not.</p>
+
+        <h3>Melanopsin's peak sensitivity is ~480nm — blue-cyan light</h3>
+        <p>This is the mechanism behind advice most people have already heard as a vague rule of thumb: "warm at night, cool during the day." Cooler, blue-rich CCT during daylight hours supports alertness, because it mimics daylight — which is genuinely rich in that wavelength. The same blue-rich content in the evening actively fights the body's wind-down, by suppressing melatonin when it should naturally be rising.</p>
+
+        <p>This turns a vague suggestion into something with a specific, explainable mechanism — and it's the reason CCT choice for a bedroom or evening living space isn't just an aesthetic decision.</p>
+
+        <div class="callout callout-info">
+            <strong>Advanced: 1800K and "extra-warm" night lighting</strong>
+            Circadian-conscious lighting design increasingly uses a genuinely amber ~1800–2000K tier for evening and night use specifically — because it minimises melanopic (blue-weighted) content, leaving melatonin production largely undisturbed. This is a step beyond just "go warmer at night": 2700K is still blue-rich enough to have some suppressive effect, whereas the 1800–2000K tier is deliberately chosen to sit below that threshold. Flagged here as an advanced, optional topic for the curious reader — most projects don't need to go this far, but it's worth knowing the tier exists and why.
+        </div>
+
+        <h3>Glare and flicker sensitivity — individual variation matters</h3>
+        <p>Flicker below roughly 120Hz is linked to headaches, eye strain and fatigue in sensitive individuals — and sensitivity varies significantly between people. Migraine sufferers in particular show markedly higher rates of discomfort from flicker exposure than the general population.</p>
+
+        <p>Worth stating plainly: "I can't see it flickering" doesn't mean a fitting-and-driver combination is actually flicker-free for everyone in the room. This is a genuinely useful, non-obvious point when weighing up a budget driver against a quality one — and it ties directly into driver quality, covered in our guide on <a href="dimming-compatibility-why-leds-fail-early.html">dimming compatibility and why LEDs fail early</a>.</p>
+
+        <h2 id="takeaway">Practical takeaway — spec'ing a kitchen</h2>
+
+        <div class="worked-example">
+            <h3>Worked example: a typical kitchen</h3>
+            <div class="step">
+                <div class="step-n">1</div>
+                <div class="step-text"><strong>General ceiling downlights:</strong> 3000K, CRI 90+, 36–45° flood. Neutral enough for a kitchen without reading as clinical.</div>
+            </div>
+            <div class="step">
+                <div class="step-n">2</div>
+                <div class="step-text"><strong>Island bench / benchtop task lighting:</strong> 3000–4000K, CRI 90+, 36–60° — prioritise a well-recessed fitting for low glare over chasing a narrower angle number.</div>
+            </div>
+            <div class="step">
+                <div class="step-n">3</div>
+                <div class="step-text"><strong>Open shelving / display:</strong> narrower beam (24–35°) if highlighting specific items, CRI 90+ so displayed items read true to colour.</div>
+            </div>
+            <div class="result">Result: a kitchen that reads as neutral and functional, with genuine task light where it's needed — not a single flood-everywhere spec applied uniformly regardless of what's happening under it.</div>
+        </div>
+
+        <div class="callout callout-tip">
+            <strong>A second, shorter takeaway — on the physiology section</strong>
+            Match CCT to time-of-use, not just room type, when it genuinely matters to the client — bedrooms, and home offices with early or late working hours in particular. A living room that's warm and relaxed in the evening but cooler for daytime work is a more thoughtful spec than one fixed CCT applied everywhere.
+        </div>
+
+    </div>
+
+    <div class="cta-box">
+        <h2>Check your actual lux levels</h2>
+        <p>Once you've settled on CCT, CRI and beam angle, use the Lux Calculator to confirm your fitting count and spacing actually hit the target illuminance for the space.</p>
+        <a href="lux-calculator.html" class="cta-btn">Open Lux Calculator →</a>
+    </div>
+
+    <div class="disclaimer-strip">
+        <strong>Disclaimer:</strong> This guide is for general information purposes. For projects with specific circadian, medical or accessibility lighting requirements, consult a qualified lighting designer. See our <a href="disclaimer.html">full disclaimer</a>.
+    </div>
+
+</div>
+
+<footer>
+    <strong>LightTools</strong> — lighttools.com.au | Free tools for electricians, designers &amp; DIYers
+    <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="lux-calculator.html">Lux Calculator</a>
+        <a href="led-strip-driver-calculator.html">Driver Calculator</a>
+        <a href="guides.html">All Guides</a>
+        <a href="sparky-selector.html">Sparky Selector</a>
+        <a href="disclaimer.html">Disclaimer &amp; Terms</a>
+    </div>
+</footer>
+
+</body>
+</html>

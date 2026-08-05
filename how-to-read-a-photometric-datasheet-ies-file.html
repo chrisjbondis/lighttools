@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Read a Photometric Datasheet / IES File | LightTools</title>
+    <meta name="description" content="A genuinely honest guide to IES files for the curious buyer, not the AGi32 specifier — what an IES file actually tells you about a fixture, and just as important, what it doesn't.">
+    <link rel="canonical" href="https://lighttools.com.au/how-to-read-a-photometric-datasheet-ies-file.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1409689781104144" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-82HX4HNTVF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-82HX4HNTVF');
+    </script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: #f0f4f8; color: #1a202c; line-height: 1.6; }
+
+        header { background: linear-gradient(135deg, #1a2a4a 0%, #2d4a7a 60%, #1a3a6a 100%); color: white; padding: 60px 20px 50px; text-align: center; }
+        .logo { font-size: 2.6rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+        .logo span { color: #f59e0b; }
+        header h1 { font-size: 1.5rem; font-weight: 700; max-width: 700px; margin: 0 auto 16px; line-height: 1.3; }
+        header p { font-size: 0.95rem; opacity: 0.8; }
+
+        nav { background: #152238; padding: 10px 20px; display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
+        nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; padding: 4px 0; }
+        nav a:hover { color: #f59e0b; }
+        nav a.active { color: #f59e0b; }
+
+        .container { max-width: 820px; margin: 0 auto; padding: 48px 16px 72px; }
+
+        .meta-bar { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; margin-bottom: 36px; font-size: 0.82rem; color: #718096; }
+        .meta-tag { background: #e2e8f0; border-radius: 999px; padding: 4px 12px; font-weight: 600; color: #4a5568; }
+
+        .toc { background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); padding: 24px 28px; margin-bottom: 40px; }
+        .toc h2 { font-size: 0.88rem; font-weight: 700; color: #1a2a4a; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .toc ol { margin-left: 18px; }
+        .toc li { margin-bottom: 7px; }
+        .toc a { color: #2d4a7a; text-decoration: none; font-size: 0.9rem; }
+        .toc a:hover { color: #f59e0b; text-decoration: underline; }
+
+        .prose h2 { font-size: 1.35rem; font-weight: 700; color: #1a2a4a; margin: 52px 0 16px; border-left: 4px solid #f59e0b; padding-left: 14px; scroll-margin-top: 20px; }
+        .prose h3 { font-size: 1.05rem; font-weight: 700; color: #1a2a4a; margin: 28px 0 10px; }
+        .prose p { font-size: 0.97rem; color: #2d3748; line-height: 1.85; margin-bottom: 18px; }
+        .prose ul, .prose ol { margin: 0 0 18px 22px; }
+        .prose li { font-size: 0.95rem; color: #2d3748; margin-bottom: 9px; line-height: 1.7; }
+        .prose strong { color: #1a202c; }
+        .prose a { color: #2d4a7a; font-weight: 500; }
+        .prose a:hover { color: #f59e0b; }
+
+        .callout { border-radius: 10px; padding: 16px 20px; margin: 24px 0; font-size: 0.92rem; line-height: 1.7; }
+        .callout-tip { background: #fffbeb; border: 1px solid #f59e0b; color: #78350f; }
+        .callout-warn { background: #fef2f2; border: 1px solid #f87171; color: #7f1d1d; }
+        .callout-info { background: #eff6ff; border: 1px solid #93c5fd; color: #1e3a5f; }
+        .callout strong { display: block; margin-bottom: 4px; }
+
+        .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+        .compare-card { background: white; border-radius: 12px; padding: 20px 22px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+        .compare-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+        .compare-card.can h3 { color: #16a34a; }
+        .compare-card.cannot h3 { color: #dc2626; }
+        .compare-card ul { margin-left: 16px; }
+        .compare-card li { font-size: 0.875rem; color: #4a5568; margin-bottom: 7px; line-height: 1.6; }
+
+        .cta-box { background: linear-gradient(135deg, #1a2a4a, #2d4a7a); color: white; border-radius: 14px; padding: 28px 32px; margin: 40px 0; text-align: center; }
+        .cta-box h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; color: #f59e0b; }
+        .cta-box p { font-size: 0.92rem; opacity: 0.9; line-height: 1.75; margin-bottom: 18px; }
+        .cta-btn { display: inline-block; background: #f59e0b; color: #1a2a4a; font-weight: 700; font-size: 0.95rem; padding: 12px 28px; border-radius: 8px; text-decoration: none; }
+        .cta-btn:hover { background: #fbbf24; }
+
+        .disclaimer-strip { background: #fffbeb; border: 1px solid #f59e0b; border-radius: 10px; padding: 14px 20px; font-size: 0.82rem; color: #78350f; margin-top: 40px; }
+
+        footer { background: #1a2a4a; color: rgba(255,255,255,0.6); text-align: center; padding: 28px 16px; font-size: 0.82rem; }
+        footer strong { color: rgba(255,255,255,0.9); }
+        footer a { color: rgba(255,255,255,0.75); text-decoration: none; }
+        footer a:hover { color: #f59e0b; }
+        .footer-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 10px; }
+
+        @media (max-width: 600px) { header { padding: 40px 16px 32px; } header h1 { font-size: 1.25rem; } .compare-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">Light<span>Tools</span></div>
+    <h1>How to Read a Photometric Datasheet / IES File</h1>
+    <p>Without being a lighting designer — written by a lighting designer with 18 years of industry experience</p>
+</header>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="lux-calculator.html">Lux Calculator</a>
+    <a href="led-strip-driver-calculator.html">Driver Calculator</a>
+    <a href="led-strip-light-selector.html">Strip Selector</a>
+    <a href="garden-lighting-calculator.html">Garden Lighting</a>
+    <a href="fitting-selector.html">Fitting Selector</a>
+    <a href="sparky-selector.html">Sparky Selector</a>
+    <a href="guides.html">Guides</a>
+    <a href="about.html">About</a>
+</nav>
+
+<div class="container">
+
+    <div class="meta-bar">
+        <span class="meta-tag">Lighting Fundamentals</span>
+        <span>Updated August 2026</span>
+        <span>11 min read</span>
+    </div>
+
+    <div class="toc">
+        <h2>In this guide</h2>
+        <ol>
+            <li><a href="#what-is">What an IES file actually is</a></li>
+            <li><a href="#what-it-tells">What it can tell you</a></li>
+            <li><a href="#what-it-cant">What it can't tell you</a></li>
+            <li><a href="#practical">Practical use for a non-specifier</a></li>
+        </ol>
+    </div>
+
+    <div class="prose">
+
+        <p>Most content on IES files falls into one of two camps: silence, or writing aimed at specifiers already fluent in AGi32. This guide is for neither — it's for the curious buyer or small business owner who's been handed a spec sheet with a strange file attached and actually wants to understand roughly what they're looking at.</p>
+
+        <h2 id="what-is">What an IES file actually is</h2>
+
+        <p>An IES file is a standardised text file (ANSI/IES LM-63) describing how a specific fixture distributes light in three-dimensional space — intensity at various angles around the fixture, total lumen output, and physical fixture dimensions. Every genuine photometric fixture file follows this same format, which is what lets lighting design software from different vendors all read the same file correctly.</p>
+
+        <h2 id="what-it-tells">What it can tell you</h2>
+
+        <ul>
+            <li><strong>Luminous flux</strong> — the total light output of the fixture, in lumens</li>
+            <li><strong>Distribution pattern</strong> — is this a tight spot, a broad wash, an asymmetric throw for wall-washing? The file describes the actual shape of the light output, not just a single beam-angle number</li>
+            <li><strong>A visual read of the beam shape</strong> — when loaded into a free photometric viewer, you can actually see a polar plot or 3D render of how the fixture throws light, rather than trying to picture it from a spec sheet number</li>
+        </ul>
+
+        <h2 id="what-it-cant">What it can't tell you</h2>
+
+        <p>This is the section that separates genuinely useful content from generic "what is an IES file" filler — and it's the honest, important part.</p>
+
+        <div class="compare-grid">
+            <div class="compare-card can">
+                <h3>✓ What it covers</h3>
+                <ul>
+                    <li>Light distribution and intensity</li>
+                    <li>Total lumen output</li>
+                    <li>Physical fixture dimensions</li>
+                </ul>
+            </div>
+            <div class="compare-card cannot">
+                <h3>✗ What it says nothing about</h3>
+                <ul>
+                    <li>Electrical listing or certification</li>
+                    <li>Surge protection</li>
+                    <li>Driver quality</li>
+                    <li>Corrosion resistance</li>
+                    <li>Warranty</li>
+                    <li>Colour consistency between units</li>
+                    <li>Suitability for wet, hot or dusty locations</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="callout callout-warn">
+            <strong>The point worth remembering</strong>
+            A fixture can have a beautiful, textbook-perfect IES file and still be a genuinely poor-quality product. The IES file describes optical performance only — it says nothing about build quality, driver reliability, or long-term durability. Don't mistake a good photometric file for a quality guarantee.
+        </div>
+
+        <h2 id="practical">Practical use for a non-specifier</h2>
+
+        <p>Free IES viewer tools exist and are worth knowing about if you're regularly handed spec sheets and want to actually visualise what a fixture does before committing to it — a quick search for "free IES viewer" turns up several reliable options.</p>
+
+        <p>The realistic takeaway: understanding roughly what you're looking at in an IES file is genuinely useful. But a proper lighting layout calculation — importing real IES files against actual room geometry to predict lux levels and uniformity — is still a job for someone using the file properly, not a DIY replacement for that process.</p>
+
+        <div class="callout callout-info">
+            <strong>How often this actually gets used in practice</strong>
+            Dedicated photometric software like DIALux does get used for a quote occasionally, but it's genuinely rare rather than a routine part of most residential or small-commercial jobs. Worth reflecting that honestly here rather than overstating how central full photometric layout work is to a typical project — understanding an IES file is useful, but it's not something most jobs actually require in full.
+        </div>
+
+        <p>For a simpler, faster version of what a proper photometric layout does — checking whether your fitting count and spacing will actually hit a target lux level — the <a href="lux-calculator.html">Lux Calculator</a> handles the everyday version of this calculation without needing to import or interpret an IES file at all.</p>
+
+    </div>
+
+    <div class="cta-box">
+        <h2>Check your lux levels the simple way</h2>
+        <p>No IES file needed — enter your room, fitting output and target lux level and get an instant result.</p>
+        <a href="lux-calculator.html" class="cta-btn">Open Lux Calculator →</a>
+    </div>
+
+    <div class="disclaimer-strip">
+        <strong>Disclaimer:</strong> This guide is for general information purposes. For a formal photometric design or compliance submission, engage a qualified lighting designer. See our <a href="disclaimer.html">full disclaimer</a>.
+    </div>
+
+</div>
+
+<footer>
+    <strong>LightTools</strong> — lighttools.com.au | Free tools for electricians, designers &amp; DIYers
+    <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="lux-calculator.html">Lux Calculator</a>
+        <a href="led-strip-driver-calculator.html">Driver Calculator</a>
+        <a href="guides.html">All Guides</a>
+        <a href="sparky-selector.html">Sparky Selector</a>
+        <a href="disclaimer.html">Disclaimer &amp; Terms</a>
+    </div>
+</footer>
+
+</body>
+</html>

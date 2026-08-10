@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Artificial Light Affects You — Melatonin, Melanopsin &amp; Body Clock Design | LightTools</title>
+    <meta name="description" content="Lux doesn't measure biological effect. A deep dive into CIE S 026, melanopic EDI, the WELL Building Standard's circadian benchmarks, and a practical framework for designing lighting that works with the body clock, not against it.">
+    <link rel="canonical" href="https://lighttools.com.au/artificial-light-melatonin-melanopsin.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1409689781104144" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-82HX4HNTVF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-82HX4HNTVF');
+    </script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: #f0f4f8; color: #1a202c; line-height: 1.6; }
+
+        header { background: linear-gradient(135deg, #1a2a4a 0%, #2d4a7a 60%, #1a3a6a 100%); color: white; padding: 60px 20px 50px; text-align: center; }
+        .logo { font-size: 2.6rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px; }
+        .logo span { color: #f59e0b; }
+        header h1 { font-size: 1.5rem; font-weight: 700; max-width: 760px; margin: 0 auto 16px; line-height: 1.3; }
+        header p { font-size: 0.95rem; opacity: 0.8; }
+
+        nav { background: #152238; padding: 10px 20px; display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
+        nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; padding: 4px 0; }
+        nav a:hover { color: #f59e0b; }
+        nav a.active { color: #f59e0b; }
+
+        .container { max-width: 820px; margin: 0 auto; padding: 48px 16px 72px; }
+
+        .meta-bar { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; margin-bottom: 36px; font-size: 0.82rem; color: #718096; }
+        .meta-tag { background: #e2e8f0; border-radius: 999px; padding: 4px 12px; font-weight: 600; color: #4a5568; }
+
+        .toc { background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); padding: 24px 28px; margin-bottom: 40px; }
+        .toc h2 { font-size: 0.88rem; font-weight: 700; color: #1a2a4a; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .toc ol { margin-left: 18px; }
+        .toc li { margin-bottom: 7px; }
+        .toc a { color: #2d4a7a; text-decoration: none; font-size: 0.9rem; }
+        .toc a:hover { color: #f59e0b; text-decoration: underline; }
+
+        .prose h2 { font-size: 1.35rem; font-weight: 700; color: #1a2a4a; margin: 52px 0 16px; border-left: 4px solid #f59e0b; padding-left: 14px; scroll-margin-top: 20px; }
+        .prose h3 { font-size: 1.05rem; font-weight: 700; color: #1a2a4a; margin: 28px 0 10px; }
+        .prose p { font-size: 0.97rem; color: #2d3748; line-height: 1.85; margin-bottom: 18px; }
+        .prose ul, .prose ol { margin: 0 0 18px 22px; }
+        .prose li { font-size: 0.95rem; color: #2d3748; margin-bottom: 9px; line-height: 1.7; }
+        .prose strong { color: #1a202c; }
+        .prose a { color: #2d4a7a; font-weight: 500; }
+        .prose a:hover { color: #f59e0b; }
+
+        .callout { border-radius: 10px; padding: 16px 20px; margin: 24px 0; font-size: 0.92rem; line-height: 1.7; }
+        .callout-tip { background: #fffbeb; border: 1px solid #f59e0b; color: #78350f; }
+        .callout-warn { background: #fef2f2; border: 1px solid #f87171; color: #7f1d1d; }
+        .callout-info { background: #eff6ff; border: 1px solid #93c5fd; color: #1e3a5f; }
+        .callout-purple { background: #f5f3ff; border: 1px solid #c4b5fd; color: #4c1d95; }
+        .callout strong { display: block; margin-bottom: 4px; }
+
+        .lux-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.87rem; }
+        .lux-table th { background: #1a2a4a; color: white; padding: 10px 12px; text-align: left; font-weight: 600; }
+        .lux-table td { padding: 9px 12px; border-bottom: 1px solid #e2e8f0; color: #2d3748; vertical-align: top; }
+        .lux-table tr:nth-child(even) td { background: #f7fafc; }
+        .lux-table .lux-val { font-weight: 700; color: #1a2a4a; white-space: nowrap; }
+
+        .worked-example { background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); padding: 24px 28px; margin: 28px 0; border-top: 4px solid #f59e0b; }
+        .worked-example h3 { font-size: 1rem; font-weight: 700; color: #1a2a4a; margin-bottom: 16px; }
+        .worked-example .step { display: flex; gap: 14px; margin-bottom: 12px; align-items: flex-start; }
+        .worked-example .step-n { background: #1a2a4a; color: white; border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+        .worked-example .step-text { font-size: 0.9rem; color: #2d3748; line-height: 1.7; }
+        .worked-example .result { background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 12px 16px; font-size: 0.9rem; color: #14532d; font-weight: 600; margin-top: 14px; }
+
+        .cta-box { background: linear-gradient(135deg, #1a2a4a, #2d4a7a); color: white; border-radius: 14px; padding: 28px 32px; margin: 40px 0; text-align: center; }
+        .cta-box h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; color: #f59e0b; }
+        .cta-box p { font-size: 0.92rem; opacity: 0.9; line-height: 1.75; margin-bottom: 18px; }
+        .cta-btn { display: inline-block; background: #f59e0b; color: #1a2a4a; font-weight: 700; font-size: 0.95rem; padding: 12px 28px; border-radius: 8px; text-decoration: none; }
+        .cta-btn:hover { background: #fbbf24; }
+
+        .disclaimer-strip { background: #fffbeb; border: 1px solid #f59e0b; border-radius: 10px; padding: 14px 20px; font-size: 0.82rem; color: #78350f; margin-top: 40px; }
+
+        footer { background: #1a2a4a; color: rgba(255,255,255,0.6); text-align: center; padding: 28px 16px; font-size: 0.82rem; }
+        footer strong { color: rgba(255,255,255,0.9); }
+        footer a { color: rgba(255,255,255,0.75); text-decoration: none; }
+        footer a:hover { color: #f59e0b; }
+        .footer-links { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 10px; }
+
+        @media (max-width: 600px) { header { padding: 40px 16px 32px; } header h1 { font-size: 1.25rem; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">Light<span>Tools</span></div>
+    <h1>How Artificial Light Actually Affects You — Melatonin, Melanopsin &amp; Designing for the Body Clock</h1>
+    <p>Written by a lighting designer with 18 years of industry experience</p>
+</header>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="lux-calculator.html">Lux Calculator</a>
+    <a href="led-strip-driver-calculator.html">Driver Calculator</a>
+    <a href="led-strip-light-selector.html">Strip Selector</a>
+    <a href="garden-lighting-calculator.html">Garden Lighting</a>
+    <a href="fitting-selector.html">Fitting Selector</a>
+    <a href="sparky-selector.html">Sparky Selector</a>
+    <a href="guides.html">Guides</a>
+    <a href="about.html">About</a>
+</nav>
+
+<div class="container">
+
+    <div class="meta-bar">
+        <span class="meta-tag">Lighting Fundamentals</span>
+        <span>Updated August 2026</span>
+        <span>15 min read</span>
+    </div>
+
+    <div class="toc">
+        <h2>In this guide</h2>
+        <ol>
+            <li><a href="#measurement-gap">The measurement gap: lux isn't the whole story</a></li>
+            <li><a href="#well-standard">Real design benchmarks — the WELL Building Standard</a></li>
+            <li><a href="#evening-light">Evening light exposure — what actually happens</a></li>
+            <li><a href="#morning-light">Morning light exposure — the other half of the picture</a></li>
+            <li><a href="#tunable-white">Human-centric lighting — from principle to product</a></li>
+            <li><a href="#framework">A practical design framework, scaled to budget</a></li>
+            <li><a href="#caveats">Honest caveats</a></li>
+        </ol>
+    </div>
+
+    <div class="prose">
+
+        <p>Our guide on <a href="choosing-the-right-led-cct-cri-beam-angle.html#physiology">choosing the right LED</a> covers the basics: a separate set of cells in the eye, intrinsically photosensitive retinal ganglion cells (ipRGCs) containing the photopigment melanopsin, feed light information directly to the suprachiasmatic nucleus — the brain's master clock — driving melatonin suppression, alertness and circadian timing, independent of conscious vision entirely. That's the mechanism. This guide is the deep dive built on top of it: the actual measurement standard, the real design benchmarks the commercial world uses, what the research says about morning and evening exposure specifically, and a practical framework for applying all of it — scaled to whatever budget a job actually has.</p>
+
+        <h2 id="measurement-gap">The measurement gap: lux isn't the whole story</h2>
+
+        <p>A standard lux meter measures brightness the way the cone-based visual system perceives it — it's a photopic measurement, weighted to human visual sensitivity. It says nothing about how strongly that same light stimulates the melanopsin system, because that response depends on the spectral makeup of the light, not just how bright or what CCT it reads as.</p>
+
+        <p>The international standard that actually addresses this is <strong>CIE S 026</strong>, published in 2018 and still the reference standard for the field. It defines <strong>melanopic EDI</strong> — melanopic Equivalent Daylight Illuminance — a measurement that weights light by its biological effect on the circadian system, rather than by apparent visual brightness.</p>
+
+        <div class="callout callout-info">
+            <strong>The genuinely non-obvious point</strong>
+            Two fittings can read as the same CCT and the same lux level to a human eye and a standard lux meter, and still have a meaningfully different melanopic effect — because their actual spectral power distribution differs even at matched CCT. "Just pick a warm CCT" is a good rule of thumb, and it gets a residential job most of the way there. But at the professional end of this topic — commercial fitouts, aged care, anything being measured or certified — CCT number alone isn't the full picture.
+        </div>
+
+        <h2 id="well-standard">Real design benchmarks — the WELL Building Standard</h2>
+
+        <p>The WELL Building Standard is the clearest real-world example of melanopic EDI being used as an actual specification target, not just a research concept:</p>
+
+        <table class="lux-table">
+            <thead>
+                <tr><th>Standard</th><th>Target</th><th>Measurement approach</th></tr>
+            </thead>
+            <tbody>
+                <tr><td class="lux-val">WELL v2</td><td>Minimum 200 EML at 75%+ of workstations</td><td>Vertical, at 1.2m, present 9am–1pm</td></tr>
+                <tr><td class="lux-val">WELL v6 (current)</td><td>Raised to 250 EML, same approach</td><td>Vertical, at 1.2m, present 9am–1pm</td></tr>
+            </tbody>
+        </table>
+
+        <p>Most residential and small-commercial work will never need formal WELL certification, and that's fine — it isn't the point of raising it here. What's useful is knowing the actual professional benchmark exists, and what it's actually targeting: a specific, vertically-measured, biologically-weighted illuminance during defined morning hours, not just "bright enough to work by." That's genuinely useful context for positioning a well-designed lighting scheme, and it's the kind of detail that lands well in conversation with commercial or aged-care clients who do care about this formally.</p>
+
+        <h2 id="evening-light">Evening light exposure — what actually happens</h2>
+
+        <p>Cool white LED and CFL sources suppress melatonin considerably more than warm white or incandescent-equivalent sources at the same brightness — that much is touched on in the CCT/CRI/beam angle guide. The deeper, genuinely striking finding is this: extended evening exposure to blue-rich light has been shown to produce meaningfully longer circadian delays than equivalent exposure to longer-wavelength (green) light at the same brightness.</p>
+
+        <p>In other words, it isn't simply "blue light is bad." It's that blue-rich light has a disproportionately larger, longer-lasting effect on the body clock than other colours at matched intensity — the spectral content matters more than the raw output.</p>
+
+        <div class="callout callout-tip">
+            <strong>Why this is a genuine design decision, not an aesthetic one</strong>
+            This is the actual mechanism behind why CCT choice for evening-use rooms — bedrooms, living areas used late — is a real design decision rather than a taste preference. It ties directly back to the CCT/CRI/beam angle guide's room defaults, and to the <a href="choosing-the-right-led-cct-cri-beam-angle.html#physiology">1800K advanced night-lighting note</a> in that guide: the reason that tier exists is precisely this disproportionate blue-light effect.
+        </div>
+
+        <h2 id="morning-light">Morning light exposure — the other half of the picture</h2>
+
+        <p>The same ipRGC/SCN pathway responsible for evening disruption is just as active — and just as useful — in the morning. Morning bright light exposure is linked to increased alertness, improved mood, healthy cortisol regulation, and better sleep quality that night. Short-wavelength light in the roughly 446–477nm range is the strongest circadian synchronising signal humans respond to.</p>
+
+        <p>That makes morning-use spaces — kitchens, home offices, bathrooms used at the start of the day — a genuine design opportunity, not just a case of evening spaces being the risk to manage. Cooler CCT and brighter levels in these rooms isn't just task lighting; it's actively supporting the body's wake-up signal. It's a nice reframe of something most people already do instinctively — bright kitchen lighting — now with the actual mechanism behind why it feels right.</p>
+
+        <div class="callout callout-warn">
+            <strong>A brief, appropriately cautious note</strong>
+            Morning bright light exposure is also used clinically for certain mood-related conditions, including seasonal patterns of low mood. That's worth knowing exists — but this article is general lighting-design information, not medical advice, and this isn't the place to go further into it. Anything beyond general lighting design is a conversation for a health professional, not a lighting guide.
+        </div>
+
+        <h2 id="tunable-white">Human-centric lighting — from principle to product</h2>
+
+        <p>Tunable white systems — adjustable CCT, typically in the ~2700K–6500K range — let a space follow a dawn-to-dusk curve automatically: cooler and brighter through the morning and midday, warming and dimming through the evening, rather than one fixed CCT compromise applied all day.</p>
+
+        <p>The clearest real-world result worth citing: a tunable lighting system installed in aged-care facility hallways has been shown to reduce resident sleep disturbances by around 50% compared to static lighting. That's a concrete, measurable outcome, not a vague wellness claim — and directly relevant context if a client has any aged-care or healthcare-adjacent brief.</p>
+
+        <p>On the residential side, premium and wellness-focused clients are an increasingly real market for tunable white systems — worth treating as an actual product conversation (tunable white downlights and drivers), not just theory.</p>
+
+        <div class="callout callout-purple">
+            <strong>An honest read on where the industry actually is</strong>
+            No specific residential job to point to yet on this one — but it's a direction I'm actively designing toward. My honest assessment: the technology is still catching up, particularly on the control side for tunable white in a residential setting. It's not yet a fully mature, plug-and-play option the way a fixed-CCT downlight is. Worth knowing the capability exists and where it's heading, without overstating how turnkey it currently is for a typical home.
+        </div>
+
+        <h2 id="framework">A practical design framework, scaled to budget</h2>
+
+        <p>Not every job needs — or can justify the cost of — a full tunable white system. The framework scales down gracefully, and each tier is a legitimate stopping point on its own:</p>
+
+        <div class="worked-example">
+            <h3>Three tiers, from minimum viable to full spec</h3>
+            <div class="step">
+                <div class="step-n">1</div>
+                <div class="step-text"><strong>Minimum viable:</strong> match fixed CCT to room and time-of-primary-use — the CCT/CRI/beam angle guide's room defaults, now applied with the deeper reasoning behind them. Costs nothing extra over a standard spec.</div>
+            </div>
+            <div class="step">
+                <div class="step-n">2</div>
+                <div class="step-text"><strong>Better:</strong> two-zone or scene-based control — a switch-dim or DALI "evening mode" vs "daytime mode" scene — in the rooms it matters most: bedrooms, living areas, home offices. See our guide on <a href="dimming-compatibility-why-leds-fail-early.html">dimming compatibility</a> for what that control layer actually needs to work reliably.</div>
+            </div>
+            <div class="step">
+                <div class="step-n">3</div>
+                <div class="step-text"><strong>Full version:</strong> genuine tunable white with an automated dawn-to-dusk curve, for clients who want to specify it properly and understand the current state of residential control systems going in.</div>
+            </div>
+            <div class="result">This is where the CCT/CRI/beam angle guide and the dimming compatibility guide actually converge — CCT choice, driver/protocol compatibility and circadian design aren't three separate topics on a real job, they're one spec decision looked at from three angles.</div>
+        </div>
+
+        <h2 id="caveats">Honest caveats</h2>
+
+        <p>This is lighting design informed by circadian science — it is not medical advice. Individual variability is real: chronotype, age, and existing sleep conditions all affect how any one person actually responds, and none of this replaces a conversation with a health professional for an actual sleep or mood concern.</p>
+
+        <p>The research base here is real and genuinely growing, but it isn't settled in every detail. The mechanisms and well-supported findings covered above can be stated with confidence; anything resting on a single newer study is treated more cautiously, deliberately, throughout this guide.</p>
+
+    </div>
+
+    <div class="cta-box">
+        <h2>Apply this to a real room</h2>
+        <p>Start with CCT, CRI and beam angle defaults by room type, then use the Lux Calculator to confirm your fitting count actually hits the target illuminance.</p>
+        <a href="choosing-the-right-led-cct-cri-beam-angle.html" class="cta-btn">Back to CCT, CRI &amp; Beam Angle →</a>
+    </div>
+
+    <div class="disclaimer-strip">
+        <strong>Disclaimer:</strong> This guide is general lighting-design information, not medical advice. For any actual sleep, mood or health concern, speak to a qualified health professional. See our <a href="disclaimer.html">full disclaimer</a>.
+    </div>
+
+</div>
+
+<footer>
+    <strong>LightTools</strong> — lighttools.com.au | Free tools for electricians, designers &amp; DIYers
+    <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="led-strip-driver-calculator.html">Driver Calculator</a>
+        <a href="lux-calculator.html">Lux Calculator</a>
+        <a href="guides.html">All Guides</a>
+        <a href="sparky-selector.html">Sparky Selector</a>
+        <a href="disclaimer.html">Disclaimer &amp; Terms</a>
+    </div>
+</footer>
+
+</body>
+</html>

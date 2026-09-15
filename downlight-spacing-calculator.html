@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Downlight Spacing Calculator — Free Layout & Fixture Count Tool | LightTools</title>
+    <meta name="description" content="Free downlight spacing calculator. Enter room size, ceiling height and beam angle to get recommended spacing, wall offset and fixture count — plus glare and dark-corner warnings for low ceilings.">
+    <link rel="canonical" href="https://lighttools.com.au/downlight-spacing-calculator.html">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Downlight Spacing Calculator",
+      "url": "https://lighttools.com.au/downlight-spacing-calculator.html",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "description": "Free downlight spacing calculator for lighting designers and electricians. Enter room dimensions, ceiling height and beam angle to get recommended spacing, wall offset, and fixture count, with glare and dark-corner (cave effect) guidance.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "AUD"
+      },
+      "provider": {
+        "@type": "Organization",
+        "name": "LightTools",
+        "url": "https://lighttools.com.au"
+      }
+    }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: #f0f4f8; color: #1a202c; line-height: 1.6; }
+
+        header { background: linear-gradient(135deg, #1a2a4a 0%, #2d4a7a 100%); color: white; padding: 28px 20px 22px; text-align: center; }
+        header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; }
+        header p { font-size: 1rem; opacity: 0.85; }
+
+        nav { background: #152238; padding: 10px 20px; display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
+        nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; padding: 4px 0; }
+        nav a:hover, nav a.active { color: #14b8a6; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px 16px; }
+        .layout { display: grid; grid-template-columns: 1fr 320px; gap: 24px; }
+        @media (max-width: 800px) { .layout { grid-template-columns: 1fr; } header h1 { font-size: 1.5rem; } }
+
+        .card { background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); padding: 28px; margin-bottom: 20px; }
+        .card h2 { font-size: 1.2rem; font-weight: 600; color: #1a2a4a; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #e2e8f0; }
+
+        /* Form elements */
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 500; font-size: 0.9rem; color: #4a5568; margin-bottom: 6px; }
+        .label-hint { font-weight: 400; color: #a0aec0; font-size: 0.8rem; }
+        input[type="number"], select { width: 100%; padding: 12px 14px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; font-family: inherit; color: #1a202c; transition: border-color 0.2s; -webkit-appearance: none; appearance: none; background: #fafbfc; }
+        input[type="number"]:focus, select:focus { outline: none; border-color: #0f766e; background: white; }
+        .select-wrapper { position: relative; }
+        .select-wrapper::after { content: '▾'; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #718096; }
+        select { padding-right: 36px; cursor: pointer; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+
+        input[type="range"] { width: 100%; accent-color: #0f766e; height: 6px; }
+        .range-labels { display: flex; justify-content: space-between; font-size: 0.76rem; color: #718096; margin-top: 6px; }
+        .range-value { text-align: center; font-size: 0.86rem; font-weight: 600; color: #0f766e; margin-top: 4px; }
+
+        .btn-calc { width: 100%; padding: 15px; background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%); color: white; border: none; border-radius: 10px; font-size: 1.05rem; font-weight: 700; font-family: inherit; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
+        .btn-calc:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(249,115,22,0.38); }
+
+        /* Results */
+        .results-section { display: none; margin-top: 24px; }
+        .result-highlight { background: linear-gradient(135deg, #134e4a 0%, #0f766e 100%); border-radius: 10px; padding: 22px; color: white; margin-bottom: 16px; text-align: center; }
+        .result-highlight .rl { font-size: 0.8rem; opacity: 0.75; text-transform: uppercase; letter-spacing: 0.5px; }
+        .result-highlight .rv { font-size: 2.8rem; font-weight: 700; line-height: 1.1; }
+        .result-highlight .rs { font-size: 0.9rem; opacity: 0.82; margin-top: 4px; }
+
+        .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        @media (max-width: 480px) { .result-grid { grid-template-columns: 1fr; } }
+        .result-item { background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; }
+        .result-item .r-label { font-size: 0.76rem; color: #718096; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 4px; }
+        .result-item .r-value { font-size: 1.05rem; font-weight: 600; color: #1a2a4a; }
+
+        .divider { border: none; border-top: 1px solid #e2e8f0; margin: 18px 0; }
+
+        /* Room grid preview */
+        .grid-preview { background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px; margin-bottom: 16px; text-align: center; }
+        .grid-preview h4 { font-size: 0.9rem; font-weight: 600; color: #1a2a4a; margin-bottom: 12px; text-align: left; }
+
+        /* Alert */
+        .alert { border-radius: 8px; padding: 12px 16px; margin-bottom: 12px; font-size: 0.88rem; display: flex; gap: 10px; align-items: flex-start; line-height: 1.5; }
+        .alert-warning { background: #fffbeb; border: 1px solid #f59e0b; color: #92400e; }
+        .alert-info { background: #f0fdfa; border: 1px solid #2dd4bf; color: #115e59; }
+        .alert-error { background: #fef2f2; border: 1px solid #f87171; color: #991b1b; }
+        .alert-icon { font-size: 1.1rem; flex-shrink: 0; padding-top: 1px; }
+
+        /* Buy links */
+        .buy-links { display: flex; flex-direction: column; gap: 10px; }
+        .buy-link { display: flex; align-items: center; gap: 12px; padding: 13px 16px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: transform 0.15s, box-shadow 0.15s; color: white; }
+        .buy-link:hover { transform: translateY(-2px); box-shadow: 0 5px 18px rgba(0,0,0,0.18); }
+        .buy-link-amazon { background: #ff9900; }
+        .buy-link-google { background: #4285f4; }
+        .buy-link-icon { font-size: 1.2rem; }
+        .buy-link-text .blm { font-size: 0.9rem; }
+        .buy-link-text .bls { font-size: 0.76rem; opacity: 0.88; font-weight: 400; }
+        .affiliate-notice { font-size: 0.74rem; color: #a0aec0; text-align: center; margin-top: 8px; font-style: italic; }
+
+        /* Sidebar */
+        .info-box { background: #f0fdfa; border-left: 4px solid #0f766e; border-radius: 0 8px 8px 0; padding: 14px 16px; margin-bottom: 14px; }
+        .info-box h4 { font-size: 0.88rem; font-weight: 600; color: #115e59; margin-bottom: 6px; }
+        .info-box p, .info-box li { font-size: 0.83rem; color: #115e59; line-height: 1.55; }
+        .info-box ul { padding-left: 16px; }
+        .info-box li { margin-bottom: 3px; }
+
+        .ref-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+        .ref-table th { background: #1a2a4a; color: white; padding: 9px 12px; text-align: left; font-weight: 500; }
+        .ref-table th:first-child { border-radius: 8px 0 0 0; }
+        .ref-table th:last-child { border-radius: 0 8px 0 0; }
+        .ref-table td { padding: 8px 12px; border-bottom: 1px solid #e2e8f0; color: #4a5568; }
+        .ref-table tr:nth-child(even) td { background: #f7fafc; }
+
+        footer { background: #1a2a4a; color: rgba(255,255,255,0.6); text-align: center; padding: 24px 16px; font-size: 0.82rem; margin-top: 40px; }
+        footer a { color: rgba(255,255,255,0.8); }
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1409689781104144"
+     crossorigin="anonymous"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-82HX4HNTVF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-82HX4HNTVF');
+    </script>
+</head>
+<body>
+
+<header>
+    <div style="font-size:2.2rem;margin-bottom:8px;">📏</div>
+    <h1>Downlight Spacing Calculator</h1>
+    <p>Get the recommended spacing, wall offset and fixture count for your room — instantly</p>
+</header>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="led-strip-driver-calculator.html">Driver Calculator</a>
+    <a href="led-strip-light-selector.html">Strip Selector</a>
+    <a href="lux-calculator.html">Lux Calculator</a>
+    <a href="garden-lighting-calculator.html">Garden Lighting</a>
+    <a href="voltage-drop-calculator.html">Voltage Drop</a>
+    <a href="#" class="active">Downlight Spacing</a>
+    <a href="fitting-selector.html">Fitting Selector</a>
+    <a href="sparky-selector.html">Sparky Selector</a>
+    <a href="guides.html">Guides</a>
+    <a href="disclaimer.html">Disclaimer</a>
+</nav>
+
+<div class="container">
+
+    <div class="layout">
+
+        <!-- ===== LEFT: Calculator ===== -->
+        <div>
+        <div class="card">
+            <h2>📏 Downlight Spacing Calculator</h2>
+            <p style="font-size:0.88rem;color:#718096;margin-bottom:18px;">Enter your room dimensions and fixture details to get a recommended layout. This uses the standard beam-angle-cone method — see the formulas section below for the rigorous alternative (spacing-to-height ratio from a manufacturer's photometric data).</p>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="d-length">Room Length <span class="label-hint">— metres</span></label>
+                    <input type="number" id="d-length" placeholder="e.g. 5" min="0.5" max="100" step="0.1">
+                </div>
+                <div class="form-group">
+                    <label for="d-width">Room Width <span class="label-hint">— metres</span></label>
+                    <input type="number" id="d-width" placeholder="e.g. 4" min="0.5" max="100" step="0.1">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="d-height">Ceiling Height <span class="label-hint">— metres, floor to ceiling</span></label>
+                    <input type="number" id="d-height" placeholder="e.g. 2.4" min="1.8" max="10" step="0.1" value="2.4">
+                </div>
+                <div class="form-group">
+                    <label for="d-targetplane">Target Plane <span class="label-hint">— what you're lighting</span></label>
+                    <div class="select-wrapper">
+                        <select id="d-targetplane">
+                            <option value="0" selected>Floor (0m)</option>
+                            <option value="0.9">Benchtop (0.9m)</option>
+                            <option value="custom">Custom height</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" id="d-targetplane-custom-group" style="display:none;">
+                <label for="d-targetplane-custom">Custom Target Plane Height <span class="label-hint">— metres from floor</span></label>
+                <input type="number" id="d-targetplane-custom" placeholder="e.g. 1.0" min="0" max="2" step="0.1">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="d-beam">Beam Angle <span class="label-hint">— degrees, from datasheet</span></label>
+                    <div class="select-wrapper">
+                        <select id="d-beam">
+                            <option value="24">24° — Spot / feature</option>
+                            <option value="36" selected>36–38° — Narrow flood</option>
+                            <option value="60">60° — Wide flood</option>
+                            <option value="custom">Custom angle</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="d-roomtype">Room Type <span class="label-hint">— sets a default fixture type</span></label>
+                    <div class="select-wrapper">
+                        <select id="d-roomtype">
+                            <option value="living" selected>Living / Bedroom</option>
+                            <option value="kitchen">Kitchen</option>
+                            <option value="bathroom">Bathroom</option>
+                            <option value="utility">WIR / Laundry / Utility</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" id="d-beam-custom-group" style="display:none;">
+                <label for="d-beam-custom">Custom Beam Angle (degrees)</label>
+                <input type="number" id="d-beam-custom" placeholder="e.g. 45" min="5" max="150" step="1">
+            </div>
+
+            <div class="form-group">
+                <label for="d-optical">Fixture Optical Type <span class="label-hint">— auto-set by room type, override if needed</span></label>
+                <div class="select-wrapper">
+                    <select id="d-optical">
+                        <option value="anti-glare" selected>Anti-glare / deep-baffle</option>
+                        <option value="standard">Standard reflector</option>
+                        <option value="frosted">Frosted / opal diffuser</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="d-overlap">Overlap Preference <span class="label-hint">— even wash vs defined pools</span></label>
+                <input type="range" id="d-overlap" min="0.6" max="1.0" step="0.05" value="0.65">
+                <div class="range-labels">
+                    <span>Even wash</span>
+                    <span>Feature / defined pools</span>
+                </div>
+                <div class="range-value" id="d-overlap-value">0.65× cone diameter</div>
+            </div>
+
+            <button class="btn-calc" onclick="calcDownlight()">📏 Calculate Spacing →</button>
+
+            <div class="results-section" id="d-results">
+                <hr class="divider">
+                <div class="result-highlight">
+                    <div class="rl">Recommended Spacing</div>
+                    <div class="rv" id="d-res-spacing">—</div>
+                    <div class="rs" id="d-res-spacing-sub">centre to centre</div>
+                </div>
+                <div class="result-grid">
+                    <div class="result-item">
+                        <div class="r-label">Wall / Perimeter Offset</div>
+                        <div class="r-value" id="d-res-offset">—</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="r-label">Fixture Count</div>
+                        <div class="r-value" id="d-res-count">—</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="r-label">Actual Grid Spacing</div>
+                        <div class="r-value" id="d-res-actual">—</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="r-label">Beam Cone Diameter</div>
+                        <div class="r-value" id="d-res-diameter">—</div>
+                    </div>
+                </div>
+                <div id="d-grid-preview"></div>
+                <div id="d-alerts"></div>
+            </div>
+        </div>
+
+        <!-- Buy links -->
+        <div class="card" id="downlight-buy-card" style="display:none;">
+            <h2>🛒 Downlights & Accessories</h2>
+            <p style="font-size:0.88rem;color:#4a5568;margin-bottom:16px;">Once you know your layout, here's where to find fittings and accessories to suit.</p>
+            <div class="buy-links">
+                <a href="https://www.amazon.com.au/s?k=led+downlight&tag=lighttools-22" target="_blank" rel="noopener sponsored" class="buy-link buy-link-amazon">
+                    <span class="buy-link-icon">🔦</span>
+                    <span class="buy-link-text">
+                        <div class="blm">LED Downlights on Amazon Australia</div>
+                        <div class="bls" id="downlight-buy-sub">Anti-glare, standard & frosted options</div>
+                    </span>
+                </a>
+                <a href="https://www.amazon.com.au/s?k=dimmer+switch+led&tag=lighttools-22" target="_blank" rel="noopener sponsored" class="buy-link buy-link-amazon">
+                    <span class="buy-link-icon">🎚️</span>
+                    <span class="buy-link-text">
+                        <div class="blm">Dimmer Switches on Amazon Australia</div>
+                        <div class="bls">LED-compatible, trailing edge</div>
+                    </span>
+                </a>
+                <a href="https://www.google.com/search?q=led+downlights+buy+Australia&tbm=shop" target="_blank" rel="noopener" class="buy-link buy-link-google">
+                    <span class="buy-link-icon">🔍</span>
+                    <span class="buy-link-text">
+                        <div class="blm">Compare Downlights — Google Shopping</div>
+                        <div class="bls">All retailers, all price points</div>
+                    </span>
+                </a>
+            </div>
+            <p class="affiliate-notice">★ Amazon links support this free tool at no extra cost to you</p>
+        </div>
+
+        </div>
+
+        <!-- ===== RIGHT: Sidebar ===== -->
+        <div>
+
+        <div class="card">
+            <h2>🔗 Related Guides</h2>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+                <a href="lux-calculator.html" style="display:block;padding:11px 14px;background:#f7fafc;border-radius:8px;text-decoration:none;color:#1a2a4a;font-size:0.86rem;font-weight:600;border-left:3px solid #b45309;">Lux Calculator — check the light level, not just the layout</a>
+                <a href="choosing-the-right-led-cct-cri-beam-angle.html" style="display:block;padding:11px 14px;background:#f7fafc;border-radius:8px;text-decoration:none;color:#1a2a4a;font-size:0.86rem;font-weight:600;border-left:3px solid #7e22ce;">Choosing the Right LED: CCT, CRI &amp; Beam Angle</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📊 Spacing by Beam Angle</h2>
+            <p style="font-size:0.8rem;color:#718096;margin-bottom:12px;">2.4m ceiling, floor target, k≈0.65 overlap</p>
+            <table class="ref-table">
+                <thead>
+                    <tr><th>Beam angle</th><th>Cone Ø</th><th>Spacing</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>24° (spot)</td><td>~1.0m</td><td>~0.65m</td></tr>
+                    <tr><td>36–38° (narrow flood)</td><td>~1.6m</td><td>~1.05m</td></tr>
+                    <tr><td>60° (wide flood)</td><td>~2.8m</td><td>~1.8–2.0m</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>💡 Quick Facts</h2>
+            <div class="info-box">
+                <h4>Glare risk</h4>
+                <p>Wide beam angles (≥60°) at low ceiling heights (≤2.4m) throw more light toward eye level. Consider a narrower beam or an anti-glare trim near seating and TV walls.</p>
+            </div>
+            <div class="info-box">
+                <h4>The "cave effect"</h4>
+                <p>Anti-glare downlights concentrate light straight down with little spill to the walls. Floor lux can read fine while the room still feels flat — because perceived brightness depends heavily on wall illumination.</p>
+            </div>
+        </div>
+
+        </div>
+
+    </div>
+
+    <!-- Understanding spacing -->
+    <div class="card">
+        <h2>📐 Understanding Downlight Spacing</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;">
+            <div class="info-box">
+                <h4>What is downlight spacing?</h4>
+                <p>Downlight spacing is the centre-to-centre distance between fixtures. Get it right and light pools overlap enough for an even wash across the room; too far apart and you get dark patches between fittings, too close and you're paying for fixtures you don't need.</p>
+            </div>
+            <div class="info-box">
+                <h4>Beam angle drives the maths</h4>
+                <p>A downlight's beam angle and mounting height determine the diameter of its light cone at the target plane. Recommended spacing is a fraction of that diameter — tighter for an even wash, wider for defined feature pools.</p>
+            </div>
+            <div class="info-box">
+                <h4>Wall offset matters too</h4>
+                <p>Fixtures placed a full spacing-width from the wall often leave a dark perimeter strip, especially with anti-glare fittings. A tighter offset (~0.4× spacing) keeps the edges of the room from feeling flat.</p>
+            </div>
+            <div class="info-box">
+                <h4>Room type changes the answer</h4>
+                <p>Living areas usually want anti-glare fittings for comfort. Bathrooms, laundries and utility rooms are low-dwell spaces where a frosted/opal diffuser's wider spread is a better trade-off than its slightly higher glare.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Formulas / method -->
+    <div class="card">
+        <h2>🧮 Formulas &amp; Method</h2>
+        <p style="font-size:0.9rem;color:#4a5568;margin-bottom:12px;">This calculator uses the standard beam-angle-cone simplification found across consumer lighting calculators:</p>
+        <div style="background:#f0fdfa;border-left:4px solid #0f766e;padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0;font-family:'Courier New',monospace;font-size:0.88rem;color:#115e59;">
+            Cone diameter: D = 2 × H × tan(θ / 2)<br>
+            Recommended spacing: S = D × k&nbsp;&nbsp;(k = overlap factor, 0.6–1.0)<br>
+            Wall offset: S / 2&nbsp;&nbsp;(tightened to ~0.4 × S for anti-glare fixtures)<br>
+            Fixture count: rows × columns fitted to room length × width
+        </div>
+        <p style="font-size:0.85rem;color:#718096;">H = ceiling height minus target plane height, θ = beam angle in degrees.</p>
+        <p style="font-size:0.88rem;color:#4a5568;margin-top:12px;"><strong>A note on accuracy:</strong> this is a practical estimate, not a photometric calculation. The rigorous method uses a fixture's actual spacing-to-height ratio (SHR) from its manufacturer's IES/photometric file, and should take precedence where one is published. AS/NZS 1680 targets a uniformity ratio (Emin/Eavg) of at least 0.4 for general areas — use the <a href="lux-calculator.html" style="color:#0f766e;font-weight:600;">Lux Calculator</a> to check the resulting light level once you've settled on a layout.</p>
+    </div>
+
+    <!-- FAQ -->
+    <div class="card">
+        <h2>❓ Frequently Asked Questions</h2>
+        <div class="downlight-faq">
+            <div class="lux-faq-item">
+                <div class="lux-faq-q" onclick="this.parentElement.classList.toggle('open')">How far apart should downlights be? <span class="lux-faq-arrow">▼</span></div>
+                <div class="lux-faq-a">It depends on beam angle and ceiling height. As a rule of thumb, spacing should be roughly equal to the mounting height for a standard flood beam, tighter for narrow spot fixtures and wider for wide flood fixtures. Use the calculator above for a figure matched to your exact fixture and room.</div>
+            </div>
+            <div class="lux-faq-item">
+                <div class="lux-faq-q" onclick="this.parentElement.classList.toggle('open')">How close to the wall should downlights be? <span class="lux-faq-arrow">▼</span></div>
+                <div class="lux-faq-a">A common starting point is half the recommended spacing. With anti-glare/deep-baffle fixtures, tightening this to around 0.4× the spacing helps avoid a dark strip along the walls, since these fittings throw little light sideways.</div>
+            </div>
+            <div class="lux-faq-item">
+                <div class="lux-faq-q" onclick="this.parentElement.classList.toggle('open')">What beam angle should I use for downlights? <span class="lux-faq-arrow">▼</span></div>
+                <div class="lux-faq-a">Narrow beams (24°) suit feature lighting and accent pools. Medium beams (36–38°) are the most common general-purpose choice for living areas. Wide beams (60°) give an even wash but increase glare risk at low ceiling heights.</div>
+            </div>
+            <div class="lux-faq-item">
+                <div class="lux-faq-q" onclick="this.parentElement.classList.toggle('open')">Why does my room feel dark even though I have enough downlights? <span class="lux-faq-arrow">▼</span></div>
+                <div class="lux-faq-a">This is usually the "cave effect" — anti-glare downlights direct almost all their light straight down, so walls stay comparatively dark even when the floor reads a good lux level. Perceived brightness depends heavily on wall illumination. Frosted/opal fixtures or added wall lighting usually fix it.</div>
+            </div>
+            <div class="lux-faq-item">
+                <div class="lux-faq-q" onclick="this.parentElement.classList.toggle('open')">Should I use frosted or clear downlights in a bathroom? <span class="lux-faq-arrow">▼</span></div>
+                <div class="lux-faq-a">Frosted/opal diffusers are usually the better fit for bathrooms, laundries and utility rooms — the wider light spread avoids a flat, dark feel, and the trade-off of slightly more glare is low-risk in spaces where people aren't seated for long.</div>
+            </div>
+            <div class="lux-faq-item">
+                <div class="lux-faq-q" onclick="this.parentElement.classList.toggle('open')">Do downlights need to be dimmable? <span class="lux-faq-arrow">▼</span></div>
+                <div class="lux-faq-a">Not essential, but strongly recommended for living areas and any space using wide-beam or frosted fixtures — dimming lets you manage the brightness trade-offs that come with those choices. Check your dimmer is LED-compatible and matched to your fixture's minimum load.</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Room type → optical type default
+    document.getElementById('d-roomtype').addEventListener('change', function() {
+        const map = { living: 'anti-glare', kitchen: 'anti-glare', bathroom: 'frosted', utility: 'frosted' };
+        document.getElementById('d-optical').value = map[this.value] || 'anti-glare';
+    });
+
+    // Custom target plane
+    document.getElementById('d-targetplane').addEventListener('change', function() {
+        document.getElementById('d-targetplane-custom-group').style.display = this.value === 'custom' ? 'block' : 'none';
+    });
+
+    // Custom beam angle
+    document.getElementById('d-beam').addEventListener('change', function() {
+        document.getElementById('d-beam-custom-group').style.display = this.value === 'custom' ? 'block' : 'none';
+    });
+
+    // Overlap slider readout
+    const overlapLabels = v => v <= 0.7 ? 'Even wash' : (v >= 0.9 ? 'Feature / defined pools' : 'Balanced');
+    document.getElementById('d-overlap').addEventListener('input', function() {
+        document.getElementById('d-overlap-value').textContent = `${this.value}× cone diameter — ${overlapLabels(parseFloat(this.value))}`;
+    });
+
+    function alertHTML(type, icon, msg) {
+        return `<div class="alert alert-${type}"><span class="alert-icon">${icon}</span><div>${msg}</div></div>`;
+    }
+
+    function gridPreviewSVG(rows, cols, roomLength, roomWidth) {
+        const svgW = 280, svgH = 280 * (roomLength / roomWidth || 1);
+        const maxH = 220;
+        const scale = Math.min(svgW / roomWidth, maxH / roomLength);
+        const w = roomWidth * scale, h = roomLength * scale;
+        const pad = 16;
+        let dots = '';
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+                const cx = pad + (w / cols) * (c + 0.5);
+                const cy = pad + (h / rows) * (r + 0.5);
+                dots += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="6" fill="#0f766e"/>`;
+            }
+        }
+        return `
+        <div class="grid-preview">
+            <h4>📍 Layout preview (${rows} × ${cols} grid)</h4>
+            <svg viewBox="0 0 ${(w + pad * 2).toFixed(0)} ${(h + pad * 2).toFixed(0)}" style="width:100%;max-width:280px;">
+                <rect x="1" y="1" width="${(w + pad * 2 - 2).toFixed(0)}" height="${(h + pad * 2 - 2).toFixed(0)}" fill="#f7fafc" stroke="#cbd5e0" stroke-width="1.5" rx="6"/>
+                ${dots}
+            </svg>
+        </div>`;
+    }
+
+    function calcDownlight() {
+        const length = parseFloat(document.getElementById('d-length').value);
+        const width = parseFloat(document.getElementById('d-width').value);
+        const ceilingHeight = parseFloat(document.getElementById('d-height').value);
+
+        const targetPlaneSel = document.getElementById('d-targetplane').value;
+        const targetPlaneHeight = targetPlaneSel === 'custom'
+            ? parseFloat(document.getElementById('d-targetplane-custom').value)
+            : parseFloat(targetPlaneSel);
+
+        const beamSel = document.getElementById('d-beam').value;
+        const beamAngle = beamSel === 'custom'
+            ? parseFloat(document.getElementById('d-beam-custom').value)
+            : parseFloat(beamSel);
+
+        const overlap = parseFloat(document.getElementById('d-overlap').value);
+        const opticalType = document.getElementById('d-optical').value;
+        const roomType = document.getElementById('d-roomtype').value;
+
+        const alertsEl = document.getElementById('d-alerts');
+        alertsEl.innerHTML = '';
+
+        if (!length || !width || !ceilingHeight || isNaN(targetPlaneHeight) || isNaN(beamAngle) || length <= 0 || width <= 0) {
+            alertsEl.innerHTML = alertHTML('error', '⚠️', 'Please fill in room length, width, ceiling height and beam angle with valid numbers.');
+            document.getElementById('d-results').style.display = 'block';
+            return;
+        }
+
+        const H = ceilingHeight - targetPlaneHeight;
+        if (H <= 0) {
+            alertsEl.innerHTML = alertHTML('error', '⚠️', 'Ceiling height must be greater than the target plane height.');
+            document.getElementById('d-results').style.display = 'block';
+            return;
+        }
+
+        const D = 2 * H * Math.tan((beamAngle / 2) * Math.PI / 180);
+        const S = D * overlap;
+        const offset = opticalType === 'anti-glare' ? 0.4 * S : S / 2;
+
+        const cols = Math.max(1, Math.round(width / S));
+        const rows = Math.max(1, Math.round(length / S));
+        const actualSpacingX = width / cols;
+        const actualSpacingY = length / rows;
+        const fixtureCount = rows * cols;
+
+        document.getElementById('d-res-spacing').textContent = `${S.toFixed(2)} m`;
+        document.getElementById('d-res-offset').textContent = `${offset.toFixed(2)} m`;
+        document.getElementById('d-res-count').textContent = fixtureCount;
+        document.getElementById('d-res-actual').textContent = `${actualSpacingX.toFixed(2)} × ${actualSpacingY.toFixed(2)} m`;
+        document.getElementById('d-res-diameter').textContent = `${D.toFixed(2)} m`;
+
+        document.getElementById('d-grid-preview').innerHTML = gridPreviewSVG(rows, cols, length, width);
+
+        const glareWarning = beamAngle >= 60 && ceilingHeight <= 2.4;
+        const caveWarning = opticalType === 'anti-glare' && ceilingHeight <= 2.4;
+
+        if (glareWarning && caveWarning) {
+            alertsEl.innerHTML = alertHTML('warning', '⚠️', '<strong>Low ceiling — glare &amp; wall-darkness trade-off.</strong> Wide beam angles at low mounting heights increase discomfort glare, especially near seating or TV walls. Anti-glare fixtures fix that by directing light straight down — but with little spill toward the walls, floor lux can look fine while the room still feels flat. Consider a narrower beam angle, or a frosted/opal fixture with supplementary wall lighting.');
+        } else if (glareWarning) {
+            alertsEl.innerHTML = alertHTML('warning', '⚠️', 'Wide beam angles at low mounting heights throw more light toward eye level, increasing discomfort glare. Consider a narrower beam angle or an anti-glare/deep-baffle trim, especially near seating or TV walls.');
+        } else if (caveWarning) {
+            alertsEl.innerHTML = alertHTML('warning', '⚠️', 'Anti-glare downlights concentrate light straight down with little spill toward the walls. Floor lux can measure fine while the room still feels flat or dark, because perceived brightness depends heavily on wall illumination, not just floor level. Consider frosted/opal diffuser fixtures or supplementary wall lighting for living/social spaces.');
+        }
+
+        if (roomType === 'utility' || roomType === 'bathroom') {
+            alertsEl.innerHTML += alertHTML('info', '💡', 'Frosted/diffuser downlights are a good fit for utility spaces like this — the wider distribution fixes the flat/dark feel, and the trade-off of slightly more glare is low-risk in low-dwell, non-seated rooms. A dimmer is worth adding to manage brightness.');
+        }
+
+        const buyCard = document.getElementById('downlight-buy-card');
+        const buySub = document.getElementById('downlight-buy-sub');
+        const opticalLabel = { 'anti-glare': 'Anti-glare / deep-baffle', 'standard': 'Standard reflector', 'frosted': 'Frosted / opal diffuser' }[opticalType];
+        buySub.textContent = `${opticalLabel} — ${fixtureCount} fixtures needed`;
+        buyCard.style.display = 'block';
+
+        document.getElementById('d-results').style.display = 'block';
+    }
+</script>
+
+<!-- FAQ Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How far apart should downlights be?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It depends on beam angle and ceiling height. As a rule of thumb, spacing should be roughly equal to the mounting height for a standard flood beam, tighter for narrow spot fixtures and wider for wide flood fixtures. Use a spacing calculator for a figure matched to your exact fixture and room."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How close to the wall should downlights be?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A common starting point is half the recommended spacing. With anti-glare/deep-baffle fixtures, tightening this to around 0.4x the spacing helps avoid a dark strip along the walls, since these fittings throw little light sideways."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What beam angle should I use for downlights?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Narrow beams (24 degrees) suit feature lighting and accent pools. Medium beams (36-38 degrees) are the most common general-purpose choice for living areas. Wide beams (60 degrees) give an even wash but increase glare risk at low ceiling heights."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does my room feel dark even though I have enough downlights?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This is usually the 'cave effect' - anti-glare downlights direct almost all their light straight down, so walls stay comparatively dark even when the floor reads a good lux level. Perceived brightness depends heavily on wall illumination. Frosted/opal fixtures or added wall lighting usually fix it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I use frosted or clear downlights in a bathroom?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Frosted/opal diffusers are usually the better fit for bathrooms, laundries and utility rooms - the wider light spread avoids a flat, dark feel, and the trade-off of slightly more glare is low-risk in spaces where people aren't seated for long."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do downlights need to be dimmable?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not essential, but strongly recommended for living areas and any space using wide-beam or frosted fixtures - dimming lets you manage the brightness trade-offs that come with those choices. Check your dimmer is LED-compatible and matched to your fixture's minimum load."
+      }
+    }
+  ]
+}
+</script>
+
+<style>
+    .lux-faq-item { background: white; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 10px; overflow: hidden; border: 1px solid #e2e8f0; }
+    .lux-faq-q { padding: 15px 20px; font-size: 0.92rem; font-weight: 600; color: #1a202c; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+    .lux-faq-q:hover { background: #f0fdfa; }
+    .lux-faq-arrow { color: #0f766e; font-size: 1rem; transition: transform 0.2s; flex-shrink: 0; }
+    .lux-faq-a { display: none; padding: 14px 20px; font-size: 0.88rem; color: #4a5568; line-height: 1.65; border-top: 1px solid #e2e8f0; }
+    .lux-faq-item.open .lux-faq-arrow { transform: rotate(180deg); }
+    .lux-faq-item.open .lux-faq-a { display: block; }
+</style>
+
+<footer>
+    <p><strong>LightTools</strong> — lighttools.com.au | Free tools for electricians, designers &amp; DIYers</p>
+    <p style="margin-top:8px;">© 2026 LightTools. Amazon links are affiliate links. We may earn a small commission at no extra cost to you. | <a href="disclaimer.html">Disclaimer &amp; Terms</a> | <a href="privacy.html">Privacy Policy</a></p>
+</footer>
+
+</body>
+</html>

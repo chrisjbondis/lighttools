@@ -19,9 +19,84 @@
         .hero-badges { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
         .badge { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 999px; padding: 5px 14px; font-size: 0.8rem; font-weight: 500; }
 
-        nav { background: #152238; padding: 10px 20px; display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; }
+        nav { background: #152238; padding: 10px 20px; display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; position: relative; }
         nav a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; padding: 4px 0; }
-        nav a:hover { color: #f59e0b; }
+        nav a:hover, nav a.ll-lit { color: #f59e0b; }
+
+        /* --- nav linesman easter egg --- */
+        .ll-linesman { position: absolute; top: 0; left: 0; width: 26px; height: 38px; will-change: transform; pointer-events: none; z-index: 5; }
+        .ll-linesman svg { display: block; width: 100%; height: 100%; overflow: visible; }
+        .ll-leg { transform-origin: 13px 27px; }
+        .ll-arm { transform-origin: 13px 15px; }
+        .ll-walking .ll-leg-l { animation: llStepL .34s linear infinite; }
+        .ll-walking .ll-leg-r { animation: llStepR .34s linear infinite; }
+        .ll-walking .ll-arm-l { animation: llSwingL .34s linear infinite; }
+        .ll-walking .ll-arm-r { animation: llSwingR .34s linear infinite; }
+        @keyframes llStepL { 0%,100%{transform:rotate(22deg)} 50%{transform:rotate(-22deg)} }
+        @keyframes llStepR { 0%,100%{transform:rotate(-22deg)} 50%{transform:rotate(22deg)} }
+        @keyframes llSwingL { 0%,100%{transform:rotate(-18deg)} 50%{transform:rotate(18deg)} }
+        @keyframes llSwingR { 0%,100%{transform:rotate(18deg)} 50%{transform:rotate(-18deg)} }
+        /* Bob animates the inner <svg>, not the outer positioned div —
+           that div also carries the JS-driven translateX walk, and a CSS
+           animation on the same element/property would silently override it. */
+        .ll-walking svg { animation: llBob .34s linear infinite; }
+        @keyframes llBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-1.5px)} }
+        .ll-plugging .ll-arm-r { animation: none; transform: rotate(58deg); }
+        .ll-plugging .ll-arm-l { animation: none; transform: rotate(-6deg); }
+        .ll-plugging .ll-leg-l { animation: none; transform: rotate(6deg); }
+        .ll-plugging .ll-leg-r { animation: none; transform: rotate(-4deg); }
+        .ll-cable { stroke: #f59e0b; stroke-width: 2; fill: none; stroke-linecap: round; opacity: 0; }
+        .ll-plugging .ll-cable { opacity: 1; }
+        .ll-spark-burst { position: absolute; width: 52px; height: 52px; left: -13px; top: -20px; pointer-events: none; opacity: 0; }
+        .ll-shocked .ll-spark-burst { opacity: 1; animation: llBurst .11s steps(1) infinite; }
+        @keyframes llBurst { 0%{opacity:1} 50%{opacity:.35} 100%{opacity:1} }
+        .ll-bolt-b { transform: rotate(24deg) scale(.6); transform-origin: 20px 4px; }
+        .ll-bolt-c { transform: rotate(-30deg) scale(.5); transform-origin: 20px 4px; }
+        .ll-hair-spikes { opacity: 0; }
+        .ll-shocked .ll-hair-spikes { opacity: 1; }
+        .ll-shocked svg .ll-figure { animation: llJolt .06s steps(1) infinite; }
+        @keyframes llJolt {
+            0%{ transform:translate(0,0) rotate(-14deg) }
+            12%{ transform:translate(-3.5px,-2px) rotate(-21deg) }
+            24%{ transform:translate(3px,2.5px) rotate(-8deg) }
+            36%{ transform:translate(-2.5px,2px) rotate(-19deg) }
+            48%{ transform:translate(3.5px,-1.5px) rotate(-7deg) }
+            60%{ transform:translate(-3px,-2.5px) rotate(-20deg) }
+            72%{ transform:translate(2.5px,1.5px) rotate(-10deg) }
+            84%{ transform:translate(-2px,-1px) rotate(-18deg) }
+            100%{ transform:translate(1.5px,1px) rotate(-13deg) }
+        }
+        .ll-zap-text { position: absolute; left: 50%; top: -30px; transform: translateX(-50%) scale(.4); font-family: 'Inter', sans-serif; font-weight: 800; font-size: 12px; fill: #7BE8FF; opacity: 0; pointer-events: none; }
+        .ll-shocked .ll-zap-text { animation: llZapPop 1s ease-out infinite; }
+        @keyframes llZapPop {
+            0%{ opacity:0; transform:translateX(-50%) translateY(0) scale(.4) rotate(0deg); }
+            18%{ opacity:1; transform:translateX(-50%) translateY(-9px) scale(1.2) rotate(-7deg); }
+            35%{ transform:translateX(-50%) translateY(-7px) scale(1) rotate(4deg); }
+            55%{ opacity:1; transform:translateX(-50%) translateY(-11px) scale(1.1) rotate(-5deg); }
+            80%{ opacity:1; transform:translateX(-50%) translateY(-8px) scale(1) rotate(3deg); }
+            100%{ opacity:0; transform:translateX(-50%) translateY(-16px) scale(.9) rotate(0deg); }
+        }
+        nav.ll-shake { animation: llStageShake .35s linear infinite; }
+        @keyframes llStageShake {
+            0%,100%{ transform:translate(0,0); }
+            15%{ transform:translate(-4.5px,1.5px); }
+            30%{ transform:translate(4.5px,-1.5px); }
+            45%{ transform:translate(-3.5px,2px); }
+            60%{ transform:translate(4px,-2px); }
+            75%{ transform:translate(-2.5px,1px); }
+            90%{ transform:translate(2.5px,-1px); }
+        }
+        nav.ll-flash::before { content: ""; position: absolute; inset: 0; background: rgba(123,232,255,.3); animation: llFlash .09s steps(1) infinite; pointer-events: none; }
+        @keyframes llFlash { 0%,100%{opacity:0} 50%{opacity:1} }
+        .ll-stagger .ll-figure { animation: llStumble .4s ease-out 1; }
+        @keyframes llStumble {
+            0%{ transform:translate(0,0) rotate(0deg); }
+            22%{ transform:translate(-4px,1px) rotate(-10deg); }
+            50%{ transform:translate(2.5px,0) rotate(7deg); }
+            78%{ transform:translate(-1.5px,0) rotate(-3deg); }
+            100%{ transform:translate(0,0) rotate(0deg); }
+        }
+        @media (prefers-reduced-motion: reduce) { .ll-linesman { display: none !important; } }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 48px 16px 60px; }
 
@@ -97,11 +172,39 @@
     <a href="lux-calculator.html">Lux Calculator</a>
     <a href="garden-lighting-calculator.html">Garden Lighting</a>
     <a href="voltage-drop-calculator.html">Voltage Drop</a>
+    <a href="downlight-spacing-calculator.html">Downlight Spacing</a>
+    <a href="ceiling-fan-downlight-clearance.html">Fan Clearance</a>
     <a href="fitting-selector.html">Fitting Selector</a>
     <a href="sparky-selector.html">Sparky Selector</a>
     <a href="guides.html">Guides</a>
     <a href="about.html">About</a>
     <a href="disclaimer.html">Disclaimer</a>
+
+    <div class="ll-linesman" id="llLinesman" aria-hidden="true">
+        <svg viewBox="0 0 26 38">
+            <g class="ll-figure">
+                <path class="ll-cable" d="M18 14 C 22 10, 24 6, 24 2" />
+                <g class="ll-hair-spikes" stroke="#7BE8FF" stroke-width="1.1" stroke-linecap="round">
+                    <path d="M9 4 L6 -1" /><path d="M13 2 L12.5 -3.5" /><path d="M17 3 L19.5 -2" /><path d="M11 3 L9.5 -2.5" /><path d="M15.5 3.5 L17 -1.5" />
+                </g>
+                <rect class="ll-arm ll-arm-l" x="10" y="17" width="3" height="10" rx="1.5" fill="#eef1f7"/>
+                <rect class="ll-arm ll-arm-r" x="15" y="17" width="3" height="10" rx="1.5" fill="#eef1f7"/>
+                <rect x="9" y="14" width="10" height="13" rx="3" fill="#f59e0b"/>
+                <circle cx="14" cy="10" r="5.4" fill="#E8B48A"/>
+                <path d="M8.6 9.5 a5.4 5.4 0 0 1 10.8 -0.6 q-1.5 -1.8 -5.4 -1.8 t-5.4 2.4z" fill="#152238"/>
+                <rect x="8.5" y="6.5" width="11" height="3" rx="1" fill="#f59e0b"/>
+                <rect class="ll-leg ll-leg-l" x="10" y="27" width="3.4" height="10" rx="1.2" fill="#152238" stroke="rgba(255,255,255,.4)" stroke-width=".6"/>
+                <rect class="ll-leg ll-leg-r" x="14.6" y="27" width="3.4" height="10" rx="1.2" fill="#152238" stroke="rgba(255,255,255,.4)" stroke-width=".6"/>
+            </g>
+            <g class="ll-spark-burst" transform="translate(8,-2)">
+                <path class="ll-bolt-a" d="M20 4 L11 16 L17 16 L9 30 L22 14 L15 14 Z" fill="#FFE38A"/>
+                <path class="ll-bolt-a" d="M20 4 L11 16 L17 16 L9 30 L22 14 L15 14 Z" fill="none" stroke="#7BE8FF" stroke-width="1"/>
+                <path class="ll-bolt-b" d="M20 4 L11 16 L17 16 L9 30 L22 14 L15 14 Z" fill="#7BE8FF"/>
+                <path class="ll-bolt-c" d="M20 4 L11 16 L17 16 L9 30 L22 14 L15 14 Z" fill="#FFE38A"/>
+            </g>
+            <text class="ll-zap-text" x="13" y="-8">ZZZT!</text>
+        </svg>
+    </div>
 </nav>
 
 <div class="container">
@@ -427,6 +530,8 @@
         <a href="lux-calculator.html">Lux Calculator</a>
         <a href="garden-lighting-calculator.html">Garden Lighting</a>
         <a href="voltage-drop-calculator.html">Voltage Drop</a>
+        <a href="downlight-spacing-calculator.html">Downlight Spacing</a>
+        <a href="ceiling-fan-downlight-clearance.html">Fan Clearance</a>
         <a href="https://voltagedrop.com.au" target="_blank">voltagedrop.com.au</a>
         <a href="fitting-selector.html">Fitting Selector</a>
         <a href="sparky-selector.html">Sparky Selector</a>
@@ -437,6 +542,146 @@
         <a href="privacy.html">Privacy Policy</a>
     </div>
 </footer>
+
+<script>
+(function(){
+    // Nav linesman easter egg: walks the header nav once per session,
+    // plugs into each item, occasionally misfires. No-ops entirely on
+    // reduced-motion or if the nav has wrapped to more than one row.
+    if (sessionStorage.getItem('ll_seen')) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var nav = document.querySelector('nav');
+    var lineman = document.getElementById('llLinesman');
+    if (!nav || !lineman) return;
+
+    var BUZZ = { type: 'square', freq: 300, lfoFreq: 42, lfoDepth: 70, gain: 0.085 * 0.35 };
+    var audioCtx = null;
+    function playBuzz(durationMs){
+        try{
+            if (!audioCtx){ audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+            if (audioCtx.state === 'suspended'){ audioCtx.resume().catch(function(){}); }
+            var t0 = audioCtx.currentTime;
+            var dur = durationMs / 1000;
+            var osc = audioCtx.createOscillator();
+            osc.type = BUZZ.type;
+            osc.frequency.setValueAtTime(BUZZ.freq, t0);
+            var lfo = audioCtx.createOscillator();
+            lfo.type = 'sine';
+            lfo.frequency.value = BUZZ.lfoFreq;
+            var lfoGain = audioCtx.createGain();
+            lfoGain.gain.value = BUZZ.lfoDepth;
+            lfo.connect(lfoGain); lfoGain.connect(osc.frequency);
+            var gain = audioCtx.createGain();
+            gain.gain.setValueAtTime(0, t0);
+            gain.gain.linearRampToValueAtTime(BUZZ.gain, t0 + 0.02);
+            gain.gain.setValueAtTime(BUZZ.gain, t0 + Math.max(0, dur - 0.15));
+            gain.gain.linearRampToValueAtTime(0, t0 + dur);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(t0); lfo.start(t0);
+            osc.stop(t0 + dur); lfo.stop(t0 + dur);
+        } catch(e){ /* Web Audio unavailable — animation still runs silently */ }
+    }
+
+    function wait(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+
+    function linkPoints(){
+        var links = Array.prototype.slice.call(nav.querySelectorAll('a'));
+        if (!links.length) return null;
+        var navRect = nav.getBoundingClientRect();
+        var firstTop = links[0].getBoundingClientRect().top;
+        var firstBottom = links[0].getBoundingClientRect().bottom;
+        // Walk only the items on the nav's first row — a lone wrapped
+        // "widow" item on a second row (common with a long menu) is just
+        // left alone rather than cancelling the whole walk.
+        var row = [];
+        for (var i = 0; i < links.length; i++){
+            if (Math.abs(links[i].getBoundingClientRect().top - firstTop) > 4) break;
+            row.push(links[i]);
+        }
+        if (row.length < 3) return null;
+        var points = row.map(function(a){
+            var r = a.getBoundingClientRect();
+            return { el: a, x: (r.left + r.right) / 2 - navRect.left };
+        });
+        // Anchor to row 1's own bottom edge, not the nav's — if a later
+        // item wraps to a second row the nav grows taller, but the walk
+        // still belongs directly under row 1.
+        points.rowBottom = firstBottom - navRect.top;
+        return points;
+    }
+
+    function walkTo(x, ms){
+        return new Promise(function(resolve){
+            lineman.style.transition = 'transform ' + ms + 'ms cubic-bezier(.45,.05,.55,.95)';
+            lineman.className = 'll-linesman ll-walking ll-bob';
+            lineman.style.transform = 'translateX(' + (x - 13) + 'px)';
+            setTimeout(resolve, ms);
+        });
+    }
+
+    function plug(target){
+        return new Promise(function(resolve){
+            lineman.className = 'll-linesman ll-plugging';
+            target.el.classList.add('ll-lit');
+            setTimeout(resolve, 650);
+        });
+    }
+
+    function shock(target, links){
+        return new Promise(function(resolve){
+            lineman.className = 'll-linesman ll-plugging ll-shocked';
+            target.el.classList.add('ll-lit');
+            nav.classList.add('ll-shake', 'll-flash');
+            playBuzz(1650);
+            setTimeout(function(){
+                nav.classList.remove('ll-shake', 'll-flash');
+                lineman.className = 'll-linesman ll-stagger';
+                for (var i = 0; i < links.length; i++){ links[i].el.classList.remove('ll-lit'); }
+                setTimeout(resolve, 420);
+            }, 1650);
+        });
+    }
+
+    async function run(){
+        var points = linkPoints();
+        if (!points) return;
+
+        lineman.style.top = (points.rowBottom - 38) + 'px';
+        lineman.style.transition = 'none';
+        lineman.style.transform = 'translateX(-20px)';
+        void lineman.offsetWidth;
+
+        var faultIndex = Math.floor(Math.random() * points.length);
+
+        for (var i = 0; i < points.length; i++){
+            var p = points[i];
+            var dist = i === 0 ? p.x + 20 : p.x - points[i - 1].x;
+            var duration = Math.max(420, dist * 10);
+            await walkTo(p.x, duration);
+            await wait(70);
+
+            if (i === faultIndex){
+                await shock(p, points);
+            } else {
+                await plug(p);
+            }
+            lineman.className = 'll-linesman ll-walking ll-bob';
+            await wait(110);
+        }
+
+        var navWidth = nav.getBoundingClientRect().width;
+        await walkTo(navWidth + 30, 800);
+    }
+
+    window.addEventListener('load', function(){
+        setTimeout(function(){
+            sessionStorage.setItem('ll_seen', '1');
+            run();
+        }, 4000);
+    });
+})();
+</script>
 
 </body>
 </html>

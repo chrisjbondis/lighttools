@@ -96,7 +96,6 @@
             78%{ transform:translate(-1.5px,0) rotate(-3deg); }
             100%{ transform:translate(0,0) rotate(0deg); }
         }
-        @media (prefers-reduced-motion: reduce) { .ll-linesman { display: none !important; } }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 48px 16px 60px; }
 
@@ -542,10 +541,11 @@
 <script>
 (function(){
     // Nav linesman easter egg: walks the header nav once per session,
-    // plugs into each item, occasionally misfires. No-ops entirely on
-    // reduced-motion or if the nav has wrapped to more than one row.
+    // plugs into each item, occasionally misfires. No-ops entirely if the
+    // nav has wrapped to more than one row. Deliberately ignores
+    // prefers-reduced-motion — decorative, not essential content, and
+    // Chris asked for it to always run regardless.
     if (sessionStorage.getItem('ll_seen')) return;
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     var nav = document.querySelector('nav');
     var lineman = document.getElementById('llLinesman');

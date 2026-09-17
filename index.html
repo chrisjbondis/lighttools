@@ -639,10 +639,39 @@
         });
     }
 
+    // If the tab is backgrounded mid-walk, Chrome throttles timers and
+    // freezes CSS transitions — the mascot would otherwise appear stuck
+    // wherever it was when the user tabbed away. Abort cleanly instead:
+    // hide it immediately and clear any lit/shake state.
+    var aborted = false;
+    function hideCleanly(){
+        lineman.style.transition = 'none';
+        lineman.style.display = 'none';
+        nav.classList.remove('ll-shake', 'll-flash');
+        var links = nav.querySelectorAll('a.ll-lit');
+        for (var i = 0; i < links.length; i++){ links[i].classList.remove('ll-lit'); }
+    }
+    document.addEventListener('visibilitychange', function(){
+        if (document.hidden) { aborted = true; hideCleanly(); }
+    });
+
+    function waitUntilVisible(){
+        return new Promise(function(resolve){
+            if (!document.hidden) return resolve();
+            document.addEventListener('visibilitychange', function onVis(){
+                if (!document.hidden){
+                    document.removeEventListener('visibilitychange', onVis);
+                    resolve();
+                }
+            });
+        });
+    }
+
     async function run(){
         var points = linkPoints();
         if (!points) return;
 
+        lineman.style.display = '';
         lineman.style.top = (points.rowBottom - 38) + 'px';
         lineman.style.transition = 'none';
         lineman.style.transform = 'translateX(-20px)';
@@ -651,10 +680,12 @@
         var faultIndex = Math.floor(Math.random() * points.length);
 
         for (var i = 0; i < points.length; i++){
+            if (aborted) return;
             var p = points[i];
             var dist = i === 0 ? p.x + 20 : p.x - points[i - 1].x;
             var duration = Math.max(420, dist * 10);
             await walkTo(p.x, duration);
+            if (aborted) return;
             await wait(70);
 
             if (i === faultIndex){
@@ -662,16 +693,20 @@
             } else {
                 await plug(p);
             }
+            if (aborted) return;
             lineman.className = 'll-linesman ll-walking ll-bob';
             await wait(110);
         }
+        if (aborted) return;
 
         var navWidth = nav.getBoundingClientRect().width;
         await walkTo(navWidth + 30, 800);
     }
 
     window.addEventListener('load', function(){
-        setTimeout(function(){
+        setTimeout(async function(){
+            await waitUntilVisible();
+            if (aborted) return;
             sessionStorage.setItem('ll_seen', '1');
             run();
         }, 4000);

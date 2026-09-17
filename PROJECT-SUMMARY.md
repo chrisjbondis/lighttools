@@ -140,8 +140,6 @@ sudo cp /home/ubuntu/lighttools-nginx.conf /etc/nginx/sites-available/lighttools
 | LED Strip Selector | led-strip-light-selector.html | Purple |
 | Lux Calculator | lux-calculator.html | Amber |
 | Garden Lighting | garden-lighting-calculator.html | Green |
-| Downlight Spacing | downlight-spacing-calculator.html | Teal |
-| Fan Clearance (3D) | ceiling-fan-downlight-clearance.html | Navy/Babylon.js |
 
 Each page has: calculator + article content + FAQ accordion + FAQ JSON-LD schema
 
